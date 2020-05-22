@@ -98,7 +98,7 @@ HELP_MESSAGE = """
    -f when writing to a movie file, export the frames in png sequence
    -t use transperency when exporting images
    -n specify the number of the animation to start from
-   -r specify a resolution
+   -d specify the defintion of the video
    -c specify a background color
 """
 SCENE_NOT_FOUND_MESSAGE = """

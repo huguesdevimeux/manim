@@ -102,8 +102,8 @@ def parse_cli():
                  "the rendering at the second value",
         )
         parser.add_argument(
-            "-r", "--resolution",
-            help="Resolution, passed as \"height,width\"",
+            "-d", "--definition",
+            help="Defintion, passed as \"height,width\"",
         )
         parser.add_argument(
             "-c", "--color",
@@ -207,14 +207,14 @@ def get_camera_configuration(args):
     else:
         camera_config.update(constants.PRODUCTION_QUALITY_CAMERA_CONFIG)
 
-    # If the resolution was passed in via -r
-    if args.resolution:
-        if  "," in args.resolution:
-            height_str, width_str = args.resolution.split(",")
+    # If the defintion was passed in via -d
+    if args.definition:
+        if "," in args.definition:
+            height_str, width_str = args.definition.split(",")
             height = int(height_str)
             width = int(width_str)
         else:
-            height = int(args.resolution)
+            height = int(args.definition)
             width = int(16 * height / 9)
         camera_config.update({
             "pixel_height": height,

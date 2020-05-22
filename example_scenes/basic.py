@@ -11,7 +11,8 @@ from manim.imports import *
 # Use the -p to have the animation (or image, if -s was
 # used) pop up once done.
 # Use -n <number> to skip ahead to the n'th animation of a scene.
-# Use -r <number> to specify a resolution (for example, -r 1080
+# Use -d <number> to specify a definition (for example, -r 1080
+# You can also use -d <height>, <width> to specify the height and the width
 # for a 1920x1080 video)
 
 
