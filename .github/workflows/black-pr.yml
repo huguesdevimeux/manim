@@ -22,7 +22,7 @@ jobs:
       - name: Get files
         id: files-changes-in-pr
         run: |
-          $payload = (gc "$env:GITHUB_EVENT_PATH") | ConvertFrom-Json
+          $payload = gc "$env:GITHUB_EVENT_PATH" | ConvertFrom-Json
           $commitEndpoint=$($payload.pull_request._links.commits)
           $commits = Invoke-WebRequest -Uri "$commitEndpoint" | ConvertFrom-Json
           $startCommitSha = $commits[0].sha
