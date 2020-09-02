@@ -6,7 +6,7 @@ on:
 
 jobs:
   format:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v2
@@ -21,6 +21,7 @@ jobs:
         
       - name: Get files
         id: files-changes-in-pr
+        shell: powershell
         run: |
           $payload = gc "$env:GITHUB_EVENT_PATH" | ConvertFrom-Json
           $commitEndpoint=$($payload.pull_request._links.commits)
@@ -30,6 +31,7 @@ jobs:
           bash -c "git diff --name-only $($startCommitSha) $($endCommitSha)>/d/changes.txt"
           
       - name: Check file formatting
+        shell: powershell
         run: |
           foreach ($c in (gc "D:/changes.txt").split()){
             if ($c.endswith(".py")){
