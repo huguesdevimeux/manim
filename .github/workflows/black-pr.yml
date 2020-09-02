@@ -23,8 +23,10 @@ jobs:
         id: files-changes-in-pr
         shell: powershell
         run: |
+          echo "$(gc "$env:GITHUB_EVENT_PATH")"
           $payload = gc "$env:GITHUB_EVENT_PATH" | ConvertFrom-Json
           $commitEndpoint=$($payload.pull_request._links.commits)
+          echo "$commitEndpoint"
           $commits = Invoke-WebRequest -Uri "$commitEndpoint" | ConvertFrom-Json
           $startCommitSha = $commits[0].sha
           $endCommitSha = $commits[$commits.count - 1].sha
