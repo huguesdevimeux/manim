@@ -71,6 +71,12 @@ class OpeningManimExample(Scene):
 
 class SquareToCircle(Scene):
     def construct(self):
+        
+        #Uuug black does not like
+        
+        
+        
+        
         circle = Circle()
         square = Square()
         square.flip(RIGHT)
