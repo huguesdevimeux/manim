@@ -41,8 +41,9 @@ jobs:
       - name: Check file formatting
         shell: powershell
         run: |
+          echo $(gc "D:/changes.txt")
           foreach ($c in (gc "D:/changes.txt").split()){
             if ($c.endswith(".py")){
-              black "$c"
+              black --check "$c"
             }
           }
