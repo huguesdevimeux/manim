@@ -8,6 +8,10 @@ jobs:
   format:
     runs-on: windows-latest
     steps:
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
       - name: Checkout the repository
         shell: bash
         run: |
@@ -16,11 +20,6 @@ jobs:
           git remote add origin https://github.com/naveen521kk/manim.git
           git fetch origin pull/${prnum}/head:pr-${prnum}
           git checkout pr-${prnum}
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
 
       - name: Install black
         run: pip install black
@@ -56,7 +55,6 @@ jobs:
       - name: Check File and Report the Files Not formatted
         shell: powershell
         run: |
-          $changed=bash -c "if [ -n $(git diff --name-only) ]; then echo "false"; else echo "true"; fi
           if ( $(bash -c "git diff --name-only") -eq "" -or $(bash -c "git diff --name-only") -eq $null ){
             echo 'Files Are Formatted '
           } else {
@@ -64,4 +62,3 @@ jobs:
             echo "The Filed changed are `n`n $(git ls-files -m)"
             exit 1
           }
-          
