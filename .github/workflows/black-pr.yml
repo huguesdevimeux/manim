@@ -9,7 +9,13 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v2
+        shell: bash
+        run: |
+          $payload = gc "$env:GITHUB_EVENT_PATH" | ConvertFrom-Json
+          git init
+          git remote add origin https://github.com/naveen521kk/manim.git
+          git fetch origin "pull/$($payload.number)/head":"pr-$($payload.number)"
+          git checkout "pr-$($payload.number)"
 
       - name: Set up Python
         uses: actions/setup-python@v2
