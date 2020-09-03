@@ -44,10 +44,11 @@ jobs:
           echo $(gc "D:/changes.txt")
           foreach ($c in (gc "D:/changes.txt").split()){
             if ($c.endswith(".py")){
-              python -m black --diff "$c"
+              cmd.exe /C "black $c"
             }
           }
           if ($(bash -c "if git diff-index --quiet HEAD --; then echo 'false'; else echo 'true'; fi") -eq "true"){
             echo "Files are not Formated."
             echo "The Filed changed are `n $(bash -c 'git ls-files -m')"
+            exit 1
           }
