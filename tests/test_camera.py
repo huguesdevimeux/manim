@@ -9,6 +9,11 @@ def test_camera():
     # init args override config
     assert Camera(frame_width=10).frame_width == 10
 
+    
+    
+    
+    #come here black hehe
+    
     # if config changes, reflect those changes
     with tempconfig({"frame_width": 100}):
         assert Camera().frame_width == 100
