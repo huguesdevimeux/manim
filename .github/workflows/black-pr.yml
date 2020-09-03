@@ -11,7 +11,7 @@ jobs:
       - name: Checkout the repository
         shell: bash
         run: |
-          prnum=python -c "import json;print(json.loads('${GITHUB_EVENT_PATH}')['number'])"
+          prnum=$(python -c "import json;print(json.loads('${GITHUB_EVENT_PATH}')['number'])")
           git init
           git remote add origin https://github.com/naveen521kk/manim.git
           git fetch origin pull/${prnum}/head:pr-${prnum}
