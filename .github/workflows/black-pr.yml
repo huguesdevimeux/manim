@@ -44,7 +44,20 @@ jobs:
           echo $(gc "D:/changes.txt")
           foreach ($c in (gc "D:/changes.txt").split()){
             if ($c.endswith(".py")){
-              cmd.exe /C "black $c"
+              try { #https://stackoverflow.com/questions/2095088/error-when-calling-3rd-party-executable-from-powershell-when-using-an-ide
+                    black $c
+                }
+                catch [System.Management.Automation.RemoteException] {
+                    if ($_.TargetObject -like "Connecting to *" -and $_.CategoryInfo.Category -eq "NotSpecified" -and $_.FullyQualifiedErrorId -eq "NativeCommandError" -and $_.InvocationInfo.MyCommand.Name -like "psexec*.exe") {
+                        $error.Remove[$Error[0]]
+                    }
+                    else {
+                        Throw
+                    }
+                }        
+                catch {
+                    throw
+                }
             }
           }
           if ($(bash -c "if git diff-index --quiet HEAD --; then echo 'false'; else echo 'true'; fi") -eq "true"){
