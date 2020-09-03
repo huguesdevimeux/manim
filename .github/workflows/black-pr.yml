@@ -44,7 +44,7 @@ jobs:
           echo $(gc "D:/changes.txt")
           foreach ($c in (gc "D:/changes.txt").split()){
             if ($c.endswith(".py")){
-              black "$c"
+              python -m black --diff "$c"
             }
           }
           if ($(bash -c "if git diff-index --quiet HEAD --; then echo 'false'; else echo 'true'; fi") -eq "true"){
