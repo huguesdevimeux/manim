@@ -53,7 +53,7 @@ jobs:
       - name: Check File and Report the Files Not formatted
         shell: bash
         run: |
-          changed=$(if git diff-index --quiet HEAD --; echo 'false'; else echo 'true'; fi")
+          changed=$(if git diff-index --quiet HEAD --; echo 'false'; else echo 'true'; fi)
           if [ ${changed} = 'true']
           then
               printf "Files are not Formated."
@@ -61,6 +61,7 @@ jobs:
               exit 1
           else
               printf "Files Are Formatted"
+              exit 0
           fi
           
           
