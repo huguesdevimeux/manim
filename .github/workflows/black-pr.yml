@@ -51,6 +51,13 @@ jobs:
               black --diff $file
             fi
           done </d/changes.txt
+          while read file
+          do
+            if [ $(python -c "print('${file}'[-2:])") == "py" ]
+            then
+              black $file
+            fi
+          done </d/changes.txt
       
       - name: Check File and Report the Files Not formatted
         shell: powershell
