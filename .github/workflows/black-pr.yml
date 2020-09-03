@@ -30,7 +30,7 @@ jobs:
           $commits = Invoke-WebRequest -Uri "$commitEndpoint" | ConvertFrom-Json
           $startCommitSha = $commits[0].sha
           $endCommitSha = $commits[$commits.count - 1].sha
-          bash -c "git diff --name-only $($startCommitSha) $($endCommitSha)>/d/changes.txt"
+          bash -c "git diff --name-only HEAD HEAD~$($commits.count - 1)>/d/changes.txt"
           
       - name: Check file formatting
         shell: powershell
