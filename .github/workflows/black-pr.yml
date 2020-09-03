@@ -39,30 +39,21 @@ jobs:
           bash -c "git diff --name-only HEAD HEAD~$($commits.count)>/d/changes.txt"
           
       - name: Format files if not already
-        shell: powershell
-        run: |
-          echo "Checking Files"
-          echo $(gc "D:/changes.txt")
-          echo "`n"
-          foreach ($c in (gc "D:/changes.txt").split()){
-            if ($c.endswith(".py")){
-                ${black --diff $c}2> $null
-            }
-          }
-      
-      - name: Check File and Report the Files Not formatted
         shell: bash
         run: |
-          changed=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
-          if [ ${changed} == "true" ]
-          then
-              printf 'Files are not Formated.'
-              printf 'The Filed changed are \n\n $(git ls-files -m)'
-              exit 1
+          printf "Checking Files"
+          printf $(</d/changes.txt)
+          printf "\n"
+          content=$(</d/changes.txt)
+          while read file
+          do
+            if [ $(python -c "print('${file}'[-2:])") == "py" ]
+            then
+              black --diff $file
+            fi
+          done </d/changes.txt
+      
 
-          else
-              printf 'Files Are Formatted '
-          fi
 
           
           
