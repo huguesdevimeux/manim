@@ -9,13 +9,13 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout the repository
-        shell: bash
+        shell: powershell
         run: |
           $payload = gc "$env:GITHUB_EVENT_PATH" | ConvertFrom-Json
-          git init
-          git remote add origin https://github.com/naveen521kk/manim.git
-          git fetch origin "pull/$($payload.number)/head":"pr-$($payload.number)"
-          git checkout "pr-$($payload.number)"
+          bash -c "git init"
+          bash -c "git remote add origin https://github.com/naveen521kk/manim.git"
+          bash -c "git fetch origin pull/$($payload.number)/head:pr-$($payload.number)"
+          bash -c "git checkout pr-$($payload.number)"
 
       - name: Set up Python
         uses: actions/setup-python@v2
