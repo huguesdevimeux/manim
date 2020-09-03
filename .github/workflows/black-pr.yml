@@ -55,6 +55,7 @@ jobs:
       - name: Check File and Report the Files Not formatted
         shell: powershell
         run: |
+          echo "bash -c 'git diff --name-only'"
           if ( $(bash -c "git diff --name-only") -eq "" -or $(bash -c "git diff --name-only") -eq $null ){
             echo 'Files Are Formatted '
           } else {
