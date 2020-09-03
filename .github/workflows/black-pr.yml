@@ -54,16 +54,14 @@ jobs:
           done </d/changes.txt
       
       - name: Check File and Report the Files Not formatted
-        shell: bash
+        shell: powershell
         run: |
-          git diff-index --quiet HEAD --
-          changed=$(if [ -n $(git diff --name-only) ]; then echo "false"; else echo "true"; fi)
-          echo $changed
-          if [ ${changed} == "true" ]
-          then
-              printf 'Files are not Formated.'
-              printf 'The Filed changed are \n\n $(git ls-files -m)'
-              exit 1
-          else
-              printf 'Files Are Formatted '
-          fi
+          $changed=bash -c "if [ -n $(git diff --name-only) ]; then echo "false"; else echo "true"; fi
+          if ( $(bash -c "git diff --name-only") -eq "" -or $(bash -c "git diff --name-only") -eq $null ){
+            echo 'Files Are Formatted '
+          } else {
+            echo 'Files are not Formated.'
+            echo "The Filed changed are `n`n $(git ls-files -m)"
+            exit 1
+          }
+          
