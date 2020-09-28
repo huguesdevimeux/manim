@@ -7,6 +7,8 @@ import re
 import traceback
 import importlib.util
 import types
+import code
+
 
 from . import constants, logger, console, file_writer_config
 from .config.config import args
@@ -15,6 +17,7 @@ from .scene.scene import Scene
 from .utils.sounds import play_error_sound, play_finish_sound
 from .utils.file_ops import open_file as open_media_file
 from . import constants
+from .utils.livestream.start_streaming import start_streaming
 
 
 def open_file_if_needed(file_writer):
@@ -158,7 +161,11 @@ def main():
                     cfg_subcmds.export(args.dir)
             else:
                 logger.error("No argument provided; Exiting...")
-
+        elif "livestream" in args.subcommands:
+            # TODO : do the config and args shit (merge them)
+            start_streaming()
+            # Here is the subcommand
+            pass
     else:
         module = get_module(file_writer_config["input_file"])
         all_scene_classes = get_scene_classes_from_module(module)

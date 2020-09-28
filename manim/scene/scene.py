@@ -24,6 +24,8 @@ from ..scene.scene_file_writer import SceneFileWriter
 from ..utils.iterables import list_update
 from ..utils.hashing import get_hash_from_play_call, get_hash_from_wait_call
 
+from ..utils.livestream.live_streamer import LiveStreamer
+
 
 class Scene(Container):
     """A Scene is the canvas of your animation.
@@ -63,9 +65,10 @@ class Scene(Container):
     }
 
     def __init__(self, **kwargs):
+        self.livestream = True
         Container.__init__(self, **kwargs)
         self.camera = self.camera_class(**camera_config)
-        self.file_writer = SceneFileWriter(
+        self.file_writer = LiveStreamer(
             self,
             **file_writer_config,
         )
@@ -80,7 +83,8 @@ class Scene(Container):
         if self.random_seed is not None:
             random.seed(self.random_seed)
             np.random.seed(self.random_seed)
-
+        if self.livestream:
+            return
         self.setup()
         try:
             self.construct()
@@ -814,7 +818,7 @@ class Scene(Container):
                 logger.debug(f"Skipping animation {self.num_plays}")
                 func(self, *args, **kwargs)
                 return
-            if not file_writer_config["disable_caching"]:
+            if not file_writer_config["disable_caching"]:  # TODO
                 mobjects_on_scene = self.get_mobjects()
                 hash_play = get_hash_from_play_call(
                     self, self.camera, animations, mobjects_on_scene

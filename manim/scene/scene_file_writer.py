@@ -41,7 +41,8 @@ class SceneFileWriter(object):
         digest_config(self, kwargs)
         self.scene = scene
         self.stream_lock = False
-        self.init_output_directories()
+        if file_writer_config["use_directories"]:
+            self.init_output_directories()
         self.init_audio()
         self.frame_count = 0
         self.index_partial_movie_file = 0
@@ -318,6 +319,10 @@ class SceneFileWriter(object):
         allow_write : bool, optional
             Whether or not to write to a video file.
         """
+        # if True:
+        #     print("LIVESTREAMING END OF ANIMATIOn")
+        if self.scene.livestream:
+            self.handle_end_stream()
         if file_writer_config["write_to_movie"] and allow_write:
             self.close_movie_pipe()
 
@@ -378,8 +383,7 @@ class SceneFileWriter(object):
         """
         if file_writer_config["write_to_movie"]:
             if hasattr(self, "writing_process"):
-                self.writing_process.terminate()
-            self.combine_movie_files()
+                self.combine_movie_files()
             if file_writer_config["flush_cache"]:
                 self.flush_cache_directory()
             else:
@@ -394,19 +398,10 @@ class SceneFileWriter(object):
         FFMPEG and begin writing to FFMPEG's input
         buffer.
         """
-        file_path = self.get_next_partial_movie_path()
-        temp_file_path = (
-            os.path.splitext(file_path)[0]
-            + "_temp"
-            + file_writer_config["movie_file_extension"]
-        )
-        self.partial_movie_file_path = file_path
-        self.temp_partial_movie_file_path = temp_file_path
 
         fps = self.scene.camera.frame_rate
         height = self.scene.camera.pixel_height
         width = self.scene.camera.pixel_width
-
         command = [
             FFMPEG_BIN,
             "-y",  # overwrite output file if it exists
@@ -424,6 +419,19 @@ class SceneFileWriter(object):
             "-loglevel",
             file_writer_config["ffmpeg_loglevel"],
         ]
+        if True:
+            command += ["-f", "mpegts"]
+            command += ["udp://224.2.2.2:8888"]
+
+            # insert at the beginning of the command
+            command[1:1] = [
+                "-stream_loop",
+                "-1",
+            ]
+            self.writing_process = subprocess.Popen(command, stdin=subprocess.PIPE)
+            # os.system("ffplay -i udp://224.2.2.2:8888")
+            return
+
         # TODO, the test for a transparent background should not be based on
         # the file extension.
         if file_writer_config["movie_file_extension"] == ".mov":
@@ -440,8 +448,27 @@ class SceneFileWriter(object):
                 "-pix_fmt",
                 "yuv420p",
             ]
+        file_path = self.get_next_partial_movie_path()
+        temp_file_path = (
+            os.path.splitext(file_path)[0]
+            + "_temp"
+            + file_writer_config["movie_file_extension"]
+        )
+        self.partial_movie_file_path = file_path
+        self.temp_partial_movie_file_path = temp_file_path
+
         command += [temp_file_path]
-        self.writing_process = subprocess.Popen(command, stdin=subprocess.PIPE)
+        self.writing_process = subprocess.Popen(
+            command, stdin=subprocess.PIPE, capture_output=True
+        )
+
+    def handle_end_stream(self):
+        # Wreidly, this has to be commented out, otherwise it does not fo to live
+        # TODO : investigate on this, more particularly in the PR intender to fix livesyteamingj
+
+        # self.writing_process.stdin.close()
+        self.writing_process.wait()
+        print("STREAMED")
 
     def close_movie_pipe(self):
         """
@@ -449,8 +476,9 @@ class SceneFileWriter(object):
         input buffer, and move the temporary files into their permananant
         locations
         """
-        self.writing_process.stdin.close()
-        self.writing_process.wait()
+        if True:
+            # We stop here, as no partial movie files have been written,
+            return
         shutil.move(
             self.temp_partial_movie_file_path,
             self.partial_movie_file_path,
@@ -492,6 +520,7 @@ class SceneFileWriter(object):
         # cuts at all the places you might want.  But for viewing
         # the scene as a whole, one of course wants to see it as a
         # single piece.
+        return
         partial_movie_files = [
             os.path.join(
                 self.partial_movie_directory,

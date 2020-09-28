@@ -44,6 +44,8 @@ def _parse_file_writer_config(config_parser, args):
             args.scene_names if args.scene_names is not None else []
         )
         fw_config["output_file"] = args.output_file
+    else:
+        fw_config["use_directories"] = False
 
     # Handle all options that are directly overridden by CLI
     # arguments.  Note ConfigParser options are all strings and each
@@ -137,6 +139,7 @@ def _parse_file_writer_config(config_parser, args):
     if not fw_config["write_to_movie"]:
         fw_config["disable_caching"] = True
     # Read in the streaming section -- all values are strings
+    # TODO Change this(removing in favor of _init_livetrseam_confgi)
     fw_config["streaming"] = {
         opt: config_parser["streaming"][opt]
         for opt in [
@@ -175,6 +178,7 @@ def _parse_file_writer_config(config_parser, args):
     if progress_bar is None:
         progress_bar = default.getboolean("progress_bar")
     fw_config["progress_bar"] = progress_bar
+
     return fw_config
 
 
@@ -188,6 +192,8 @@ def _parse_cli(arg_list, input=True):
         # and mandatory positional arguments like `file` to show up in the help section.
         only_manim = len(sys.argv) == 1
 
+        # TODO: use a variable instead of calling subcommmand name 3040 times.
+        subcommand_name = _subcommand_name()
         if only_manim or _subcommand_name():
             subparsers = parser.add_subparsers(dest="subcommands")
 
@@ -195,8 +201,16 @@ def _parse_cli(arg_list, input=True):
             # If a help command is passed, we still want subcommands to show
             # up, so we check for help commands as well before adding the
             # subcommand's subparser.
-            if only_manim or _subcommand_name() in ["cfg", "--help", "-h"]:
+            if only_manim or _subcommand_name() in [
+                "cfg",
+                "--help",
+                "-h",
+            ]:  # Why the fuck is --help jere ?
+                # assert 0
                 cfg_related = _init_cfg_subcmd(subparsers)
+            if _subcommand_name() in ["livestream", "-h"]:
+                # Livestreaming subcommand here
+                _init_livestream_config(subparsers)
 
         if only_manim or not _subcommand_name(ignore=["--help", "-h"]):
             parser.add_argument(
@@ -437,7 +451,6 @@ def _parse_cli(arg_list, input=True):
                 "cfg_subcommand",
                 cfg_related.parse_args(sys.argv[2:]).cfg_subcommand,
             )
-
     return parsed
 
 
@@ -556,7 +569,7 @@ def _subcommand_name(ignore=()):
         If a subcommand is found, returns the string of its name. Returns None if no
         subcommand is found.
     """
-    NON_ANIM_UTILS = ["cfg", "--help", "-h"]
+    NON_ANIM_UTILS = ["cfg", "--help", "-h", "livestream"]
     NON_ANIM_UTILS = [util for util in NON_ANIM_UTILS if util not in ignore]
 
     # If a subcommand is found, break out of the inner loop, and hit the break of the outer loop
@@ -612,3 +625,10 @@ def _init_cfg_subcmd(subparsers):
     cfg_export_parser.add_argument("--dir", default=os.getcwd())
 
     return cfg_related
+
+
+def _init_livestream_config(subparsers):
+    livestream_parser = subparsers.add_parser("livestream", help="Livestream tools")
+    livestream_parser.add_argument("--test", help="Start the livestream")
+    # livestream_parser = livestream_parser.add_subparsers(dest="livestream_subcommand")
+    # return livestream_parser
