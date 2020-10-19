@@ -1,8 +1,6 @@
 """Basic canvas for animations."""
 
-
 __all__ = ["Scene"]
-
 
 import copy
 import inspect
@@ -174,9 +172,10 @@ class Scene(Container):
         -------
             bool
         """
-        return self.always_update_mobjects or any(
-            [mob.has_time_based_updater() for mob in self.get_mobject_family_members()]
-        )
+        return self.always_update_mobjects or any([
+            mob.has_time_based_updater()
+            for mob in self.get_mobject_family_members()
+        ])
 
     ###
 
@@ -215,8 +214,7 @@ class Scene(Container):
             List of mobject family members.
         """
         return extract_mobject_family_members(
-            self.mobjects, use_z_index=self.renderer.camera.use_z_index
-        )
+            self.mobjects, use_z_index=self.renderer.camera.use_z_index)
 
     def add(self, *mobjects):
         """
@@ -274,9 +272,10 @@ class Scene(Container):
             self.restructure_mobjects(mobjects, list_name, False)
         return self
 
-    def restructure_mobjects(
-        self, to_remove, mobject_list_name="mobjects", extract_families=True
-    ):
+    def restructure_mobjects(self,
+                             to_remove,
+                             mobject_list_name="mobjects",
+                             extract_families=True):
         """
         tl:wr
             If your scene has a Group(), and you removed a mobject from the Group,
@@ -306,8 +305,7 @@ class Scene(Container):
         """
         if extract_families:
             to_remove = extract_mobject_family_members(
-                to_remove, use_z_index=self.renderer.camera.use_z_index
-            )
+                to_remove, use_z_index=self.renderer.camera.use_z_index)
         _list = getattr(self, mobject_list_name)
         new_list = self.get_restructured_mobject_list(_list, to_remove)
         setattr(self, mobject_list_name, new_list)
@@ -364,7 +362,8 @@ class Scene(Container):
         Scene
             The Scene, with the foreground mobjects added.
         """
-        self.foreground_mobjects = list_update(self.foreground_mobjects, mobjects)
+        self.foreground_mobjects = list_update(self.foreground_mobjects,
+                                               mobjects)
         self.add(*mobjects)
         return self
 
@@ -530,9 +529,10 @@ class Scene(Container):
                 return mobjects[i:]
         return []
 
-    def get_time_progression(
-        self, run_time, n_iterations=None, override_skip_animations=False
-    ):
+    def get_time_progression(self,
+                             run_time,
+                             n_iterations=None,
+                             override_skip_animations=False):
         """
         You will hardly use this when making your own animations.
         This method is for Manim's internal use.
@@ -559,7 +559,8 @@ class Scene(Container):
         ProgressDisplay
             The CommandLine Progress Bar.
         """
-        if file_writer_config["skip_animations"] and not override_skip_animations:
+        if file_writer_config[
+                "skip_animations"] and not override_skip_animations:
             times = [run_time]
         else:
             step = 1 / self.renderer.camera.frame_rate
@@ -612,15 +613,11 @@ class Scene(Container):
             The CommandLine Progress Bar.
         """
         time_progression = self.get_time_progression(self.run_time)
-        time_progression.set_description(
-            "".join(
-                [
-                    "Animation {}: ".format(self.renderer.num_plays),
-                    str(animations[0]),
-                    (", etc." if len(animations) > 1 else ""),
-                ]
-            )
-        )
+        time_progression.set_description("".join([
+            "Animation {}: ".format(self.renderer.num_plays),
+            str(animations[0]),
+            (", etc." if len(animations) > 1 else ""),
+        ]))
         return time_progression
 
     def compile_play_args_to_animation_list(self, *args, **kwargs):
@@ -655,21 +652,21 @@ class Scene(Container):
             if state["curr_method"] is None:
                 return
             mobject = state["curr_method"].__self__
-            if state["last_method"] and state["last_method"].__self__ is mobject:
+            if state["last_method"] and state[
+                    "last_method"].__self__ is mobject:
                 animations.pop()
                 # method should already have target then.
             else:
                 mobject.generate_target()
             #
             if len(state["method_args"]) > 0 and isinstance(
-                state["method_args"][-1], dict
-            ):
+                    state["method_args"][-1], dict):
                 method_kwargs = state["method_args"].pop()
             else:
                 method_kwargs = {}
-            state["curr_method"].__func__(
-                mobject.target, *state["method_args"], **method_kwargs
-            )
+            state["curr_method"].__func__(mobject.target,
+                                          *state["method_args"],
+                                          **method_kwargs)
             animations.append(MoveToTarget(mobject))
             state["last_method"] = state["curr_method"]
             state["curr_method"] = None
@@ -685,12 +682,10 @@ class Scene(Container):
             elif state["curr_method"] is not None:
                 state["method_args"].append(arg)
             elif isinstance(arg, Mobject):
-                raise ValueError(
-                    """
+                raise ValueError("""
                     I think you may have invoked a method
                     you meant to pass in as a Scene.play argument
-                    """
-                )
+                    """)
             else:
                 raise ValueError("Invalid play arguments")
         compile_method(state)
@@ -725,7 +720,8 @@ class Scene(Container):
         """
         for t in self.get_animation_time_progression(self.animations):
             self.update_animation_to_time(t)
-            self.renderer.update_frame(self, self.moving_mobjects, self.static_image)
+            self.renderer.update_frame(self, self.moving_mobjects,
+                                       self.static_image)
             self.renderer.add_frame(self.renderer.get_frame())
 
     def update_animation_to_time(self, t):
@@ -760,7 +756,9 @@ class Scene(Container):
             animation.finish()
             animation.clean_up_from_scene(self)
         # TODO: This is only used in one place and should probably be removed.
-        self.mobjects_from_last_animation = [anim.mobject for anim in animations]
+        self.mobjects_from_last_animation = [
+            anim.mobject for anim in animations
+        ]
         if file_writer_config["skip_animations"]:
             # TODO, run this call in for each animation?
             self.update_mobjects(self.get_run_time(animations))
@@ -768,7 +766,9 @@ class Scene(Container):
             self.update_mobjects(0)
 
     def wait(self, duration=DEFAULT_WAIT_TIME, stop_condition=None):
-        self.renderer.wait(self, duration=duration, stop_condition=stop_condition)
+        self.renderer.wait(self,
+                           duration=duration,
+                           stop_condition=stop_condition)
 
     def play(self, *args, **kwargs):
         self.renderer.play(self, *args, **kwargs)
@@ -787,13 +787,15 @@ class Scene(Container):
         if len(args) == 0:
             warnings.warn("Called Scene.play with no animations")
             return
-        self.animations = self.compile_play_args_to_animation_list(*args, **kwargs)
+        self.animations = self.compile_play_args_to_animation_list(
+            *args, **kwargs)
         self.begin_animations(self.animations)
 
         # Paint all non-moving objects onto the screen, so they don't
         # have to be rendered every frame
         self.moving_mobjects = self.get_moving_mobjects(*self.animations)
-        self.renderer.update_frame(self, excluded_mobjects=self.moving_mobjects)
+        self.renderer.update_frame(self,
+                                   excluded_mobjects=self.moving_mobjects)
         self.static_image = self.renderer.get_frame()
         self.last_t = 0
         self.run_time = self.get_run_time(self.animations)
@@ -810,7 +812,8 @@ class Scene(Container):
         self.last_t = 0
 
         if self.should_update_mobjects():
-            time_progression = self.get_wait_time_progression(duration, stop_condition)
+            time_progression = self.get_wait_time_progression(
+                duration, stop_condition)
             # TODO, be smart about setting a static image
             # the same way Scene.play does
             for t in time_progression:
@@ -826,9 +829,8 @@ class Scene(Container):
         else:
             self.renderer.update_frame(self)
             dt = 1 / self.renderer.camera.frame_rate
-            self.renderer.add_frame(
-                self.renderer.get_frame(), num_frames=int(duration / dt)
-            )
+            self.renderer.add_frame(self.renderer.get_frame(),
+                                    num_frames=int(duration / dt))
         return self
 
     def clean_up_animations(self, *animations):
@@ -877,14 +879,12 @@ class Scene(Container):
                 n_iterations=-1,  # So it doesn't show % progress
                 override_skip_animations=True,
             )
-            time_progression.set_description(
-                "Waiting for {}".format(stop_condition.__name__)
-            )
+            time_progression.set_description("Waiting for {}".format(
+                stop_condition.__name__))
         else:
             time_progression = self.get_time_progression(duration)
-            time_progression.set_description(
-                "Waiting {}".format(self.renderer.num_plays)
-            )
+            time_progression.set_description("Waiting {}".format(
+                self.renderer.num_plays))
         return time_progression
 
     def wait_until(self, stop_condition, max_time=60):

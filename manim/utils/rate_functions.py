@@ -45,7 +45,6 @@ There are primarily 3 kinds of standard easing functions:
             self.wait()
 """
 
-
 __all__ = [
     "linear",
     "smooth",
@@ -62,7 +61,6 @@ __all__ = [
     "lingering",
     "exponential_decay",
 ]
-
 
 from math import sqrt
 
@@ -253,11 +251,8 @@ def ease_out_circ(t):
 
 
 def ease_in_out_circ(t):
-    return (
-        (1 - sqrt(1 - pow(2 * t, 2))) / 2
-        if t < 0.5
-        else (sqrt(1 - pow(-2 * t + 2, 2)) + 1) / 2
-    )
+    return ((1 - sqrt(1 - pow(2 * t, 2))) / 2 if t < 0.5 else
+            (sqrt(1 - pow(-2 * t + 2, 2)) + 1) / 2)
 
 
 def ease_in_back(t):
@@ -275,11 +270,8 @@ def ease_out_back(t):
 def ease_in_out_back(t):
     c1 = 1.70158
     c2 = c1 * 1.525
-    return (
-        (pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2
-        if t < 0.5
-        else (pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2
-    )
+    return ((pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2 if t < 0.5 else
+            (pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2)
 
 
 def ease_in_elastic(t):
@@ -335,8 +327,5 @@ def ease_out_bounce(t):
 def ease_in_out_bounce(t):
     c1 = 1.70158
     c2 = c1 * 1.525
-    return (
-        (pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2
-        if t < 0.5
-        else (pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2
-    )
+    return ((pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2 if t < 0.5 else
+            (pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2)

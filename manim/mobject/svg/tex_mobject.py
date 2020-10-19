@@ -12,7 +12,6 @@ __all__ = [
     "TextMobject",
 ]
 
-
 import operator as op
 from functools import reduce
 
@@ -63,7 +62,8 @@ class SingleStringMathTex(SVGMobject):
     def __init__(self, tex_string, **kwargs):
         digest_config(self, kwargs)
         if self.tex_template is None:
-            self.tex_template = kwargs.get("tex_template", config["tex_template"])
+            self.tex_template = kwargs.get("tex_template",
+                                           config["tex_template"])
 
         assert isinstance(tex_string, str)
         self.tex_string = tex_string
@@ -119,8 +119,9 @@ class SingleStringMathTex(SVGMobject):
 
         # Handle imbalanced \left and \right
         num_lefts, num_rights = [
-            len([s for s in tex.split(substr)[1:] if s and s[0] in "(){}[]|.\\"])
-            for substr in ("\\left", "\\right")
+            len([
+                s for s in tex.split(substr)[1:] if s and s[0] in "(){}[]|.\\"
+            ]) for substr in ("\\left", "\\right")
         ]
         if num_lefts != num_rights:
             tex = tex.replace("\\left", "\\big")
@@ -197,9 +198,9 @@ class MathTex(SingleStringMathTex):
         digest_config(self, kwargs)
         tex_strings = self.break_up_tex_strings(tex_strings)
         self.tex_strings = tex_strings
-        SingleStringMathTex.__init__(
-            self, self.arg_separator.join(tex_strings), **kwargs
-        )
+        SingleStringMathTex.__init__(self,
+                                     self.arg_separator.join(tex_strings),
+                                     **kwargs)
         config = dict(self.CONFIG)
         config.update(kwargs)
         self.break_up_by_substrings(config)
@@ -209,12 +210,10 @@ class MathTex(SingleStringMathTex):
             self.organize_submobjects_left_to_right()
 
     def break_up_tex_strings(self, tex_strings):
-        substrings_to_isolate = op.add(
-            self.substrings_to_isolate, list(self.tex_to_color_map.keys())
-        )
+        substrings_to_isolate = op.add(self.substrings_to_isolate,
+                                       list(self.tex_to_color_map.keys()))
         split_list = split_string_list_to_isolate_substrings(
-            tex_strings, *substrings_to_isolate
-        )
+            tex_strings, *substrings_to_isolate)
         if self.arg_separator == " ":
             split_list = [str(x).strip() for x in split_list]
         # split_list = list(map(str.strip, split_list))
@@ -241,7 +240,8 @@ class MathTex(SingleStringMathTex):
                 last_submob_index = min(curr_index, len(self.submobjects) - 1)
                 sub_tex_mob.move_to(self.submobjects[last_submob_index], RIGHT)
             else:
-                sub_tex_mob.submobjects = self.submobjects[curr_index:new_index]
+                sub_tex_mob.submobjects = self.submobjects[curr_index:
+                                                           new_index]
             new_submobjects.append(sub_tex_mob)
             curr_index = new_index
         self.submobjects = new_submobjects
@@ -257,7 +257,8 @@ class MathTex(SingleStringMathTex):
             else:
                 return tex1 == tex2
 
-        return VGroup(*[m for m in self.submobjects if test(tex, m.get_tex_string())])
+        return VGroup(
+            *[m for m in self.submobjects if test(tex, m.get_tex_string())])
 
     def get_part_by_tex(self, tex, **kwargs):
         all_parts = self.get_parts_by_tex(tex, **kwargs)
@@ -389,8 +390,7 @@ class TexMobject(MathTex):
     def __init__(self, *tex_strings, **kwargs):
         logger.warning(
             "TexMobject has been deprecated (due to its confusing name) "
-            "in favour of MathTex. Please use MathTex instead!"
-        )
+            "in favour of MathTex. Please use MathTex instead!")
         MathTex.__init__(self, *tex_strings, **kwargs)
 
 
@@ -398,6 +398,5 @@ class TextMobject(Tex):
     def __init__(self, *text_parts, **kwargs):
         logger.warning(
             "TextMobject has been deprecated (due to its confusing name) "
-            "in favour of Tex. Please use Tex instead!"
-        )
+            "in favour of Tex. Please use Tex instead!")
         Tex.__init__(self, *text_parts, **kwargs)

@@ -2,7 +2,6 @@
 
 __all__ = ["MoveCar", "Broadcast"]
 
-
 import operator as op
 
 from ..animation.composition import LaggedStart
@@ -37,8 +36,7 @@ class MoveCar(ApplyMethod):
             op.sub(
                 self.target_mobject.get_right(),
                 self.starting_mobject.get_right(),
-            )
-        )
+            ))
         if not self.moving_forward:
             distance *= -1
         tire_radius = car.get_tires()[0].get_width() / 2

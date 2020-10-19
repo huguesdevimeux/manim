@@ -1,6 +1,5 @@
 """Mobjects that use vector graphics."""
 
-
 __all__ = [
     "VMobject",
     "VGroup",
@@ -9,7 +8,6 @@ __all__ = [
     "CurvesAsSubmobjects",
     "DashedVMobject",
 ]
-
 
 import itertools as it
 import sys
@@ -104,9 +102,9 @@ class VMobject(Mobject):
         """
         colors = list(tuplify(color))
         opacities = list(tuplify(opacity))
-        rgbas = np.array(
-            [color_to_rgba(c, o) for c, o in zip(*make_even(colors, opacities))]
-        )
+        rgbas = np.array([
+            color_to_rgba(c, o) for c, o in zip(*make_even(colors, opacities))
+        ])
 
         sheen_factor = self.get_sheen_factor()
         if sheen_factor != 0 and len(rgbas) == 1:
@@ -146,12 +144,16 @@ class VMobject(Mobject):
         self.update_rgbas_array("fill_rgbas", color, opacity)
         return self
 
-    def set_stroke(
-        self, color=None, width=None, opacity=None, background=False, family=True
-    ):
+    def set_stroke(self,
+                   color=None,
+                   width=None,
+                   opacity=None,
+                   background=False,
+                   family=True):
         if family:
             for submobject in self.submobjects:
-                submobject.set_stroke(color, width, opacity, background, family)
+                submobject.set_stroke(color, width, opacity, background,
+                                      family)
         if background:
             array_name = "background_stroke_rgbas"
             width_name = "background_stroke_width"
@@ -169,19 +171,19 @@ class VMobject(Mobject):
         return self
 
     def set_style(
-        self,
-        fill_color=None,
-        fill_opacity=None,
-        stroke_color=None,
-        stroke_width=None,
-        stroke_opacity=None,
-        background_stroke_color=None,
-        background_stroke_width=None,
-        background_stroke_opacity=None,
-        sheen_factor=None,
-        sheen_direction=None,
-        background_image_file=None,
-        family=True,
+            self,
+            fill_color=None,
+            fill_opacity=None,
+            stroke_color=None,
+            stroke_width=None,
+            stroke_opacity=None,
+            background_stroke_color=None,
+            background_stroke_width=None,
+            background_stroke_opacity=None,
+            sheen_factor=None,
+            sheen_direction=None,
+            background_image_file=None,
+            family=True,
     ):
         self.set_fill(color=fill_color, opacity=fill_opacity, family=family)
         self.set_stroke(
@@ -215,14 +217,18 @@ class VMobject(Mobject):
         if simple:
             ret["fill_color"] = colour.rgb2hex(self.get_fill_color().get_rgb())
             ret["fill_opacity"] = self.get_fill_opacity()
-            ret["stroke_color"] = colour.rgb2hex(self.get_stroke_color().get_rgb())
+            ret["stroke_color"] = colour.rgb2hex(
+                self.get_stroke_color().get_rgb())
         else:
             ret["fill_color"] = self.get_fill_colors()
             ret["fill_opacity"] = self.get_fill_opacities()
             ret["stroke_color"] = self.get_stroke_colors()
-            ret["background_stroke_color"] = self.get_stroke_colors(background=True)
-            ret["background_stroke_width"] = self.get_stroke_width(background=True)
-            ret["background_stroke_opacity"] = self.get_stroke_opacity(background=True)
+            ret["background_stroke_color"] = self.get_stroke_colors(
+                background=True)
+            ret["background_stroke_width"] = self.get_stroke_width(
+                background=True)
+            ret["background_stroke_opacity"] = self.get_stroke_opacity(
+                background=True)
             ret["sheen_factor"] = self.get_sheen_factor()
             ret["sheen_direction"] = self.get_sheen_direction()
             ret["background_image_file"] = self.get_background_image_file()
@@ -323,7 +329,8 @@ class VMobject(Mobject):
 
     def get_stroke_colors(self, background=False):
         return [
-            colour.Color(rgb=rgba[:3]) for rgba in self.get_stroke_rgbas(background)
+            colour.Color(rgb=rgba[:3])
+            for rgba in self.get_stroke_rgbas(background)
         ]
 
     def get_stroke_opacities(self, background=False):
@@ -370,9 +377,9 @@ class VMobject(Mobject):
         else:
             direction = self.get_sheen_direction()
             c = self.get_center()
-            bases = np.array(
-                [self.get_edge_center(vect) - c for vect in [RIGHT, UP, OUT]]
-            ).transpose()
+            bases = np.array([
+                self.get_edge_center(vect) - c for vect in [RIGHT, UP, OUT]
+            ]).transpose()
             offset = np.dot(bases, direction)
             return (c - offset, c + offset)
 
@@ -447,12 +454,10 @@ class VMobject(Mobject):
 
     def add_line_to(self, point):
         nppcc = self.n_points_per_cubic_curve
-        self.add_cubic_bezier_curve_to(
-            *[
-                interpolate(self.get_last_point(), point, a)
-                for a in np.linspace(0, 1, nppcc)[1:]
-            ]
-        )
+        self.add_cubic_bezier_curve_to(*[
+            interpolate(self.get_last_point(), point, a)
+            for a in np.linspace(0, 1, nppcc)[1:]
+        ])
         return self
 
     def add_smooth_curve_to(self, *points):
@@ -478,7 +483,9 @@ class VMobject(Mobject):
             handle1 = last_a2 + last_tangent
             if handle2 is None:
                 to_anchor_vect = new_anchor - last_a2
-                new_tangent = rotate_vector(last_tangent, PI, axis=to_anchor_vect)
+                new_tangent = rotate_vector(last_tangent,
+                                            PI,
+                                            axis=to_anchor_vect)
                 handle2 = new_anchor - new_tangent
             self.append_points([last_a2, handle1, handle2, new_anchor])
         return self
@@ -501,9 +508,10 @@ class VMobject(Mobject):
     def set_points_as_corners(self, points):
         nppcc = self.n_points_per_cubic_curve
         points = np.array(points)
-        self.set_anchors_and_handles(
-            *[interpolate(points[:-1], points[1:], a) for a in np.linspace(0, 1, nppcc)]
-        )
+        self.set_anchors_and_handles(*[
+            interpolate(points[:-1], points[1:], a)
+            for a in np.linspace(0, 1, nppcc)
+        ])
         return self
 
     def set_points_smoothly(self, points):
@@ -613,8 +621,8 @@ class VMobject(Mobject):
         """
         nppcc = VMobject.CONFIG["n_points_per_cubic_curve"]
         remainder = len(points) % nppcc
-        points = points[: len(points) - remainder]
-        return (points[i : i + nppcc] for i in range(0, len(points), nppcc))
+        points = points[:len(points) - remainder]
+        return (points[i:i + nppcc] for i in range(0, len(points), nppcc))
 
     def get_cubic_bezier_tuples(self):
         return self.get_cubic_bezier_tuples_from_points(self.get_points())
@@ -623,24 +631,23 @@ class VMobject(Mobject):
         nppcc = self.n_points_per_cubic_curve
         split_indices = filter(filter_func, range(nppcc, len(points), nppcc))
         split_indices = [0] + list(split_indices) + [len(points)]
-        return (
-            points[i1:i2]
-            for i1, i2 in zip(split_indices, split_indices[1:])
-            if (i2 - i1) >= nppcc
-        )
+        return (points[i1:i2]
+                for i1, i2 in zip(split_indices, split_indices[1:])
+                if (i2 - i1) >= nppcc)
 
     def get_subpaths_from_points(self, points):
         return list(
             self._gen_subpaths_from_points(
                 points,
-                lambda n: not self.consider_points_equals(points[n - 1], points[n]),
-            )
-        )
+                lambda n: not self.consider_points_equals(
+                    points[n - 1], points[n]),
+            ))
 
     def gen_subpaths_from_points_2d(self, points):
         return self._gen_subpaths_from_points(
             points,
-            lambda n: not self.consider_points_equals_2d(points[n - 1], points[n]),
+            lambda n: not self.consider_points_equals_2d(
+                points[n - 1], points[n]),
         )
 
     def get_subpaths(self):
@@ -649,7 +656,7 @@ class VMobject(Mobject):
     def get_nth_curve_points(self, n):
         assert n < self.get_num_curves()
         nppcc = self.n_points_per_cubic_curve
-        return self.points[nppcc * n : nppcc * (n + 1)]
+        return self.points[nppcc * n:nppcc * (n + 1)]
 
     def get_nth_curve_function(self, n):
         return bezier(self.get_nth_curve_points(n))
@@ -675,35 +682,33 @@ class VMobject(Mobject):
         return [self.points[i::nppcc] for i in range(nppcc)]
 
     def get_start_anchors(self):
-        return self.points[0 :: self.n_points_per_cubic_curve]
+        return self.points[0::self.n_points_per_cubic_curve]
 
     def get_end_anchors(self):
         nppcc = self.n_points_per_cubic_curve
-        return self.points[nppcc - 1 :: nppcc]
+        return self.points[nppcc - 1::nppcc]
 
     def get_anchors(self):
         if self.points.shape[0] == 1:
             return self.points
         return np.array(
             list(
-                it.chain(
-                    *zip(
-                        self.get_start_anchors(),
-                        self.get_end_anchors(),
-                    )
-                )
-            )
-        )
+                it.chain(*zip(
+                    self.get_start_anchors(),
+                    self.get_end_anchors(),
+                ))))
 
     def get_points_defining_boundary(self):
-        return np.array(list(it.chain(*[sm.get_anchors() for sm in self.get_family()])))
+        return np.array(
+            list(it.chain(*[sm.get_anchors() for sm in self.get_family()])))
 
     def get_arc_length(self, n_sample_points=None):
         if n_sample_points is None:
             n_sample_points = 4 * self.get_num_curves() + 1
-        points = np.array(
-            [self.point_from_proportion(a) for a in np.linspace(0, 1, n_sample_points)]
-        )
+        points = np.array([
+            self.point_from_proportion(a)
+            for a in np.linspace(0, 1, n_sample_points)
+        ])
         diffs = points[1:] - points[:-1]
         norms = np.apply_along_axis(get_norm, 1, diffs)
         return np.sum(norms)
@@ -791,9 +796,9 @@ class VMobject(Mobject):
             # smaller cubic curves
             alphas = np.linspace(0, 1, sf + 1)
             for a1, a2 in zip(alphas, alphas[1:]):
-                new_points = np.append(
-                    new_points, partial_bezier_points(quad, a1, a2), axis=0
-                )
+                new_points = np.append(new_points,
+                                       partial_bezier_points(quad, a1, a2),
+                                       axis=0)
         return new_points
 
     def align_rgbas(self, vmobject):
@@ -830,7 +835,8 @@ class VMobject(Mobject):
             setattr(
                 self,
                 attr,
-                interpolate(getattr(mobject1, attr), getattr(mobject2, attr), alpha),
+                interpolate(getattr(mobject1, attr), getattr(mobject2, attr),
+                            alpha),
             )
             if alpha == 1.0:
                 setattr(self, attr, getattr(mobject2, attr))
@@ -855,19 +861,17 @@ class VMobject(Mobject):
             return self
         if lower_index == upper_index:
             self.append_points(
-                partial_bezier_points(
-                    bezier_quads[lower_index], lower_residue, upper_residue
-                )
-            )
+                partial_bezier_points(bezier_quads[lower_index], lower_residue,
+                                      upper_residue))
         else:
             self.append_points(
-                partial_bezier_points(bezier_quads[lower_index], lower_residue, 1)
-            )
-            for quad in bezier_quads[lower_index + 1 : upper_index]:
+                partial_bezier_points(bezier_quads[lower_index], lower_residue,
+                                      1))
+            for quad in bezier_quads[lower_index + 1:upper_index]:
                 self.append_points(quad)
             self.append_points(
-                partial_bezier_points(bezier_quads[upper_index], 0, upper_residue)
-            )
+                partial_bezier_points(bezier_quads[upper_index], 0,
+                                      upper_residue))
         return self
 
     def get_subcurve(self, a, b):
@@ -882,12 +886,8 @@ class VGroup(VMobject):
         self.add(*vmobjects)
 
     def __repr__(self):
-        return (
-            self.__class__.__name__
-            + "("
-            + ", ".join(str(mob) for mob in self.submobjects)
-            + ")"
-        )
+        return (self.__class__.__name__ + "(" +
+                ", ".join(str(mob) for mob in self.submobjects) + ")")
 
     def add(self, *vmobjects):
         """Checks if all passed elements are an instance of VMobject and then add them to submobjects
@@ -1001,7 +1001,8 @@ class VDict(VMobject):
             my_dict.remove('square')
         """
         if key not in self.submob_dict:
-            raise KeyError("The given key '%s' is not present in the VDict" % str(key))
+            raise KeyError("The given key '%s' is not present in the VDict" %
+                           str(key))
         super().remove(self.submob_dict[key])
         del self.submob_dict[key]
         return self
@@ -1169,12 +1170,10 @@ class DashedVMobject(VMobject):
             # be the end of the last dash
             alphas /= 1 - full_d_alpha + partial_d_alpha
 
-            self.add(
-                *[
-                    vmobject.get_subcurve(alpha, alpha + partial_d_alpha)
-                    for alpha in alphas[:-1]
-                ]
-            )
+            self.add(*[
+                vmobject.get_subcurve(alpha, alpha + partial_d_alpha)
+                for alpha in alphas[:-1]
+            ])
         # Family is already taken care of by get_subcurve
         # implementation
         self.match_style(vmobject, family=False)

@@ -1,6 +1,5 @@
 """Animate the display or removal of a mobject from a scene."""
 
-
 __all__ = [
     "ShowPartial",
     "ShowCreation",
@@ -12,7 +11,6 @@ __all__ = [
     "ShowSubmobjectsOneByOne",
     "AddTextWordByWord",
 ]
-
 
 import itertools as it
 
@@ -78,7 +76,8 @@ class DrawBorderThenFill(Animation):
         outline = self.mobject.copy()
         outline.set_fill(opacity=0)
         for sm in outline.family_members_with_points():
-            sm.set_stroke(color=self.get_stroke_color(sm), width=self.stroke_width)
+            sm.set_stroke(color=self.get_stroke_color(sm),
+                          width=self.stroke_width)
         return outline
 
     def get_stroke_color(self, vmobject):
@@ -194,13 +193,8 @@ class AddTextWordByWord(Succession):
     def __init__(self, text_mobject, **kwargs):
         digest_config(self, kwargs)
         tpc = self.time_per_char
-        anims = it.chain(
-            *[
-                [
-                    ShowIncreasingSubsets(word, run_time=tpc * len(word)),
-                    Animation(word, run_time=0.005 * len(word) ** 1.5),
-                ]
-                for word in text_mobject
-            ]
-        )
+        anims = it.chain(*[[
+            ShowIncreasingSubsets(word, run_time=tpc * len(word)),
+            Animation(word, run_time=0.005 * len(word)**1.5),
+        ] for word in text_mobject])
         super().__init__(*anims, **kwargs)

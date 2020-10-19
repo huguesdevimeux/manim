@@ -8,7 +8,6 @@
 
 __all__ = ["CameraFrame", "MovingCamera"]
 
-
 from .. import config
 from ..camera.camera import Camera
 from ..constants import ORIGIN

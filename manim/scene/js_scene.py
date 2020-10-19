@@ -54,13 +54,15 @@ class JsScene(scene.Scene):
                 free_variable_map = inspect.getclosurevars(updater).nonlocals
                 cloned_co_freevars = []
                 cloned_closure = []
-                for i, free_variable_name in enumerate(updater.__code__.co_freevars):
+                for i, free_variable_name in enumerate(
+                        updater.__code__.co_freevars):
                     free_variable_value = free_variable_map[free_variable_name]
                     if isinstance(free_variable_value, Mobject):
                         random_name = get_random_name(free_variable_map)
 
                         # Put the cloned Mobject in the function's scope.
-                        free_variable_map[random_name] = memo[id(free_variable_value)]
+                        free_variable_map[random_name] = memo[id(
+                            free_variable_value)]
 
                         # Add the cloned Mobject's name to the free variable list.
                         cloned_co_freevars.append(random_name)
@@ -68,14 +70,14 @@ class JsScene(scene.Scene):
                         # Add a cell containing the cloned Mobject's reference to the
                         # closure list.
                         cloned_closure.append(
-                            types.CellType(memo[id(free_variable_value)])
-                        )
+                            types.CellType(memo[id(free_variable_value)]))
                     else:
                         cloned_co_freevars.append(free_variable_name)
                         cloned_closure.append(updater.__closure__[i])
 
                 cloned_updater = types.FunctionType(
-                    updater.__code__.replace(co_freevars=tuple(cloned_co_freevars)),
+                    updater.__code__.replace(
+                        co_freevars=tuple(cloned_co_freevars)),
                     updater.__globals__,
                     updater.__name__,
                     updater.__defaults__,

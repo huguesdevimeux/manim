@@ -67,11 +67,11 @@ class CairoRenderer:
         self.file_writer = None
         self.video_quality_config = {}
         for attr in [
-            "pixel_height",
-            "pixel_width",
-            "frame_height",
-            "frame_width",
-            "frame_rate",
+                "pixel_height",
+                "pixel_width",
+                "frame_height",
+                "frame_width",
+                "frame_rate",
         ]:
             self.video_quality_config[attr] = kwargs.get(attr, config[attr])
         camera_cls = camera_class if camera_class is not None else Camera
@@ -102,13 +102,13 @@ class CairoRenderer:
         scene.wait_internal(duration=duration, stop_condition=stop_condition)
 
     def update_frame(  # TODO Description in Docstring
-        self,
-        scene,
-        mobjects=None,
-        background=None,
-        include_submobjects=True,
-        ignore_skipping=True,
-        **kwargs,
+            self,
+            scene,
+            mobjects=None,
+            background=None,
+            include_submobjects=True,
+            ignore_skipping=True,
+            **kwargs,
     ):
         """Update the frame.
 
@@ -208,7 +208,8 @@ class CairoRenderer:
             The Scene, with the original skipping status.
         """
         if hasattr(self, "original_skipping_status"):
-            file_writer_config["skip_animations"] = self.original_skipping_status
+            file_writer_config[
+                "skip_animations"] = self.original_skipping_status
         return self
 
     def finish(self, scene):

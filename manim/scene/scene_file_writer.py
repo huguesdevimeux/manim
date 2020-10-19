@@ -2,7 +2,6 @@
 
 __all__ = ["SceneFileWriter"]
 
-
 import _thread as thread
 import datetime
 import os
@@ -61,20 +60,20 @@ class SceneFileWriter(object):
         """
         module_directory = self.get_default_module_directory()
         default_name = self.get_default_scene_name(scene_name)
-        if file_writer_config["save_last_frame"] or file_writer_config["save_pngs"]:
+        if file_writer_config["save_last_frame"] or file_writer_config[
+                "save_pngs"]:
             if file_writer_config["media_dir"] != "":
                 if not file_writer_config["custom_folders"]:
                     image_dir = guarantee_existence(
                         os.path.join(
                             file_writer_config["images_dir"],
                             module_directory,
-                        )
-                    )
+                        ))
                 else:
-                    image_dir = guarantee_existence(file_writer_config["images_dir"])
+                    image_dir = guarantee_existence(
+                        file_writer_config["images_dir"])
             self.image_file_path = os.path.join(
-                image_dir, add_extension_if_not_present(default_name, ".png")
-            )
+                image_dir, add_extension_if_not_present(default_name, ".png"))
 
         if file_writer_config["write_to_movie"]:
             if file_writer_config["video_dir"]:
@@ -84,17 +83,14 @@ class SceneFileWriter(object):
                             file_writer_config["video_dir"],
                             module_directory,
                             self.get_resolution_directory(),
-                        )
-                    )
+                        ))
                 else:
                     movie_dir = guarantee_existence(
-                        os.path.join(file_writer_config["video_dir"])
-                    )
+                        os.path.join(file_writer_config["video_dir"]))
             self.movie_file_path = os.path.join(
                 movie_dir,
                 add_extension_if_not_present(
-                    default_name, file_writer_config["movie_file_extension"]
-                ),
+                    default_name, file_writer_config["movie_file_extension"]),
             )
             self.gif_file_path = os.path.join(
                 movie_dir,
@@ -106,8 +102,7 @@ class SceneFileWriter(object):
                         movie_dir,
                         "partial_movie_files",
                         default_name,
-                    )
-                )
+                    ))
             else:
                 self.partial_movie_directory = guarantee_existence(
                     os.path.join(
@@ -115,8 +110,7 @@ class SceneFileWriter(object):
                         "temp_files",
                         "partial_movie_files",
                         default_name,
-                    )
-                )
+                    ))
 
     def add_partial_movie_file(self, hash_animation):
         """Adds a new partial movie file path to scene.partial_movie_files from an hash. This method will compute the path from the hash.
@@ -238,7 +232,10 @@ class SceneFileWriter(object):
         """
         self.audio_segment = AudioSegment.silent()
 
-    def add_audio_segment(self, new_segment, time=None, gain_to_background=None):
+    def add_audio_segment(self,
+                          new_segment,
+                          time=None,
+                          gain_to_background=None):
         """
         This method adds an audio segment from an
         AudioSegment type object and suitable parameters.
@@ -404,11 +401,8 @@ class SceneFileWriter(object):
         file_path = self.partial_movie_files[self.renderer.num_plays]
 
         # TODO #486 Why does ffmpeg need temp files ?
-        temp_file_path = (
-            os.path.splitext(file_path)[0]
-            + "_temp"
-            + file_writer_config["movie_file_extension"]
-        )
+        temp_file_path = (os.path.splitext(file_path)[0] + "_temp" +
+                          file_writer_config["movie_file_extension"])
         self.partial_movie_file_path = file_path
         self.temp_partial_movie_file_path = temp_file_path
 
@@ -501,16 +495,17 @@ class SceneFileWriter(object):
         # cuts at all the places you might want.  But for viewing
         # the scene as a whole, one of course wants to see it as a
         # single piece.
-        partial_movie_files = [el for el in self.partial_movie_files if el is not None]
+        partial_movie_files = [
+            el for el in self.partial_movie_files if el is not None
+        ]
         # NOTE : Here we should do a check and raise an exeption if partial movie file is empty.
         # We can't, as a lot of stuff (in particular, in tests) use scene initialization, and this error would be raised as it's just
         # an empty scene initialized.
 
         # Write a file partial_file_list.txt containing all
         # partial movie files. This is used by FFMPEG.
-        file_list = os.path.join(
-            self.partial_movie_directory, "partial_movie_file_list.txt"
-        )
+        file_list = os.path.join(self.partial_movie_directory,
+                                 "partial_movie_file_list.txt")
         logger.debug(
             f"Partial movie files to combine ({len(partial_movie_files)} files): %(p)s",
             {"p": partial_movie_files[:5]},
@@ -549,8 +544,7 @@ class SceneFileWriter(object):
 
         if self.includes_sound:
             sound_file_path = movie_file_path.replace(
-                file_writer_config["movie_file_extension"], ".wav"
-            )
+                file_writer_config["movie_file_extension"], ".wav")
             # Makes sure sound file length will match video file
             self.add_audio_segment(AudioSegment.silent(0))
             self.audio_segment.export(
@@ -587,8 +581,7 @@ class SceneFileWriter(object):
             os.remove(sound_file_path)
 
         self.print_file_ready_message(
-            self.gif_file_path if self.save_as_gif else movie_file_path
-        )
+            self.gif_file_path if self.save_as_gif else movie_file_path)
         if file_writer_config["write_to_movie"]:
             for file_path in partial_movie_files:
                 # We have to modify the accessed time so if we have to clean the cache we remove the one used the longest.
@@ -602,11 +595,13 @@ class SceneFileWriter(object):
             if file_name != "partial_movie_file_list.txt"
         ]
         if len(cached_partial_movies) > file_writer_config["max_files_cached"]:
-            number_files_to_delete = (
-                len(cached_partial_movies) - file_writer_config["max_files_cached"]
-            )
+            number_files_to_delete = (len(cached_partial_movies) -
+                                      file_writer_config["max_files_cached"])
             oldest_files_to_delete = sorted(
-                [partial_movie_file for partial_movie_file in cached_partial_movies],
+                [
+                    partial_movie_file
+                    for partial_movie_file in cached_partial_movies
+                ],
                 key=os.path.getatime,
             )[:number_files_to_delete]
             # oldest_file_path = min(cached_partial_movies, key=os.path.getatime)
@@ -614,7 +609,8 @@ class SceneFileWriter(object):
                 os.remove(file_to_delete)
             logger.info(
                 f"The partial movie directory is full (> {file_writer_config['max_files_cached']} files). Therefore, manim has removed {number_files_to_delete} file(s) used by it the longest ago."
-                + "You can change this behaviour by changing max_files_cached in config."
+                +
+                "You can change this behaviour by changing max_files_cached in config."
             )
 
     def flush_cache_directory(self):
@@ -635,4 +631,5 @@ class SceneFileWriter(object):
         """
         Prints the "File Ready" message to STDOUT.
         """
-        logger.info("\nFile ready at %(file_path)s\n", {"file_path": file_path})
+        logger.info("\nFile ready at %(file_path)s\n",
+                    {"file_path": file_path})

@@ -2,7 +2,6 @@
 
 __all__ = ["ThreeDScene", "SpecialThreeDScene"]
 
-
 import numpy as np
 
 from .. import config
@@ -33,7 +32,11 @@ class ThreeDScene(Scene):
         },
     }
 
-    def set_camera_orientation(self, phi=None, theta=None, distance=None, gamma=None):
+    def set_camera_orientation(self,
+                               phi=None,
+                               theta=None,
+                               distance=None,
+                               gamma=None):
         """
         This method sets the orientation of the camera in the scene.
 
@@ -74,8 +77,7 @@ class ThreeDScene(Scene):
         # TODO, use a ValueTracker for rate, so that it
         # can begin and end smoothly
         self.renderer.camera.theta_tracker.add_updater(
-            lambda m, dt: m.increment_value(rate * dt)
-        )
+            lambda m, dt: m.increment_value(rate * dt))
         self.add(self.renderer.camera.theta_tracker)
 
     def stop_ambient_camera_rotation(self):
@@ -85,9 +87,10 @@ class ThreeDScene(Scene):
         self.renderer.camera.theta_tracker.clear_updaters()
         self.remove(self.renderer.camera.theta_tracker)
 
-    def begin_3dillusion_camera_rotation(
-        self, rate=1, origin_theta=-60 * DEGREES, origin_phi=75 * DEGREES
-    ):
+    def begin_3dillusion_camera_rotation(self,
+                                         rate=1,
+                                         origin_theta=-60 * DEGREES,
+                                         origin_phi=75 * DEGREES):
         val_tracker_theta = ValueTracker(0)
 
         def uptate_theta(m, dt):
@@ -118,14 +121,14 @@ class ThreeDScene(Scene):
         self.remove(self.renderer.camera.phi_tracker)
 
     def move_camera(
-        self,
-        phi=None,
-        theta=None,
-        distance=None,
-        gamma=None,
-        frame_center=None,
-        added_anims=[],
-        **kwargs,
+            self,
+            phi=None,
+            theta=None,
+            distance=None,
+            gamma=None,
+            frame_center=None,
+            added_anims=[],
+            **kwargs,
     ):
         """
         This method animates the movement of the camera
@@ -164,8 +167,8 @@ class ThreeDScene(Scene):
                 anims.append(ApplyMethod(tracker.set_value, value, **kwargs))
         if frame_center is not None:
             anims.append(
-                ApplyMethod(self.renderer.camera.frame_center.move_to, frame_center)
-            )
+                ApplyMethod(self.renderer.camera.frame_center.move_to,
+                            frame_center))
 
         self.play(*anims + added_anims)
 
@@ -204,7 +207,8 @@ class ThreeDScene(Scene):
                 center_func : function
         """
         self.add(*mobjects)
-        self.renderer.camera.add_fixed_orientation_mobjects(*mobjects, **kwargs)
+        self.renderer.camera.add_fixed_orientation_mobjects(
+            *mobjects, **kwargs)
 
     def add_fixed_in_frame_mobjects(self, *mobjects):
         """
@@ -280,7 +284,10 @@ class SpecialThreeDScene(ThreeDScene):
 
     CONFIG = {
         "cut_axes_at_radius": True,
-        "camera_config": {"should_apply_shading": True, "exponential_projection": True},
+        "camera_config": {
+            "should_apply_shading": True,
+            "exponential_projection": True
+        },
         "three_d_axes_config": {
             "num_axis_pieces": 1,
             "axis_config": {
@@ -290,7 +297,10 @@ class SpecialThreeDScene(ThreeDScene):
                 "stroke_width": 2,
             },
         },
-        "sphere_config": {"radius": 2, "resolution": (24, 48)},
+        "sphere_config": {
+            "radius": 2,
+            "resolution": (24, 48)
+        },
         "default_angled_camera_position": {
             "phi": 70 * DEGREES,
             "theta": -110 * DEGREES,
@@ -298,9 +308,15 @@ class SpecialThreeDScene(ThreeDScene):
         # When scene is extracted with -l flag, this
         # configuration will override the above configuration.
         "low_quality_config": {
-            "camera_config": {"should_apply_shading": False},
-            "three_d_axes_config": {"num_axis_pieces": 1},
-            "sphere_config": {"resolution": (12, 24)},
+            "camera_config": {
+                "should_apply_shading": False
+            },
+            "three_d_axes_config": {
+                "num_axis_pieces": 1
+            },
+            "sphere_config": {
+                "resolution": (12, 24)
+            },
         },
     }
 

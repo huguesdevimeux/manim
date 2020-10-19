@@ -20,19 +20,18 @@ def open_file_if_needed(file_writer):
         curr_stdout = sys.stdout
         sys.stdout = open(os.devnull, "w")
 
-    open_file = any(
-        [file_writer_config["preview"], file_writer_config["show_in_file_browser"]]
-    )
+    open_file = any([
+        file_writer_config["preview"],
+        file_writer_config["show_in_file_browser"]
+    ])
     if open_file:
         current_os = platform.system()
         file_paths = []
 
         if file_writer_config["save_last_frame"]:
             file_paths.append(file_writer.get_image_file_path())
-        if (
-            file_writer_config["write_to_movie"]
-            and not file_writer_config["save_as_gif"]
-        ):
+        if (file_writer_config["write_to_movie"]
+                and not file_writer_config["save_as_gif"]):
             file_paths.append(file_writer.get_movie_file_path())
         if file_writer_config["save_as_gif"]:
             file_paths.append(file_writer.gif_file_path)

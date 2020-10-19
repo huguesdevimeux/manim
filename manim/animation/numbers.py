@@ -2,7 +2,6 @@
 
 __all__ = ["ChangingDecimal", "ChangeDecimalToValue"]
 
-
 import warnings
 
 from ..animation.animation import Animation
@@ -30,16 +29,12 @@ class ChangingDecimal(Animation):
         # some point.
         for attr in ["tracked_mobject", "position_update_func"]:
             if attr in kwargs:
-                warnings.warn(
-                    """
+                warnings.warn("""
                     Don't use {} for ChangingDecimal,
                     that functionality has been depricated
                     and you should use a mobject updater
                     instead
-                """.format(
-                        attr
-                    )
-                )
+                """.format(attr))
 
     def interpolate_mobject(self, alpha):
         self.mobject.set_value(self.number_update_func(alpha))
@@ -49,5 +44,5 @@ class ChangeDecimalToValue(ChangingDecimal):
     def __init__(self, decimal_mob, target_number, **kwargs):
         start_number = decimal_mob.number
         super().__init__(
-            decimal_mob, lambda a: interpolate(start_number, target_number, a), **kwargs
-        )
+            decimal_mob, lambda a: interpolate(start_number, target_number, a),
+            **kwargs)

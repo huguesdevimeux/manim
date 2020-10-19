@@ -1,8 +1,6 @@
 "A camera converts the mobjects contained in a Scene into an array of pixels."
 
-
 __all__ = ["Camera", "BackgroundColoredVMobjectDisplayer"]
-
 
 import copy
 import itertools as it
@@ -84,11 +82,11 @@ class Camera(object):
         # definition_.  This did not allow for creating two Cameras with
         # different configurations in the same session.
         for attr in [
-            "pixel_height",
-            "pixel_width",
-            "frame_height",
-            "frame_width",
-            "frame_rate",
+                "pixel_height",
+                "pixel_width",
+                "frame_height",
+                "frame_width",
+                "frame_rate",
         ]:
             setattr(self, attr, kwargs.get(attr, config[attr]))
 
@@ -155,7 +153,8 @@ class Camera(object):
             if isinstance(mobject, _type):
                 return _type
         else:
-            raise TypeError(f"Displaying an object of class {_type} is not supported")
+            raise TypeError(
+                f"Displaying an object of class {_type} is not supported")
 
     def reset_pixel_shape(self, new_height, new_width):
         """This method resets the height and width
@@ -215,12 +214,10 @@ class Camera(object):
             self.background = np.array(image)[:height, :width]
             self.background = self.background.astype(self.pixel_array_dtype)
         else:
-            background_rgba = color_to_int_rgba(
-                self.background_color, self.background_opacity
-            )
-            self.background = np.zeros(
-                (height, width, self.n_channels), dtype=self.pixel_array_dtype
-            )
+            background_rgba = color_to_int_rgba(self.background_color,
+                                                self.background_opacity)
+            self.background = np.zeros((height, width, self.n_channels),
+                                       dtype=self.pixel_array_dtype)
             self.background[:, :] = background_rgba
 
     def get_image(self, pixel_array=None):
@@ -261,7 +258,8 @@ class Camera(object):
         retval = np.array(pixel_array)
         if convert_from_floats:
             retval = np.apply_along_axis(
-                lambda f: (f * self.rgb_max_val).astype(self.pixel_array_dtype),
+                lambda f: (f * self.rgb_max_val).astype(self.pixel_array_dtype
+                                                        ),
                 2,
                 retval,
             )
@@ -277,11 +275,10 @@ class Camera(object):
         convert_from_floats : bool, optional
             Whether or not to convert float values to proper RGB values, by default False
         """
-        converted_array = self.convert_pixel_array(pixel_array, convert_from_floats)
-        if not (
-            hasattr(self, "pixel_array")
-            and self.pixel_array.shape == converted_array.shape
-        ):
+        converted_array = self.convert_pixel_array(pixel_array,
+                                                   convert_from_floats)
+        if not (hasattr(self, "pixel_array")
+                and self.pixel_array.shape == converted_array.shape):
             self.pixel_array = converted_array
         else:
             # Set in place
@@ -298,7 +295,8 @@ class Camera(object):
         convert_from_floats : bool, optional
             Whether or not to convert floats values to proper RGB valid ones, by default False
         """
-        self.background = self.convert_pixel_array(pixel_array, convert_from_floats)
+        self.background = self.convert_pixel_array(pixel_array,
+                                                   convert_from_floats)
 
     # TODO, this should live in utils, not as a method of Camera
     def make_background_from_func(self, coords_to_colors_func):
@@ -329,7 +327,8 @@ class Camera(object):
             time.strftime("%H:%M:%S"),
         )
 
-        return self.convert_pixel_array(new_background, convert_from_floats=True)
+        return self.convert_pixel_array(new_background,
+                                        convert_from_floats=True)
 
     def set_background_from_func(self, coords_to_colors_func):
         """
@@ -343,7 +342,8 @@ class Camera(object):
             The function whose input is an (x,y) pair of coordinats and
             whose return values must be the colors for that point
         """
-        self.set_background(self.make_background_from_func(coords_to_colors_func))
+        self.set_background(
+            self.make_background_from_func(coords_to_colors_func))
 
     def reset(self):
         """Resets the camera's pixel array
@@ -362,9 +362,10 @@ class Camera(object):
 
     ####
 
-    def get_mobjects_to_display(
-        self, mobjects, include_submobjects=True, excluded_mobjects=None
-    ):
+    def get_mobjects_to_display(self,
+                                mobjects,
+                                include_submobjects=True,
+                                excluded_mobjects=None):
         """Used to get the list of mobjects to display
         with the camera.
 
@@ -384,12 +385,12 @@ class Camera(object):
         """
         if include_submobjects:
             mobjects = extract_mobject_family_members(
-                mobjects, use_z_index=self.use_z_index, only_those_with_points=True
-            )
+                mobjects,
+                use_z_index=self.use_z_index,
+                only_those_with_points=True)
             if excluded_mobjects:
                 all_excluded = extract_mobject_family_members(
-                    excluded_mobjects, use_z_index=self.use_z_index
-                )
+                    excluded_mobjects, use_z_index=self.use_z_index)
                 mobjects = list_difference_update(mobjects, all_excluded)
         return mobjects
 
@@ -421,8 +422,8 @@ class Camera(object):
         )
 
     def capture_mobject(
-        self, mobject, **kwargs
-    ):  # TODO Write better docstrings for this method.
+            self, mobject,
+            **kwargs):  # TODO Write better docstrings for this method.
         return self.capture_mobjects([mobject], **kwargs)
 
     def capture_mobjects(self, mobjects, **kwargs):
@@ -512,9 +513,9 @@ class Camera(object):
         fw = self.frame_width
         fh = self.frame_height
         fc = self.frame_center
-        surface = cairo.ImageSurface.create_for_data(
-            pixel_array, cairo.FORMAT_ARGB32, pw, ph
-        )
+        surface = cairo.ImageSurface.create_for_data(pixel_array,
+                                                     cairo.FORMAT_ARGB32, pw,
+                                                     ph)
         ctx = cairo.Context(surface)
         ctx.scale(pw, ph)
         ctx.set_matrix(
@@ -525,8 +526,7 @@ class Camera(object):
                 -fdiv(ph, fh),
                 (pw / 2) - fc[0] * fdiv(pw, fw),
                 (ph / 2) + fc[1] * fdiv(ph, fh),
-            )
-        )
+            ))
         self.cache_cairo_context(pixel_array, ctx)
         return ctx
 
@@ -543,17 +543,17 @@ class Camera(object):
         if len(vmobjects) == 0:
             return
         batch_file_pairs = it.groupby(
-            vmobjects, lambda vm: vm.get_background_image_file()
-        )
+            vmobjects, lambda vm: vm.get_background_image_file())
         for file_name, batch in batch_file_pairs:
             if file_name:
-                self.display_multiple_background_colored_vmobjects(batch, pixel_array)
+                self.display_multiple_background_colored_vmobjects(
+                    batch, pixel_array)
             else:
                 self.display_multiple_non_background_colored_vmobjects(
-                    batch, pixel_array
-                )
+                    batch, pixel_array)
 
-    def display_multiple_non_background_colored_vmobjects(self, vmobjects, pixel_array):
+    def display_multiple_non_background_colored_vmobjects(
+            self, vmobjects, pixel_array):
         """Displays multiple VMobjects in the cairo context, as long as they don't have
         background colors.
 
@@ -647,7 +647,8 @@ class Camera(object):
         else:
             points = vmobject.get_gradient_start_and_end_points()
             points = self.transform_points_pre_display(vmobject, points)
-            pat = cairo.LinearGradient(*it.chain(*[point[:2] for point in points]))
+            pat = cairo.LinearGradient(
+                *it.chain(*[point[:2] for point in points]))
             step = 1.0 / (len(rgbas) - 1)
             offsets = np.arange(0, 1 + step, step)
             for rgba, offset in zip(rgbas, offsets):
@@ -670,7 +671,8 @@ class Camera(object):
         Camera
             The camera object.
         """
-        self.set_cairo_context_color(ctx, self.get_fill_rgbas(vmobject), vmobject)
+        self.set_cairo_context_color(ctx, self.get_fill_rgbas(vmobject),
+                                     vmobject)
         ctx.fill_preserve()
         return self
 
@@ -696,16 +698,13 @@ class Camera(object):
         if width == 0:
             return self
         self.set_cairo_context_color(
-            ctx, self.get_stroke_rgbas(vmobject, background=background), vmobject
-        )
+            ctx, self.get_stroke_rgbas(vmobject, background=background),
+            vmobject)
         ctx.set_line_width(
-            width
-            * self.cairo_line_width_multiple
-            *
+            width * self.cairo_line_width_multiple *
             # This ensures lines have constant width
             # as you zoom in on them.
-            (self.frame_width / self.frame_width)
-        )
+            (self.frame_width / self.frame_width))
         ctx.stroke_preserve()
         return self
 
@@ -759,7 +758,8 @@ class Camera(object):
             setattr(self, bcvd, BackgroundColoredVMobjectDisplayer(self))
         return getattr(self, bcvd)
 
-    def display_multiple_background_colored_vmobjects(self, cvmobjects, pixel_array):
+    def display_multiple_background_colored_vmobjects(self, cvmobjects,
+                                                      pixel_array):
         """Displays multiple vmobjects that have the same color as the background.
 
         Parameters
@@ -803,7 +803,8 @@ class Camera(object):
                 pixel_array,
             )
 
-    def display_point_cloud(self, pmobject, points, rgbas, thickness, pixel_array):
+    def display_point_cloud(self, pmobject, points, rgbas, thickness,
+                            pixel_array):
         """Displays a PMobject by modifying the Pixel array suitably..
         TODO: Write a description for the rgbas argument.
         Parameters
@@ -869,35 +870,36 @@ class Camera(object):
         pixel_array : np.ndarray
             The Pixel array to put the imagemobject in.
         """
-        corner_coords = self.points_to_pixel_coords(image_mobject, image_mobject.points)
+        corner_coords = self.points_to_pixel_coords(image_mobject,
+                                                    image_mobject.points)
         ul_coords, ur_coords, dl_coords = corner_coords
         right_vect = ur_coords - ul_coords
         down_vect = dl_coords - ul_coords
         center_coords = ul_coords + (right_vect + down_vect) / 2
 
-        sub_image = Image.fromarray(image_mobject.get_pixel_array(), mode="RGBA")
+        sub_image = Image.fromarray(image_mobject.get_pixel_array(),
+                                    mode="RGBA")
 
         # Reshape
         pixel_width = max(int(pdist([ul_coords, ur_coords])), 1)
         pixel_height = max(int(pdist([ul_coords, dl_coords])), 1)
-        sub_image = sub_image.resize(
-            (pixel_width, pixel_height), resample=Image.BICUBIC
-        )
+        sub_image = sub_image.resize((pixel_width, pixel_height),
+                                     resample=Image.BICUBIC)
 
         # Rotate
         angle = angle_of_vector(right_vect)
         adjusted_angle = -int(360 * angle / TAU)
         if adjusted_angle != 0:
-            sub_image = sub_image.rotate(
-                adjusted_angle, resample=Image.BICUBIC, expand=1
-            )
+            sub_image = sub_image.rotate(adjusted_angle,
+                                         resample=Image.BICUBIC,
+                                         expand=1)
 
         # TODO, there is no accounting for a shear...
 
         # Paste into an image as large as the camear's pixel array
-        full_image = Image.fromarray(
-            np.zeros((self.pixel_height, self.pixel_width)), mode="RGBA"
-        )
+        full_image = Image.fromarray(np.zeros(
+            (self.pixel_height, self.pixel_width)),
+                                     mode="RGBA")
         new_ul_coords = center_coords - np.array(sub_image.size) / 2
         new_ul_coords = new_ul_coords.astype(int)
         full_image.paste(
@@ -934,9 +936,9 @@ class Camera(object):
         image : PIL.Image
             The Image to overlay.
         """
-        pixel_array[:, :] = np.array(
-            Image.alpha_composite(self.get_image(pixel_array), image), dtype="uint8"
-        )
+        pixel_array[:, :] = np.array(Image.alpha_composite(
+            self.get_image(pixel_array), image),
+                                     dtype="uint8")
 
     def adjust_out_of_range_points(self, points):
         """If any of the points in the passed array are out of
@@ -959,15 +961,15 @@ class Camera(object):
         violators = points[violator_indices, :]
         violator_norms = norms[violator_indices]
         reshaped_norms = np.repeat(
-            violator_norms.reshape((len(violator_norms), 1)), points.shape[1], 1
-        )
+            violator_norms.reshape((len(violator_norms), 1)), points.shape[1],
+            1)
         rescaled = self.max_allowable_norm * violators / reshaped_norms
         points[violator_indices] = rescaled
         return points
 
     def transform_points_pre_display(
-        self, mobject, points
-    ):  # TODO: Write more detailed docstrings for this method.
+            self, mobject,
+            points):  # TODO: Write more detailed docstrings for this method.
         # NOTE: There seems to be an unused argument `mobject`.
 
         # Subclasses (like ThreeDCamera) may want to
@@ -979,8 +981,8 @@ class Camera(object):
         return points
 
     def points_to_pixel_coords(
-        self, mobject, points
-    ):  # TODO: Write more detailed docstrings for this method.
+            self, mobject,
+            points):  # TODO: Write more detailed docstrings for this method.
         points = self.transform_points_pre_display(mobject, points)
         shifted_points = points - self.frame_center
 
@@ -1037,9 +1039,8 @@ class Camera(object):
 
         """
         # TODO: This seems...unsystematic
-        big_sum = op.add(
-            camera_config["default_pixel_height"], camera_config["default_pixel_width"]
-        )
+        big_sum = op.add(camera_config["default_pixel_height"],
+                         camera_config["default_pixel_width"])
         this_sum = op.add(self.pixel_height, self.pixel_width)
         factor = fdiv(big_sum, this_sum)
         return 1 + (thickness - 1) / factor
@@ -1096,18 +1097,17 @@ class Camera(object):
 
         # These are addressed in the same y, x order as in pixel_array, but the values in them
         # are listed in x, y order
-        uncentered_pixel_coords = np.indices([self.pixel_height, self.pixel_width])[
-            ::-1
-        ].transpose(1, 2, 0)
+        uncentered_pixel_coords = np.indices(
+            [self.pixel_height, self.pixel_width])[::-1].transpose(1, 2, 0)
         uncentered_space_coords = fdiv(
-            uncentered_pixel_coords * full_space_dims, full_pixel_dims
-        )
+            uncentered_pixel_coords * full_space_dims, full_pixel_dims)
         # Could structure above line's computation slightly differently, but figured (without much
         # thought) multiplying by frame_shape first, THEN dividing by pixel_shape, is probably
         # better than the other order, for avoiding underflow quantization in the division (whereas
         # overflow is unlikely to be a problem)
 
-        centered_space_coords = uncentered_space_coords - fdiv(full_space_dims, 2)
+        centered_space_coords = uncentered_space_coords - fdiv(
+            full_space_dims, 2)
 
         # Have to also flip the y coordinates to account for pixel array being listed in
         # top-to-bottom order, opposite of screen coordinate convention
@@ -1134,9 +1134,11 @@ class BackgroundColoredVMobjectDisplayer(object):
     def reset_pixel_array(self):
         self.pixel_array[:, :] = 0
 
-    def resize_background_array(
-        self, background_array, new_width, new_height, mode="RGBA"
-    ):
+    def resize_background_array(self,
+                                background_array,
+                                new_width,
+                                new_height,
+                                mode="RGBA"):
         """Resizes the pixel array represinting the background.
 
         Parameters
@@ -1177,7 +1179,8 @@ class BackgroundColoredVMobjectDisplayer(object):
         """
         height, width = pixel_array.shape[:2]
         mode = "RGBA" if pixel_array.shape[2] == 4 else "RGB"
-        return self.resize_background_array(background_array, width, height, mode)
+        return self.resize_background_array(background_array, width, height,
+                                            mode)
 
     def get_background_array(self, file_name):
         """Gets the background array that has the passed file_name.
@@ -1200,7 +1203,8 @@ class BackgroundColoredVMobjectDisplayer(object):
 
         pixel_array = self.pixel_array
         if not np.all(pixel_array.shape == back_array.shape):
-            back_array = self.resize_background_array_to_match(back_array, pixel_array)
+            back_array = self.resize_background_array_to_match(
+                back_array, pixel_array)
 
         self.file_name_to_pixel_array_map[file_name] = back_array
         return back_array
@@ -1219,15 +1223,13 @@ class BackgroundColoredVMobjectDisplayer(object):
             The pixel array with the `cvmobjects` displayed.
         """
         batch_image_file_pairs = it.groupby(
-            cvmobjects, lambda cv: cv.get_background_image_file()
-        )
+            cvmobjects, lambda cv: cv.get_background_image_file())
         curr_array = None
         for batch, image_file in batch_image_file_pairs:
             background_array = self.get_background_array(image_file)
             pixel_array = self.pixel_array
             self.camera.display_multiple_non_background_colored_vmobjects(
-                batch, pixel_array
-            )
+                batch, pixel_array)
             new_array = np.array(
                 (background_array * pixel_array.astype("float") / 255),
                 dtype=self.camera.pixel_array_dtype,

@@ -50,7 +50,8 @@ class MovingCameraScene(Scene):
         """
         moving_mobjects = Scene.get_moving_mobjects(self, *animations)
         all_moving_mobjects = extract_mobject_family_members(moving_mobjects)
-        movement_indicators = self.renderer.camera.get_mobjects_indicating_movement()
+        movement_indicators = self.renderer.camera.get_mobjects_indicating_movement(
+        )
         for movement_indicator in movement_indicators:
             if movement_indicator in all_moving_mobjects:
                 # When one of these is moving, the camera should

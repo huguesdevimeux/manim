@@ -44,8 +44,8 @@ class TexTemplateLibrary(object):
         tex_compiler="xelatex",
         output_format=".xdv",
         preamble=TexTemplate.default_preamble.replace(
-            r"\DisableLigatures{encoding = *, family = * }", r"\usepackage[UTF8]{ctex}"
-        ),
+            r"\DisableLigatures{encoding = *, family = * }",
+            r"\usepackage[UTF8]{ctex}"),
     )
     """An instance of the TeX template used by 3b1b when using the use_ctex flag"""
 
@@ -137,8 +137,7 @@ class TexTemplateLibrary(object):
 # Latin Modern Typewriter Proportional
 lmtp = _new_ams_template()
 lmtp.description = "Latin Modern Typewriter Proportional"
-lmtp.add_to_preamble(
-    r"""
+lmtp.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage[variablett]{lmodern}
 \renewcommand{\rmdefault}{\ttdefault}
@@ -146,155 +145,120 @@ lmtp.add_to_preamble(
 \MTgreekfont{lmtt} % no lgr lmvtt, so use lgr lmtt
 \Mathastext
 \let\varepsilon\epsilon % only \varsigma in LGR
-"""
-)
-
+""")
 
 # Fourier Utopia (Fourier upright Greek)
 fufug = _new_ams_template()
 fufug.description = "Fourier Utopia (Fourier upright Greek)"
-fufug.add_to_preamble(
-    r"""
+fufug.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage[upright]{fourier}
 \usepackage{mathastext}
-"""
-)
-
+""")
 
 # Droid Serif
 droidserif = _new_ams_template()
 droidserif.description = "Droid Serif"
-droidserif.add_to_preamble(
-    r"""
+droidserif.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage[default]{droidserif}
 \usepackage[LGRgreek]{mathastext}
 \let\varepsilon\epsilon
-"""
-)
-
+""")
 
 # Droid Sans
 droidsans = _new_ams_template()
 droidsans.description = "Droid Sans"
-droidsans.add_to_preamble(
-    r"""
+droidsans.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage[default]{droidsans}
 \usepackage[LGRgreek]{mathastext}
 \let\varepsilon\epsilon
-"""
-)
-
+""")
 
 # New Century Schoolbook (Symbol Greek)
 ncssg = _new_ams_template()
 ncssg.description = "New Century Schoolbook (Symbol Greek)"
-ncssg.add_to_preamble(
-    r"""
+ncssg.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage{newcent}
 \usepackage[symbolgreek]{mathastext}
 \linespread{1.1}
-"""
-)
-
+""")
 
 # French Cursive (Euler Greek)
 fceg = _new_ams_template()
 fceg.description = "French Cursive (Euler Greek)"
-fceg.add_to_preamble(
-    r"""
+fceg.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage[default]{frcursive}
 \usepackage[eulergreek,noplusnominus,noequal,nohbar,%
 nolessnomore,noasterisk]{mathastext}
-"""
-)
-
+""")
 
 # Auriocus Kalligraphicus (Symbol Greek)
 aksg = _new_ams_template()
 aksg.description = "Auriocus Kalligraphicus (Symbol Greek)"
-aksg.add_to_preamble(
-    r"""
+aksg.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage{aurical}
 \renewcommand{\rmdefault}{AuriocusKalligraphicus}
 \usepackage[symbolgreek]{mathastext}
-"""
-)
-
+""")
 
 # Palatino (Symbol Greek)
 palatinosg = _new_ams_template()
 palatinosg.description = "Palatino (Symbol Greek)"
-palatinosg.add_to_preamble(
-    r"""
+palatinosg.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage{palatino}
 \usepackage[symbolmax,defaultmathsizes]{mathastext}
-"""
-)
-
+""")
 
 # Comfortaa
 comfortaa = _new_ams_template()
 comfortaa.description = "Comfortaa"
-comfortaa.add_to_preamble(
-    r"""
+comfortaa.add_to_preamble(r"""
 \usepackage[default]{comfortaa}
 \usepackage[LGRgreek,defaultmathsizes,noasterisk]{mathastext}
 \let\varphi\phi
 \linespread{1.06}
-"""
-)
-
+""")
 
 # ECF Augie (Euler Greek)
 ecfaugieeg = _new_ams_template()
 ecfaugieeg.description = "ECF Augie (Euler Greek)"
-ecfaugieeg.add_to_preamble(
-    r"""
+ecfaugieeg.add_to_preamble(r"""
 \renewcommand\familydefault{fau} % emerald package
 \usepackage[defaultmathsizes,eulergreek]{mathastext}
-"""
-)
-
+""")
 
 # Electrum ADF (CM Greek)
 electrumadfcm = _new_ams_template()
 electrumadfcm.description = "Electrum ADF (CM Greek)"
-electrumadfcm.add_to_preamble(
-    r"""
+electrumadfcm.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage[LGRgreek,basic,defaultmathsizes]{mathastext}
 \usepackage[lf]{electrum}
 \Mathastext
 \let\varphi\phi
-"""
-)
-
+""")
 
 # American Typewriter
 americantypewriter = _new_ams_template()
 americantypewriter.description = "American Typewriter"
-americantypewriter.add_to_preamble(
-    r"""
+americantypewriter.add_to_preamble(r"""
 \usepackage[no-math]{fontspec}
 \setmainfont[Mapping=tex-text]{American Typewriter}
 \usepackage[defaultmathsizes]{mathastext}
-"""
-)
+""")
 americantypewriter.tex_compiler = "xelatex"
 americantypewriter.output_format = ".xdv"
 
 # Minion Pro and Myriad Pro (and TX fonts symbols)
 mpmptx = _new_ams_template()
 mpmptx.description = "Minion Pro and Myriad Pro (and TX fonts symbols)"
-mpmptx.add_to_preamble(
-    r"""
+mpmptx.add_to_preamble(r"""
 \usepackage{txfonts}
 \usepackage[upright]{txgreeks}
 \usepackage[no-math]{fontspec}
@@ -303,120 +267,94 @@ mpmptx.add_to_preamble(
 \renewcommand\familydefault\sfdefault
 \usepackage[defaultmathsizes]{mathastext}
 \renewcommand\familydefault\rmdefault
-"""
-)
+""")
 mpmptx.tex_compiler = "xelatex"
 mpmptx.output_format = ".xdv"
-
 
 # New Century Schoolbook (Symbol Greek, PX math symbols)
 ncssgpxm = _new_ams_template()
 ncssgpxm.description = "New Century Schoolbook (Symbol Greek, PX math symbols)"
-ncssgpxm.add_to_preamble(
-    r"""
+ncssgpxm.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage{pxfonts}
 \usepackage{newcent}
 \usepackage[symbolgreek,defaultmathsizes]{mathastext}
 \linespread{1.06}
-"""
-)
-
+""")
 
 # Vollkorn (TX fonts for Greek and math symbols)
 vollkorntx = _new_ams_template()
 vollkorntx.description = "Vollkorn (TX fonts for Greek and math symbols)"
-vollkorntx.add_to_preamble(
-    r"""
+vollkorntx.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage{txfonts}
 \usepackage[upright]{txgreeks}
 \usepackage{vollkorn}
 \usepackage[defaultmathsizes]{mathastext}
-"""
-)
-
+""")
 
 # Libertine
 libertine = _new_ams_template()
 libertine.description = "Libertine"
-libertine.add_to_preamble(
-    r"""
+libertine.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage{libertine}
 \usepackage[greek=n]{libgreek}
 \usepackage[noasterisk,defaultmathsizes]{mathastext}
-"""
-)
-
+""")
 
 # SliTeX (Euler Greek)
 slitexeg = _new_ams_template()
 slitexeg.description = "SliTeX (Euler Greek)"
-slitexeg.add_to_preamble(
-    r"""
+slitexeg.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage{tpslifonts}
 \usepackage[eulergreek,defaultmathsizes]{mathastext}
 \MTEulerScale{1.06}
 \linespread{1.2}
-"""
-)
-
+""")
 
 # ECF Webster (with TX fonts)
 ecfwebstertx = _new_ams_template()
 ecfwebstertx.description = "ECF Webster (with TX fonts)"
-ecfwebstertx.add_to_preamble(
-    r"""
+ecfwebstertx.add_to_preamble(r"""
 \usepackage{txfonts}
 \usepackage[upright]{txgreeks}
 \renewcommand\familydefault{fwb} % emerald package
 \usepackage{mathastext}
 \renewcommand{\int}{\intop\limits}
 \linespread{1.5}
-"""
-)
-ecfwebstertx.add_to_document(
-    r"""
+""")
+ecfwebstertx.add_to_document(r"""
 \mathversion{bold}
-"""
-)
-
+""")
 
 # Romande ADF with Fourier (Italic)
 italicromandeadff = _new_ams_template()
 italicromandeadff.description = "Romande ADF with Fourier (Italic)"
-italicromandeadff.add_to_preamble(
-    r"""
+italicromandeadff.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage{fourier}
 \usepackage{romande}
 \usepackage[italic,defaultmathsizes,noasterisk]{mathastext}
 \renewcommand{\itshape}{\swashstyle}
-"""
-)
-
+""")
 
 # Apple Chancery
 applechancery = _new_ams_template()
 applechancery.description = "Apple Chancery"
-applechancery.add_to_preamble(
-    r"""
+applechancery.add_to_preamble(r"""
 \usepackage[no-math]{fontspec}
 \setmainfont[Mapping=tex-text]{Apple Chancery}
 \usepackage[defaultmathsizes]{mathastext}
-"""
-)
+""")
 applechancery.tex_compiler = "xelatex"
 applechancery.output_format = ".xdv"
-
 
 # Zapf Chancery
 zapfchancery = _new_ams_template()
 zapfchancery.description = "Zapf Chancery"
-zapfchancery.add_to_preamble(
-    r"""
+zapfchancery.add_to_preamble(r"""
 \DeclareFontFamily{T1}{pzc}{}
 \DeclareFontShape{T1}{pzc}{mb}{it}{<->s*[1.2] pzcmi8t}{}
 \DeclareFontShape{T1}{pzc}{m}{it}{<->ssub * pzc/mb/it}{}
@@ -425,29 +363,23 @@ zapfchancery.add_to_preamble(
 \renewcommand\bfdefault\mddefault
 \usepackage[defaultmathsizes]{mathastext}
 \linespread{1.05}
-"""
-)
-
+""")
 
 # Verdana (Italic)
 italicverdana = _new_ams_template()
 italicverdana.description = "Verdana (Italic)"
-italicverdana.add_to_preamble(
-    r"""
+italicverdana.add_to_preamble(r"""
 \usepackage[no-math]{fontspec}
 \setmainfont[Mapping=tex-text]{Verdana}
 \usepackage[defaultmathsizes,italic]{mathastext}
-"""
-)
+""")
 italicverdana.tex_compiler = "xelatex"
 italicverdana.output_format = ".xdv"
-
 
 # URW Zapf Chancery (CM Greek)
 urwzccmg = _new_ams_template()
 urwzccmg.description = "URW Zapf Chancery (CM Greek)"
-urwzccmg.add_to_preamble(
-    r"""
+urwzccmg.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \DeclareFontFamily{T1}{pzc}{}
 \DeclareFontShape{T1}{pzc}{mb}{it}{<->s*[1.2] pzcmi8t}{}
@@ -457,76 +389,59 @@ urwzccmg.add_to_preamble(
 \DeclareFontShape{T1}{pzc}{m}{n}{<->ssub * pzc/mb/it}{}
 \usepackage{chancery}
 \usepackage{mathastext}
-\linespread{1.05}"""
-)
-urwzccmg.add_to_document(
-    r"""
+\linespread{1.05}""")
+urwzccmg.add_to_document(r"""
 \boldmath
-"""
-)
-
+""")
 
 # Comic Sans MS
 comicsansms = _new_ams_template()
 comicsansms.description = "Comic Sans MS"
-comicsansms.add_to_preamble(
-    r"""
+comicsansms.add_to_preamble(r"""
 \usepackage[no-math]{fontspec}
 \setmainfont[Mapping=tex-text]{Comic Sans MS}
 \usepackage[defaultmathsizes]{mathastext}
-"""
-)
+""")
 comicsansms.tex_compiler = "xelatex"
 comicsansms.output_format = ".xdv"
-
 
 # GFS Didot (Italic)
 italicgfsdidot = _new_ams_template()
 italicgfsdidot.description = "GFS Didot (Italic)"
-italicgfsdidot.add_to_preamble(
-    r"""
+italicgfsdidot.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \renewcommand\rmdefault{udidot}
 \usepackage[LGRgreek,defaultmathsizes,italic]{mathastext}
 \let\varphi\phi
-"""
-)
-
+""")
 
 # Chalkduster
 chalkduster = _new_ams_template()
 chalkduster.description = "Chalkduster"
-chalkduster.add_to_preamble(
-    r"""
+chalkduster.add_to_preamble(r"""
 \usepackage[no-math]{fontspec}
 \setmainfont[Mapping=tex-text]{Chalkduster}
 \usepackage[defaultmathsizes]{mathastext}
-"""
-)
+""")
 chalkduster.tex_compiler = "lualatex"
 chalkduster.output_format = ".pdf"
-
 
 # Minion Pro (and TX fonts symbols)
 mptx = _new_ams_template()
 mptx.description = "Minion Pro (and TX fonts symbols)"
-mptx.add_to_preamble(
-    r"""
+mptx.add_to_preamble(r"""
 \usepackage{txfonts}
 \usepackage[no-math]{fontspec}
 \setmainfont[Mapping=tex-text]{Minion Pro}
 \usepackage[defaultmathsizes]{mathastext}
-"""
-)
+""")
 mptx.tex_compiler = "xelatex"
 mptx.output_format = ".xdv"
-
 
 # GNU FreeSerif and FreeSans
 gnufsfs = _new_ams_template()
 gnufsfs.description = "GNU FreeSerif and FreeSans"
-gnufsfs.add_to_preamble(
-    r"""
+gnufsfs.add_to_preamble(r"""
 \usepackage[no-math]{fontspec}
 \setmainfont[ExternalLocation,
                 Mapping=tex-text,
@@ -545,30 +460,25 @@ gnufsfs.add_to_preamble(
 \Mathastext
 \let\varphi\phi % no `var' phi in LGR encoding
 \renewcommand{\familydefault}{\rmdefault}
-"""
-)
+""")
 gnufsfs.tex_compiler = "xelatex"
 gnufsfs.output_format = ".pdf"
 
 # GFS NeoHellenic
 gfsneohellenic = _new_ams_template()
 gfsneohellenic.description = "GFS NeoHellenic"
-gfsneohellenic.add_to_preamble(
-    r"""
+gfsneohellenic.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \renewcommand{\rmdefault}{neohellenic}
 \usepackage[LGRgreek]{mathastext}
 \let\varphi\phi
 \linespread{1.06}
-"""
-)
-
+""")
 
 # ECF Tall Paul (with Symbol font)
 ecftallpaul = _new_ams_template()
 ecftallpaul.description = "ECF Tall Paul (with Symbol font)"
-ecftallpaul.add_to_preamble(
-    r"""
+ecftallpaul.add_to_preamble(r"""
 \DeclareFontFamily{T1}{ftp}{}
 \DeclareFontShape{T1}{ftp}{m}{n}{
     <->s*[1.4] ftpmw8t
@@ -576,87 +486,67 @@ ecftallpaul.add_to_preamble(
 \renewcommand\familydefault{ftp} % emerald package
 \usepackage[symbol]{mathastext}
 \let\infty\inftypsy
-"""
-)
-
+""")
 
 # Droid Sans (Italic)
 italicdroidsans = _new_ams_template()
 italicdroidsans.description = "Droid Sans (Italic)"
-italicdroidsans.add_to_preamble(
-    r"""
+italicdroidsans.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage[default]{droidsans}
 \usepackage[LGRgreek,defaultmathsizes,italic]{mathastext}
 \let\varphi\phi
-"""
-)
-
+""")
 
 # Baskerville (Italic)
 italicbaskerville = _new_ams_template()
 italicbaskerville.description = "Baskerville (Italic)"
-italicbaskerville.add_to_preamble(
-    r"""
+italicbaskerville.add_to_preamble(r"""
 \usepackage[no-math]{fontspec}
 \setmainfont[Mapping=tex-text]{Baskerville}
 \usepackage[defaultmathsizes,italic]{mathastext}
-"""
-)
+""")
 italicbaskerville.tex_compiler = "xelatex"
 italicbaskerville.output_format = ".xdv"
-
 
 # ECF JD (with TX fonts)
 ecfjdtx = _new_ams_template()
 ecfjdtx.description = "ECF JD (with TX fonts)"
-ecfjdtx.add_to_preamble(
-    r"""
+ecfjdtx.add_to_preamble(r"""
 \usepackage{txfonts}
 \usepackage[upright]{txgreeks}
 \renewcommand\familydefault{fjd} % emerald package
 \usepackage{mathastext}
-"""
-)
-ecfjdtx.add_to_document(
-    r"""\mathversion{bold}
-"""
-)
-
+""")
+ecfjdtx.add_to_document(r"""\mathversion{bold}
+""")
 
 # Antykwa Półtawskiego (TX Fonts for Greek and math symbols)
 aptxgm = _new_ams_template()
 aptxgm.description = "Antykwa Półtawskiego (TX Fonts for Greek and math symbols)"
-aptxgm.add_to_preamble(
-    r"""
+aptxgm.add_to_preamble(r"""
 \usepackage[OT4,OT1]{fontenc}
 \usepackage{txfonts}
 \usepackage[upright]{txgreeks}
 \usepackage{antpolt}
 \usepackage[defaultmathsizes,nolessnomore]{mathastext}
-"""
-)
-
+""")
 
 # Papyrus
 papyrus = _new_ams_template()
 papyrus.description = "Papyrus"
-papyrus.add_to_preamble(
-    r"""
+papyrus.add_to_preamble(r"""
 \usepackage[no-math]{fontspec}
 \setmainfont[Mapping=tex-text]{Papyrus}
 \usepackage[defaultmathsizes]{mathastext}
-"""
-)
+""")
 papyrus.tex_compiler = "xelatex"
 papyrus.output_format = ".xdv"
-
 
 # GNU FreeSerif (and TX fonts symbols)
 gnufstx = _new_ams_template()
 gnufstx.description = "GNU FreeSerif (and TX fonts symbols)"
-gnufstx.add_to_preamble(
-    r"""
+gnufstx.add_to_preamble(r"""
 \usepackage[no-math]{fontspec}
 \usepackage{txfonts}  %\let\mathbb=\varmathbb
 \setmainfont[ExternalLocation,
@@ -665,178 +555,139 @@ gnufstx.add_to_preamble(
                 ItalicFont=FreeSerifItalic,
                 BoldItalicFont=FreeSerifBoldItalic]{FreeSerif}
 \usepackage[defaultmathsizes]{mathastext}
-"""
-)
+""")
 gnufstx.tex_compiler = "xelatex"
 gnufstx.output_format = ".pdf"
-
 
 # ECF Skeetch (CM Greek)
 ecfscmg = _new_ams_template()
 ecfscmg.description = "ECF Skeetch (CM Greek)"
-ecfscmg.add_to_preamble(
-    r"""
+ecfscmg.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage[T1]{fontenc}
 \DeclareFontFamily{T1}{fsk}{}
 \DeclareFontShape{T1}{fsk}{m}{n}{<->s*[1.315] fskmw8t}{}
 \renewcommand\rmdefault{fsk}
 \usepackage[noendash,defaultmathsizes,nohbar,defaultimath]{mathastext}
-"""
-)
-
+""")
 
 # Latin Modern Typewriter Proportional (CM Greek) (Italic)
 italiclmtpcm = _new_ams_template()
 italiclmtpcm.description = "Latin Modern Typewriter Proportional (CM Greek) (Italic)"
-italiclmtpcm.add_to_preamble(
-    r"""
+italiclmtpcm.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage[variablett,nomath]{lmodern}
 \renewcommand{\familydefault}{\ttdefault}
 \usepackage[frenchmath]{mathastext}
 \linespread{1.08}
-"""
-)
-
+""")
 
 # Baskervald ADF with Fourier
 baskervaldadff = _new_ams_template()
 baskervaldadff.description = "Baskervald ADF with Fourier"
-baskervaldadff.add_to_preamble(
-    r"""
+baskervaldadff.add_to_preamble(r"""
 \usepackage[upright]{fourier}
 \usepackage{baskervald}
 \usepackage[defaultmathsizes,noasterisk]{mathastext}
-"""
-)
-
+""")
 
 # Droid Serif (PX math symbols) (Italic)
 italicdroidserifpx = _new_ams_template()
 italicdroidserifpx.description = "Droid Serif (PX math symbols) (Italic)"
-italicdroidserifpx.add_to_preamble(
-    r"""
+italicdroidserifpx.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage{pxfonts}
 \usepackage[default]{droidserif}
 \usepackage[LGRgreek,defaultmathsizes,italic,basic]{mathastext}
 \let\varphi\phi
-"""
-)
-
+""")
 
 # Biolinum
 biolinum = _new_ams_template()
 biolinum.description = "Biolinum"
-biolinum.add_to_preamble(
-    r"""
+biolinum.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage{libertine}
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage[greek=n,biolinum]{libgreek}
 \usepackage[noasterisk,defaultmathsizes]{mathastext}
-"""
-)
-
+""")
 
 # Vollkorn with Fourier (Italic)
 italicvollkornf = _new_ams_template()
 italicvollkornf.description = "Vollkorn with Fourier (Italic)"
-italicvollkornf.add_to_preamble(
-    r"""
+italicvollkornf.add_to_preamble(r"""
 \usepackage{fourier}
 \usepackage{vollkorn}
 \usepackage[italic,nohbar]{mathastext}
-"""
-)
-
+""")
 
 # Chalkboard SE
 chalkboardse = _new_ams_template()
 chalkboardse.description = "Chalkboard SE"
-chalkboardse.add_to_preamble(
-    r"""
+chalkboardse.add_to_preamble(r"""
 \usepackage[no-math]{fontspec}
 \setmainfont[Mapping=tex-text]{Chalkboard SE}
 \usepackage[defaultmathsizes]{mathastext}
-"""
-)
+""")
 chalkboardse.tex_compiler = "xelatex"
 chalkboardse.output_format = ".xdv"
-
 
 # Noteworthy Light
 noteworthylight = _new_ams_template()
 noteworthylight.description = "Noteworthy Light"
-noteworthylight.add_to_preamble(
-    r"""
+noteworthylight.add_to_preamble(r"""
 \usepackage[no-math]{fontspec}
 \setmainfont[Mapping=tex-text]{Noteworthy Light}
 \usepackage[defaultmathsizes]{mathastext}
-"""
-)
-
+""")
 
 # Epigrafica
 epigrafica = _new_ams_template()
 epigrafica.description = "Epigrafica"
-epigrafica.add_to_preamble(
-    r"""
+epigrafica.add_to_preamble(r"""
 \usepackage[LGR,OT1]{fontenc}
 \usepackage{epigrafica}
 \usepackage[basic,LGRgreek,defaultmathsizes]{mathastext}
 \let\varphi\phi
 \linespread{1.2}
-"""
-)
-
+""")
 
 # Libris ADF with Fourier
 librisadff = _new_ams_template()
 librisadff.description = "Libris ADF with Fourier"
-librisadff.add_to_preamble(
-    r"""
+librisadff.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage[upright]{fourier}
 \usepackage{libris}
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage[noasterisk]{mathastext}
-"""
-)
-
+""")
 
 # Venturis ADF with Fourier (Italic)
 italicvanturisadff = _new_ams_template()
 italicvanturisadff.description = "Venturis ADF with Fourier (Italic)"
-italicvanturisadff.add_to_preamble(
-    r"""
+italicvanturisadff.add_to_preamble(r"""
 \usepackage{fourier}
 \usepackage[lf]{venturis}
 \usepackage[italic,defaultmathsizes,noasterisk]{mathastext}
-"""
-)
-
+""")
 
 # GFS Bodoni
 gfsbodoni = _new_ams_template()
 gfsbodoni.description = "GFS Bodoni"
-gfsbodoni.add_to_preamble(
-    r"""
+gfsbodoni.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \renewcommand{\rmdefault}{bodoni}
 \usepackage[LGRgreek]{mathastext}
 \let\varphi\phi
 \linespread{1.06}
-"""
-)
-
+""")
 
 # BrushScriptX-Italic (PX math and Greek)
 brushscriptxpx = _new_ams_template()
 brushscriptxpx.description = "BrushScriptX-Italic (PX math and Greek)"
-brushscriptxpx.add_to_preamble(
-    r"""
+brushscriptxpx.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage{pxfonts}
 %\usepackage{pbsi}
@@ -844,53 +695,41 @@ brushscriptxpx.add_to_preamble(
 \renewcommand{\mddefault}{xl}
 \renewcommand{\bfdefault}{xl}
 \usepackage[defaultmathsizes,noasterisk]{mathastext}
-"""
-)
-brushscriptxpx.add_to_document(
-    r"""\boldmath
-"""
-)
+""")
+brushscriptxpx.add_to_document(r"""\boldmath
+""")
 brushscriptxpx.tex_compiler = "xelatex"
 brushscriptxpx.output_format = ".xdv"
-
 
 # URW Avant Garde (Symbol Greek)
 urwagsg = _new_ams_template()
 urwagsg.description = "URW Avant Garde (Symbol Greek)"
-urwagsg.add_to_preamble(
-    r"""
+urwagsg.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage{avant}
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage[symbolgreek,defaultmathsizes]{mathastext}
-"""
-)
-
+""")
 
 # Times with Fourier (Italic)
 italictimesf = _new_ams_template()
 italictimesf.description = "Times with Fourier (Italic)"
-italictimesf.add_to_preamble(
-    r"""
+italictimesf.add_to_preamble(r"""
 \usepackage{fourier}
 \renewcommand{\rmdefault}{ptm}
 \usepackage[italic,defaultmathsizes,noasterisk]{mathastext}
-"""
-)
-
+""")
 
 # Helvetica with Fourier (Italic)
 italichelveticaf = _new_ams_template()
 italichelveticaf.description = "Helvetica with Fourier (Italic)"
-italichelveticaf.add_to_preamble(
-    r"""
+italichelveticaf.add_to_preamble(r"""
 \usepackage[T1]{fontenc}
 \usepackage[scaled]{helvet}
 \usepackage{fourier}
 \renewcommand{\rmdefault}{phv}
 \usepackage[italic,defaultmathsizes,noasterisk]{mathastext}
-"""
-)
+""")
 
 
 class TexFontTemplates(object):

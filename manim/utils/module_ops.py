@@ -33,9 +33,11 @@ def get_module(file_name):
     else:
         if os.path.exists(file_name):
             if file_name[-3:] != ".py":
-                raise ValueError(f"{file_name} is not a valid Manim python script.")
+                raise ValueError(
+                    f"{file_name} is not a valid Manim python script.")
             module_name = file_name[:-3].replace(os.sep, ".").split(".")[-1]
-            spec = importlib.util.spec_from_file_location(module_name, file_name)
+            spec = importlib.util.spec_from_file_location(
+                module_name, file_name)
             module = importlib.util.module_from_spec(spec)
             sys.modules[module_name] = module
             spec.loader.exec_module(module)
@@ -48,16 +50,13 @@ def get_scene_classes_from_module(module):
     from ..scene.scene import Scene
 
     def is_child_scene(obj, module):
-        return (
-            inspect.isclass(obj)
-            and issubclass(obj, Scene)
-            and obj != Scene
-            and obj.__module__.startswith(module.__name__)
-        )
+        return (inspect.isclass(obj) and issubclass(obj, Scene)
+                and obj != Scene
+                and obj.__module__.startswith(module.__name__))
 
     return [
-        member[1]
-        for member in inspect.getmembers(module, lambda x: is_child_scene(x, module))
+        member[1] for member in inspect.getmembers(
+            module, lambda x: is_child_scene(x, module))
     ]
 
 
@@ -79,11 +78,8 @@ def get_scenes_to_render(scene_classes):
             logger.error(constants.SCENE_NOT_FOUND_MESSAGE.format(scene_name))
     if result:
         return result
-    return (
-        [scene_classes[0]]
-        if len(scene_classes) == 1
-        else prompt_user_for_choice(scene_classes)
-    )
+    return ([scene_classes[0]] if len(scene_classes) == 1 else
+            prompt_user_for_choice(scene_classes))
 
 
 def prompt_user_for_choice(scene_classes):
@@ -95,8 +91,7 @@ def prompt_user_for_choice(scene_classes):
         num_to_class[count] = scene_class
     try:
         user_input = console.input(
-            f"[log.message] {constants.CHOOSE_NUMBER_MESSAGE} [/log.message]"
-        )
+            f"[log.message] {constants.CHOOSE_NUMBER_MESSAGE} [/log.message]")
         return [
             num_to_class[int(num_str)]
             for num_str in re.split(r"\s*,\s*", user_input.strip())

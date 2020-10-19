@@ -28,7 +28,6 @@ __all__ = [
     "get_winding_number",
 ]
 
-
 from functools import reduce
 
 import numpy as np
@@ -39,7 +38,7 @@ from ..utils.simple_functions import fdiv
 
 
 def get_norm(vect):
-    return sum([x ** 2 for x in vect]) ** 0.5
+    return sum([x**2 for x in vect])**0.5
 
 
 # Quaternions
@@ -49,14 +48,12 @@ def get_norm(vect):
 def quaternion_mult(q1, q2):
     w1, x1, y1, z1 = q1
     w2, x2, y2, z2 = q2
-    return np.array(
-        [
-            w1 * w2 - x1 * x2 - y1 * y2 - z1 * z2,
-            w1 * x2 + x1 * w2 + y1 * z2 - z1 * y2,
-            w1 * y2 + y1 * w2 + z1 * x2 - x1 * z2,
-            w1 * z2 + z1 * w2 + x1 * y2 - y1 * x2,
-        ]
-    )
+    return np.array([
+        w1 * w2 - x1 * x2 - y1 * y2 - z1 * z2,
+        w1 * x2 + x1 * w2 + y1 * z2 - z1 * y2,
+        w1 * y2 + y1 * w2 + z1 * x2 - x1 * z2,
+        w1 * z2 + z1 * w2 + x1 * y2 - y1 * x2,
+    ])
 
 
 def quaternion_from_angle_axis(angle, axis):
@@ -86,7 +83,8 @@ def rotate_vector(vector, angle, axis=OUT):
         # Use quaternions...because why not
         quat = quaternion_from_angle_axis(angle, axis)
         quat_inv = quaternion_conjugate(quat)
-        product = reduce(quaternion_mult, [quat, np.append(0, vector), quat_inv])
+        product = reduce(quaternion_mult,
+                         [quat, np.append(0, vector), quat_inv])
         return product[1:]
     else:
         raise ValueError("vector must be of dimension 2 or 3")
@@ -134,9 +132,8 @@ def z_to_vector(vector):
             theta = -theta
     else:
         theta = 0
-    phi_down = np.array(
-        [[np.cos(phi), 0, np.sin(phi)], [0, 1, 0], [-np.sin(phi), 0, np.cos(phi)]]
-    )
+    phi_down = np.array([[np.cos(phi), 0, np.sin(phi)], [0, 1, 0],
+                         [-np.sin(phi), 0, np.cos(phi)]])
     return np.dot(rotation_about_z(theta), phi_down)
 
 
@@ -179,13 +176,11 @@ def normalize(vect, fall_back=None):
 
 
 def cross(v1, v2):
-    return np.array(
-        [
-            v1[1] * v2[2] - v1[2] * v2[1],
-            v1[2] * v2[0] - v1[0] * v2[2],
-            v1[0] * v2[1] - v1[1] * v2[0],
-        ]
-    )
+    return np.array([
+        v1[1] * v2[2] - v1[2] * v2[1],
+        v1[2] * v2[0] - v1[0] * v2[2],
+        v1[0] * v2[1] - v1[1] * v2[0],
+    ])
 
 
 def get_unit_normal(v1, v2):

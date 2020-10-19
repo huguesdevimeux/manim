@@ -32,9 +32,8 @@ class FrameServer(frameserver_pb2_grpc.FrameServerServicer):
         self.server = server
         self.keyframes = []
         self.scene = scene_class(self)
-        self.scene_thread = threading.Thread(
-            target=lambda s: s.render(), args=(self.scene,)
-        )
+        self.scene_thread = threading.Thread(target=lambda s: s.render(),
+                                             args=(self.scene, ))
         self.previous_frame_animation_index = None
         self.scene_finished = False
 
@@ -76,18 +75,16 @@ class FrameServer(frameserver_pb2_grpc.FrameServerServicer):
 
         # play() uses run_time and wait() uses duration TODO: Fix this inconsistency.
         # TODO: What about animations without a fixed duration?
-        duration = (
-            selected_scene.run_time
-            if selected_scene.animations
-            else selected_scene.duration
-        )
+        duration = (selected_scene.run_time
+                    if selected_scene.animations else selected_scene.duration)
 
         if request.animation_offset > duration:
             if self.animation_index_is_cached(request.animation_index + 1):
                 # TODO: Clone scenes to allow reuse.
                 selected_scene = self.keyframes[request.animation_index + 1]
             else:
-                return self.signal_pending_animation(request.animation_index + 1)
+                return self.signal_pending_animation(request.animation_index +
+                                                     1)
 
         setattr(selected_scene, "camera", self.scene.camera)
 
@@ -99,11 +96,9 @@ class FrameServer(frameserver_pb2_grpc.FrameServerServicer):
                 selected_scene.static_image,
             )
             serialized_mobject_list, duration = selected_scene.add_frame(
-                selected_scene.renderer.get_frame()
-            )
-            resp = list_to_frame_response(
-                selected_scene, duration, serialized_mobject_list
-            )
+                selected_scene.renderer.get_frame())
+            resp = list_to_frame_response(selected_scene, duration,
+                                          serialized_mobject_list)
             return resp
         else:
             # This is a call to wait().
@@ -113,15 +108,11 @@ class FrameServer(frameserver_pb2_grpc.FrameServerServicer):
                 selected_scene.update_animation_to_time(time)
                 selected_scene.update_frame()
                 serialized_mobject_list, duration = selected_scene.add_frame(
-                    selected_scene.get_frame()
-                )
+                    selected_scene.get_frame())
                 frame_response = list_to_frame_response(
-                    selected_scene, duration, serialized_mobject_list
-                )
-                if (
-                    selected_scene.stop_condition is not None
-                    and selected_scene.stop_condition()
-                ):
+                    selected_scene, duration, serialized_mobject_list)
+                if (selected_scene.stop_condition is not None
+                        and selected_scene.stop_condition()):
                     selected_scene.animation_finished.set()
                     frame_response.frame_pending = True
                     selected_scene.renderer_waiting = True
@@ -136,9 +127,8 @@ class FrameServer(frameserver_pb2_grpc.FrameServerServicer):
                     selected_scene.get_frame(),
                     num_frames=int(selected_scene.duration / dt),
                 )
-                resp = list_to_frame_response(
-                    selected_scene, duration, serialized_mobject_list
-                )
+                resp = list_to_frame_response(selected_scene, duration,
+                                              serialized_mobject_list)
                 return resp
 
     def RendererStatus(self, request, context):
@@ -169,12 +159,14 @@ def list_to_frame_response(scene, duration, serialized_mobject_list):
             point_proto.y = point[1]
             point_proto.z = point[2]
         mob_proto.style.fill_color = mob_serialization["style"]["fill_color"]
-        mob_proto.style.fill_opacity = float(mob_serialization["style"]["fill_opacity"])
-        mob_proto.style.stroke_color = mob_serialization["style"]["stroke_color"]
+        mob_proto.style.fill_opacity = float(
+            mob_serialization["style"]["fill_opacity"])
+        mob_proto.style.stroke_color = mob_serialization["style"][
+            "stroke_color"]
         mob_proto.style.stroke_opacity = float(
-            mob_serialization["style"]["stroke_opacity"]
-        )
-        mob_proto.style.stroke_width = float(mob_serialization["style"]["stroke_width"])
+            mob_serialization["style"]["stroke_opacity"])
+        mob_proto.style.stroke_width = float(
+            mob_serialization["style"]["stroke_width"])
     return response
 
 
@@ -212,8 +204,7 @@ class UpdateFrontendHandler(FileSystemEventHandler):
 
         # Stop the old thread.
         res = ctypes.pythonapi.PyThreadState_SetAsyncExc(
-            old_thread_id, ctypes.py_object(SystemExit)
-        )
+            old_thread_id, ctypes.py_object(SystemExit))
         if res > 1:
             ctypes.pythonapi.PyThreadState_SetAsyncExc(old_thread_id, 0)
             print("Exception raise failure")
@@ -239,15 +230,13 @@ class UpdateFrontendHandler(FileSystemEventHandler):
                 renderserver_pb2.Animation(
                     name=animation_name,
                     duration=animation_duration,
-                )
-            )
+                ))
 
         # Reset the renderer.
         with grpc.insecure_channel("localhost:50052") as channel:
             stub = renderserver_pb2_grpc.RenderServerStub(channel)
             request = renderserver_pb2.ManimStatusRequest(
-                scene_name=str(self.frame_server.scene), animations=animations
-            )
+                scene_name=str(self.frame_server.scene), animations=animations)
             try:
                 stub.ManimStatus(request)
             except grpc._channel._InactiveRpcError:
@@ -257,7 +246,6 @@ class UpdateFrontendHandler(FileSystemEventHandler):
 def get(scene_class):
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     frameserver_pb2_grpc.add_FrameServerServicer_to_server(
-        FrameServer(server, scene_class), server
-    )
+        FrameServer(server, scene_class), server)
     server.add_insecure_port("localhost:50051")
     return server

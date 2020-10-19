@@ -1,7 +1,8 @@
 """Mobjects that represent coordinate systems."""
 
-__all__ = ["CoordinateSystem", "Axes", "ThreeDAxes", "NumberPlane", "ComplexPlane"]
-
+__all__ = [
+    "CoordinateSystem", "Axes", "ThreeDAxes", "NumberPlane", "ComplexPlane"
+]
 
 import numbers
 
@@ -68,16 +69,19 @@ class CoordinateSystem:
         return self.get_axis(2)
 
     def get_x_axis_label(self, label_tex, edge=RIGHT, direction=DL, **kwargs):
-        return self.get_axis_label(
-            label_tex, self.get_x_axis(), edge, direction, **kwargs
-        )
+        return self.get_axis_label(label_tex, self.get_x_axis(), edge,
+                                   direction, **kwargs)
 
     def get_y_axis_label(self, label_tex, edge=UP, direction=DR, **kwargs):
-        return self.get_axis_label(
-            label_tex, self.get_y_axis(), edge, direction, **kwargs
-        )
+        return self.get_axis_label(label_tex, self.get_y_axis(), edge,
+                                   direction, **kwargs)
 
-    def get_axis_label(self, label_tex, axis, edge, direction, buff=MED_SMALL_BUFF):
+    def get_axis_label(self,
+                       label_tex,
+                       axis,
+                       edge,
+                       direction,
+                       buff=MED_SMALL_BUFF):
         label = MathTex(label_tex)
         label.next_to(axis.get_edge_center(edge), direction, buff=buff)
         label.shift_onto_screen(buff=MED_SMALL_BUFF)
@@ -105,8 +109,7 @@ class CoordinateSystem:
     def get_parametric_curve(self, function, **kwargs):
         dim = self.dimension
         graph = ParametricFunction(
-            lambda t: self.coords_to_point(*function(t)[:dim]), **kwargs
-        )
+            lambda t: self.coords_to_point(*function(t)[:dim]), **kwargs)
         graph.underlying_function = function
         return graph
 
@@ -115,9 +118,8 @@ class CoordinateSystem:
             return self.coords_to_point(x, graph.underlying_function(x))
         else:
             alpha = binary_search(
-                function=lambda a: self.point_to_coords(graph.point_from_proportion(a))[
-                    0
-                ],
+                function=lambda a: self.point_to_coords(
+                    graph.point_from_proportion(a))[0],
                 target=x,
                 lower_bound=self.x_min,
                 upper_bound=self.x_max,
@@ -136,15 +138,19 @@ class Axes(VGroup, CoordinateSystem):
             "exclude_zero_from_default_numbers": True,
         },
         "x_axis_config": {},
-        "y_axis_config": {"label_direction": LEFT},
+        "y_axis_config": {
+            "label_direction": LEFT
+        },
         "center_point": ORIGIN,
     }
 
     def __init__(self, **kwargs):
         CoordinateSystem.__init__(self)
         VGroup.__init__(self, **kwargs)
-        self.x_axis = self.create_axis(self.x_min, self.x_max, self.x_axis_config)
-        self.y_axis = self.create_axis(self.y_min, self.y_max, self.y_axis_config)
+        self.x_axis = self.create_axis(self.x_min, self.x_max,
+                                       self.x_axis_config)
+        self.y_axis = self.create_axis(self.y_min, self.y_max,
+                                       self.y_axis_config)
         self.y_axis.rotate(90 * DEGREES, about_point=ORIGIN)
         # Add as a separate group in case various other
         # mobjects are added to self, as for example in
@@ -156,7 +162,10 @@ class Axes(VGroup, CoordinateSystem):
     def create_axis(self, min_val, max_val, axis_config):
         new_config = merge_dicts_recursively(
             self.axis_config,
-            {"x_min": min_val, "x_max": max_val},
+            {
+                "x_min": min_val,
+                "x_max": max_val
+            },
             axis_config,
         )
         return NumberLine(**new_config)
@@ -213,9 +222,8 @@ class ThreeDAxes(Axes):
         self.y_max = 5.5
         Axes.__init__(self, **kwargs)
         self.dimension = 3
-        z_axis = self.z_axis = self.create_axis(
-            self.z_min, self.z_max, self.z_axis_config
-        )
+        z_axis = self.z_axis = self.create_axis(self.z_min, self.z_max,
+                                                self.z_axis_config)
         z_axis.rotate(-np.pi / 2, UP, about_point=ORIGIN)
         z_axis.rotate(angle_of_vector(self.z_normal), OUT, about_point=ORIGIN)
         self.axes.add(z_axis)
@@ -257,7 +265,9 @@ class NumberPlane(Axes):
             "label_direction": DR,
             "number_scale_val": 0.5,
         },
-        "y_axis_config": {"label_direction": DR},
+        "y_axis_config": {
+            "label_direction": DR
+        },
         "background_line_style": {
             "stroke_color": BLUE_D,
             "stroke_width": 2,
@@ -287,12 +297,8 @@ class NumberPlane(Axes):
             self.faded_line_style = style
 
         self.background_lines, self.faded_lines = self.get_lines()
-        self.background_lines.set_style(
-            **self.background_line_style,
-        )
-        self.faded_lines.set_style(
-            **self.faded_line_style,
-        )
+        self.background_lines.set_style(**self.background_line_style, )
+        self.faded_lines.set_style(**self.faded_line_style, )
         self.add_to_back(
             self.faded_lines,
             self.background_lines,
@@ -327,9 +333,9 @@ class NumberPlane(Axes):
         lines2 = VGroup(*x_lines2, *y_lines2)
         return lines1, lines2
 
-    def get_lines_parallel_to_axis(
-        self, axis_parallel_to, axis_perpendicular_to, freq, ratio_faded_lines
-    ):
+    def get_lines_parallel_to_axis(self, axis_parallel_to,
+                                   axis_perpendicular_to, freq,
+                                   ratio_faded_lines):
         """Generate a set of lines parallel to an axis.
 
         Parameters
@@ -385,9 +391,8 @@ class NumberPlane(Axes):
 
     def get_vector(self, coords, **kwargs):
         kwargs["buff"] = 0
-        return Arrow(
-            self.coords_to_point(0, 0), self.coords_to_point(*coords), **kwargs
-        )
+        return Arrow(self.coords_to_point(0, 0), self.coords_to_point(*coords),
+                     **kwargs)
 
     def prepare_for_nonlinear_transform(self, num_inserted_curves=50):
         for mob in self.family_members_with_points():
@@ -435,7 +440,9 @@ class ComplexPlane(NumberPlane):
                 value = z.imag
                 kwargs = merge_dicts_recursively(
                     kwargs,
-                    {"number_config": {"unit": "i"}},
+                    {"number_config": {
+                        "unit": "i"
+                    }},
                 )
             else:
                 axis = self.get_x_axis()

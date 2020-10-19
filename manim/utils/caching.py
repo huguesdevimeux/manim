@@ -35,9 +35,8 @@ def handle_caching_play(func):
             return
         if not file_writer_config["disable_caching"]:
             mobjects_on_scene = scene.get_mobjects()
-            hash_play = get_hash_from_play_call(
-                self, self.camera, animations, mobjects_on_scene
-            )
+            hash_play = get_hash_from_play_call(self, self.camera, animations,
+                                                mobjects_on_scene)
             if self.file_writer.is_already_cached(hash_play):
                 logger.info(
                     f"Animation {self.num_plays} : Using cached data (hash : %(hash_play)s)",
@@ -83,9 +82,9 @@ def handle_caching_wait(func):
             self.file_writer.add_partial_movie_file(None)
             return
         if not file_writer_config["disable_caching"]:
-            hash_wait = get_hash_from_wait_call(
-                self, self.camera, duration, stop_condition, scene.get_mobjects()
-            )
+            hash_wait = get_hash_from_wait_call(self, self.camera, duration,
+                                                stop_condition,
+                                                scene.get_mobjects())
             if self.file_writer.is_already_cached(hash_wait):
                 logger.info(
                     f"Wait {self.num_plays} : Using cached data (hash : {hash_wait})"

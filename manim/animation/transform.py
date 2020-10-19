@@ -22,7 +22,6 @@ __all__ = [
     "TransformAnimations",
 ]
 
-
 import inspect
 
 import numpy as np
@@ -90,9 +89,8 @@ class Transform(Animation):
     def update_config(self, **kwargs):
         Animation.update_config(self, **kwargs)
         if "path_arc" in kwargs:
-            self.path_func = path_along_arc(
-                kwargs["path_arc"], kwargs.get("path_arc_axis", OUT)
-            )
+            self.path_func = path_along_arc(kwargs["path_arc"],
+                                            kwargs.get("path_arc_axis", OUT))
 
     def get_all_mobjects(self):
         return [
@@ -103,16 +101,13 @@ class Transform(Animation):
         ]
 
     def get_all_families_zipped(self):
-        return zip(
-            *[
-                mob.family_members_with_points()
-                for mob in [
-                    self.mobject,
-                    self.starting_mobject,
-                    self.target_copy,
-                ]
+        return zip(*[
+            mob.family_members_with_points() for mob in [
+                self.mobject,
+                self.starting_mobject,
+                self.target_copy,
             ]
-        )
+        ])
 
     def interpolate_submobject(self, submob, start, target_copy, alpha):
         submob.interpolate(start, target_copy, alpha, self.path_func)
@@ -152,9 +147,8 @@ class MoveToTarget(Transform):
 
     def check_validity_of_input(self, mobject):
         if not hasattr(mobject, "target"):
-            raise ValueError(
-                "MoveToTarget called on mobject" "without attribute 'target'"
-            )
+            raise ValueError("MoveToTarget called on mobject"
+                             "without attribute 'target'")
 
 
 class ApplyMethod(Transform):
@@ -174,10 +168,8 @@ class ApplyMethod(Transform):
 
     def check_validity_of_input(self, method):
         if not inspect.ismethod(method):
-            raise ValueError(
-                "Whoops, looks like you accidentally invoked "
-                "the method you want to animate"
-            )
+            raise ValueError("Whoops, looks like you accidentally invoked "
+                             "the method you want to animate")
         assert isinstance(method.__self__, Mobject)
 
     def create_target(self):
@@ -314,16 +306,15 @@ class TransformAnimations(Transform):
         for anim in start_anim, end_anim:
             anim.set_run_time(self.run_time)
 
-        if (
-            start_anim.starting_mobject.get_num_points()
-            != end_anim.starting_mobject.get_num_points()
-        ):
+        if (start_anim.starting_mobject.get_num_points() !=
+                end_anim.starting_mobject.get_num_points()):
             start_anim.starting_mobject.align_data(end_anim.starting_mobject)
             for anim in start_anim, end_anim:
                 if hasattr(anim, "target_mobject"):
                     anim.starting_mobject.align_data(anim.target_mobject)
 
-        Transform.__init__(self, start_anim.mobject, end_anim.mobject, **kwargs)
+        Transform.__init__(self, start_anim.mobject, end_anim.mobject,
+                           **kwargs)
         # Rewire starting and ending mobjects
         start_anim.mobject = self.starting_mobject
         end_anim.mobject = self.target_mobject

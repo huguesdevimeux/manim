@@ -40,9 +40,8 @@ class Thumbnail(GraphScene):
             return self.coords_to_point(0, get_y_value(input_tracker))
 
         def get_graph_point(input_tracker):
-            return self.coords_to_point(
-                get_x_value(input_tracker), get_y_value(input_tracker)
-            )
+            return self.coords_to_point(get_x_value(input_tracker),
+                                        get_y_value(input_tracker))
 
         def get_v_line(input_tracker):
             return DashedLine(
@@ -167,23 +166,27 @@ class Thumbnail(GraphScene):
         self.graph = graph
         iteraciones = 6
 
-        self.rect_list = self.get_riemann_rectangles_list(
-            graph, iteraciones, start_color=PURPLE, end_color=ORANGE, **kwargs
-        )
+        self.rect_list = self.get_riemann_rectangles_list(graph,
+                                                          iteraciones,
+                                                          start_color=PURPLE,
+                                                          end_color=ORANGE,
+                                                          **kwargs)
         flat_rects = self.get_riemann_rectangles(
             self.get_graph(lambda x: 0),
             dx=0.5,
             start_color=invert_color(PURPLE),
             end_color=invert_color(ORANGE),
-            **kwargs
-        )
+            **kwargs)
         rects = self.rect_list[0]
         self.transform_between_riemann_rects(
-            flat_rects, rects, replace_mobject_with_target_in_scene=True, run_time=0.9
-        )
+            flat_rects,
+            rects,
+            replace_mobject_with_target_in_scene=True,
+            run_time=0.9)
 
         # adding manim
         picture = Group(*self.mobjects)
         picture.scale(0.6).to_edge(LEFT, buff=SMALL_BUFF)
-        manim = Tex("Manim").set_height(1.5).next_to(picture, RIGHT).shift(DOWN * 0.7)
+        manim = Tex("Manim").set_height(1.5).next_to(picture,
+                                                     RIGHT).shift(DOWN * 0.7)
         self.add(manim)

@@ -42,9 +42,8 @@ def tex_to_svg_file(expression, environment=None, tex_template=None):
     if tex_template is None:
         tex_template = config["tex_template"]
     tex_file = generate_tex_file(expression, environment, tex_template)
-    dvi_file = compile_tex(
-        tex_file, tex_template.tex_compiler, tex_template.output_format
-    )
+    dvi_file = compile_tex(tex_file, tex_template.tex_compiler,
+                           tex_template.output_format)
     return convert_to_svg(dvi_file, tex_template.output_format)
 
 
@@ -69,7 +68,8 @@ def generate_tex_file(expression, environment=None, tex_template=None):
     if tex_template is None:
         tex_template = config["tex_template"]
     if environment is not None:
-        output = tex_template.get_texcode_for_expression_in_env(expression, environment)
+        output = tex_template.get_texcode_for_expression_in_env(
+            expression, environment)
     else:
         output = tex_template.get_texcode_for_expression(expression)
 
@@ -159,17 +159,14 @@ def compile_tex(tex_file, tex_compiler, output_format):
     tex_file = Path(tex_file).as_posix()
     tex_dir = Path(file_writer_config["tex_dir"]).as_posix()
     if not os.path.exists(result):
-        command = tex_compilation_command(
-            tex_compiler, output_format, tex_file, tex_dir
-        )
+        command = tex_compilation_command(tex_compiler, output_format,
+                                          tex_file, tex_dir)
         exit_code = os.system(command)
         if exit_code != 0:
             log_file = tex_file.replace(".tex", ".log")
-            raise ValueError(
-                f"{tex_compiler} error converting to"
-                f" {output_format[1:]}. See log output above or"
-                f" the log file: {log_file}"
-            )
+            raise ValueError(f"{tex_compiler} error converting to"
+                             f" {output_format[1:]}. See log output above or"
+                             f" the log file: {log_file}")
     return result
 
 

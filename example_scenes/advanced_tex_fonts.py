@@ -4,8 +4,7 @@ from manim import *
 
 # Example 1 Manually creating a Template
 
-TemplateForFrenchCursive = TexTemplate(
-    preamble=r"""
+TemplateForFrenchCursive = TexTemplate(preamble=r"""
 \usepackage[english]{babel}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -13,8 +12,7 @@ TemplateForFrenchCursive = TexTemplate(
 \usepackage[default]{frcursive}
 \usepackage[eulergreek,noplusnominus,noequal,nohbar,%
 nolessnomore,noasterisk]{mathastext}
-"""
-)
+""")
 
 
 def FrenchCursive(*tex_strings, **kwargs):
@@ -27,18 +25,16 @@ class TexFontTemplateManual(Scene):
 
     def construct(self):
         self.add(Tex("Tex Font Example").to_edge(UL))
-        self.play(ShowCreation(FrenchCursive("$f: A \\longrightarrow B$").shift(UP)))
         self.play(
-            ShowCreation(FrenchCursive("Behold! We can write math in French Cursive"))
-        )
+            ShowCreation(FrenchCursive("$f: A \\longrightarrow B$").shift(UP)))
+        self.play(
+            ShowCreation(
+                FrenchCursive("Behold! We can write math in French Cursive")))
         self.wait(1)
         self.play(
             ShowCreation(
-                Tex(
-                    "See more font templates at \\\\ http://jf.burnol.free.fr/showcase.html"
-                ).shift(2 * DOWN)
-            )
-        )
+                Tex("See more font templates at \\\\ http://jf.burnol.free.fr/showcase.html"
+                    ).shift(2 * DOWN)))
         self.wait(2)
 
 
@@ -75,7 +71,8 @@ class TexFontTemplateLibrary(Scene):
             TexFontTemplates.apple_chancery,  # "Apple Chancery"
             # "Auriocus Kalligraphicus (Symbol Greek)"
             TexFontTemplates.auriocus_kalligraphicus,
-            TexFontTemplates.baskervald_adf_fourier,  # "Baskervald ADF with Fourier"
+            TexFontTemplates.
+            baskervald_adf_fourier,  # "Baskervald ADF with Fourier"
             TexFontTemplates.baskerville_it,  # "Baskerville (Italic)"
             TexFontTemplates.biolinum,  # "Biolinum"
             # "BrushScriptX-Italic (PX math and Greek)"
@@ -105,12 +102,14 @@ class TexFontTemplateLibrary(Scene):
             TexFontTemplates.gfs_neoHellenic,  # "GFS NeoHellenic"
             # "GNU FreeSerif (and TX fonts symbols)"
             TexFontTemplates.gnu_freesans_tx,
-            TexFontTemplates.gnu_freeserif_freesans,  # "GNU FreeSerif and FreeSans"
+            TexFontTemplates.
+            gnu_freeserif_freesans,  # "GNU FreeSerif and FreeSans"
             # "Helvetica with Fourier (Italic)"
             TexFontTemplates.helvetica_fourier_it,
             # "Latin Modern Typewriter Proportional (CM Greek) (Italic)"
             TexFontTemplates.latin_modern_tw_it,
-            TexFontTemplates.latin_modern_tw,  # "Latin Modern Typewriter Proportional"
+            TexFontTemplates.
+            latin_modern_tw,  # "Latin Modern Typewriter Proportional"
             TexFontTemplates.libertine,  # "Libertine"
             TexFontTemplates.libris_adf_fourier,  # "Libris ADF with Fourier"
             # "Minion Pro and Myriad Pro (and TX fonts symbols)"
@@ -152,9 +151,6 @@ class TexFontTemplateLibrary(Scene):
 
         self.play(
             ShowCreation(
-                Tex(
-                    "See more font templates at \\\\ http://jf.burnol.free.fr/showcase.html"
-                ).shift(2 * DOWN)
-            )
-        )
+                Tex("See more font templates at \\\\ http://jf.burnol.free.fr/showcase.html"
+                    ).shift(2 * DOWN)))
         self.wait(2)

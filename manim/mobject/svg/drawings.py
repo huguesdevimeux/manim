@@ -26,7 +26,6 @@ __all__ = [
     "SuitSymbol",
 ]
 
-
 import itertools as it
 import string
 
@@ -192,9 +191,9 @@ class PartyHat(SVGMobject):
         SVGMobject.__init__(self, **kwargs)
         self.set_height(self.height)
 
-        self.frills = VGroup(*self[: self.NUM_FRILLS])
+        self.frills = VGroup(*self[:self.NUM_FRILLS])
         self.cone = self[self.NUM_FRILLS]
-        self.dots = VGroup(*self[self.NUM_FRILLS + 1 :])
+        self.dots = VGroup(*self[self.NUM_FRILLS + 1:])
 
         self.frills.set_color_by_gradient(*self.frills_colors)
         self.cone.set_color(self.cone_color)
@@ -231,25 +230,22 @@ class Laptop(VGroup):
         body.sort(lambda p: p[2])
         body[-1].set_fill(self.body_color)
         screen_plate = body.copy()
-        keyboard = VGroup(
-            *[
-                VGroup(
-                    *[Square(**self.key_color_kwargs) for x in range(12 - y % 2)]
-                ).arrange(RIGHT, buff=SMALL_BUFF)
-                for y in range(4)
-            ]
-        ).arrange(DOWN, buff=MED_SMALL_BUFF)
+        keyboard = VGroup(*[
+            VGroup(
+                *[Square(**self.key_color_kwargs)
+                  for x in range(12 - y % 2)]).arrange(RIGHT, buff=SMALL_BUFF)
+            for y in range(4)
+        ]).arrange(DOWN, buff=MED_SMALL_BUFF)
         keyboard.stretch_to_fit_width(
-            self.keyboard_width_to_body_width * body.get_width(),
-        )
+            self.keyboard_width_to_body_width * body.get_width(), )
         keyboard.stretch_to_fit_height(
-            self.keyboard_height_to_body_height * body.get_height(),
-        )
+            self.keyboard_height_to_body_height * body.get_height(), )
         keyboard.next_to(body, OUT, buff=0.1 * SMALL_BUFF)
         keyboard.shift(MED_SMALL_BUFF * UP)
         body.add(keyboard)
 
-        screen_plate.stretch(self.screen_thickness / self.body_dimensions[2], dim=2)
+        screen_plate.stretch(self.screen_thickness / self.body_dimensions[2],
+                             dim=2)
         screen = Rectangle(
             stroke_width=0,
             fill_color=BLACK,
@@ -260,9 +256,9 @@ class Laptop(VGroup):
         screen.next_to(screen_plate, OUT, buff=0.1 * SMALL_BUFF)
         screen_plate.add(screen)
         screen_plate.next_to(body, UP, buff=0)
-        screen_plate.rotate(
-            self.open_angle, RIGHT, about_point=screen_plate.get_bottom()
-        )
+        screen_plate.rotate(self.open_angle,
+                            RIGHT,
+                            about_point=screen_plate.get_bottom())
         self.screen_plate = screen_plate
         self.screen = screen
 
@@ -373,13 +369,13 @@ class ClockPassesTime(Animation):
         assert isinstance(clock, Clock)
         rot_kwargs = {"axis": OUT, "about_point": clock.get_center()}
         hour_radians = -self.hours_passed * 2 * np.pi / 12
-        self.hour_rotation = Rotating(
-            clock.hour_hand, radians=hour_radians, **rot_kwargs
-        )
+        self.hour_rotation = Rotating(clock.hour_hand,
+                                      radians=hour_radians,
+                                      **rot_kwargs)
         self.hour_rotation.begin()
-        self.minute_rotation = Rotating(
-            clock.minute_hand, radians=12 * hour_radians, **rot_kwargs
-        )
+        self.minute_rotation = Rotating(clock.minute_hand,
+                                        radians=12 * hour_radians,
+                                        **rot_kwargs)
         self.minute_rotation.begin()
         Animation.__init__(self, clock, **kwargs)
 
@@ -520,7 +516,7 @@ class Car(SVGMobject):
         path = self.submobjects[0]
         subpaths = path.get_subpaths()
         path.clear_points()
-        for indices in [(0, 1), (2, 3), (4, 6, 7), (5,), (8,)]:
+        for indices in [(0, 1), (2, 3), (4, 6, 7), (5, ), (8, )]:
             part = VMobject()
             for index in indices:
                 part.append_points(subpaths[index])
@@ -558,9 +554,10 @@ class Car(SVGMobject):
         for tire in self.get_tires():
             radius = tire.get_width() / 2
             center = tire.get_center()
-            tred = Line(
-                0.7 * radius * RIGHT, 1.1 * radius * RIGHT, stroke_width=2, color=BLACK
-            )
+            tred = Line(0.7 * radius * RIGHT,
+                        1.1 * radius * RIGHT,
+                        stroke_width=2,
+                        color=BLACK)
             tred.rotate(PI / 5, about_point=tred.get_end())
             for theta in np.arange(0, 2 * np.pi, np.pi / 4):
                 new_tred = tred.copy()
@@ -677,8 +674,7 @@ class Logo(VMobject):
                     vertex3,
                     fill_opacity=1,
                     stroke_width=0,
-                )
-                for vertex3 in (
+                ) for vertex3 in (
                     half_base * LEFT,
                     ORIGIN,
                 )
@@ -709,15 +705,13 @@ class Logo(VMobject):
                     ),
                     left_half_triangle.copy(),
                 ]
-                layer = VGroup(
-                    *it.chain(
-                        half_spikes[:1],
-                        full_spikes[1:index],
-                        half_spikes[1:3],
-                        full_spikes[index + 1 :],
-                        half_spikes[3:],
-                    )
-                )
+                layer = VGroup(*it.chain(
+                    half_spikes[:1],
+                    full_spikes[1:index],
+                    half_spikes[1:3],
+                    full_spikes[index + 1:],
+                    half_spikes[3:],
+                ))
                 layer.brown_index = index + 1
 
             layers.add(layer)
@@ -747,16 +741,13 @@ class Logo(VMobject):
     def cut_pupil(self):
         pupil = self.pupil
         center = pupil.get_center()
-        new_pupil = VGroup(
-            *[
-                pupil.copy().pointwise_become_partial(pupil, a, b)
-                for (a, b) in [(0.25, 1), (0, 0.25)]
-            ]
-        )
+        new_pupil = VGroup(*[
+            pupil.copy().pointwise_become_partial(pupil, a, b)
+            for (a, b) in [(0.25, 1), (0, 0.25)]
+        ])
         for sector in new_pupil:
             sector.add_cubic_bezier_curve_to(
-                [sector.points[-1], *[center] * 3, *[sector.points[0]] * 2]
-            )
+                [sector.points[-1], *[center] * 3, *[sector.points[0]] * 2])
         self.remove(pupil)
         self.add(new_pupil)
         self.pupil = new_pupil
@@ -771,12 +762,12 @@ class Logo(VMobject):
         # circle.move_to(self)
         blue_part = VGroup(
             self.iris_background[0],
-            *[layer[: layer.brown_index] for layer in self.spike_layers],
+            *[layer[:layer.brown_index] for layer in self.spike_layers],
             self.pupil[0],
         )
         brown_part = VGroup(
             self.iris_background[1],
-            *[layer[layer.brown_index :] for layer in self.spike_layers],
+            *[layer[layer.brown_index:] for layer in self.spike_layers],
             self.pupil[1],
         )
         return blue_part, brown_part
@@ -791,26 +782,36 @@ class DeckOfCards(VGroup):
             self,
             *[
                 PlayingCard(value=value, suit=suit, **kwargs)
-                for value in possible_values
-                for suit in possible_suits
+                for value in possible_values for suit in possible_suits
             ],
         )
 
 
 class PlayingCard(VGroup):
     CONFIG = {
-        "value": None,
-        "suit": None,
-        "key": None,  # String like "8H" or "KS"
-        "height": 2,
-        "height_to_width": 3.5 / 2.5,
-        "card_height_to_symbol_height": 7,
-        "card_width_to_corner_num_width": 10,
-        "card_height_to_corner_num_height": 10,
-        "color": LIGHT_GREY,
-        "turned_over": False,
+        "value":
+        None,
+        "suit":
+        None,
+        "key":
+        None,  # String like "8H" or "KS"
+        "height":
+        2,
+        "height_to_width":
+        3.5 / 2.5,
+        "card_height_to_symbol_height":
+        7,
+        "card_width_to_corner_num_width":
+        10,
+        "card_height_to_corner_num_height":
+        10,
+        "color":
+        LIGHT_GREY,
+        "turned_over":
+        False,
         "possible_suits": ["hearts", "diamonds", "spades", "clubs"],
-        "possible_values": list(map(str, list(range(2, 11)))) + ["J", "Q", "K", "A"],
+        "possible_values":
+        list(map(str, list(range(2, 11)))) + ["J", "Q", "K", "A"],
     }
 
     def __init__(self, key=None, **kwargs):
@@ -825,8 +826,7 @@ class PlayingCard(VGroup):
                 stroke_width=2,
                 fill_color=self.color,
                 fill_opacity=1,
-            )
-        )
+            ))
         if self.turned_over:
             self.set_fill(DARK_GREY)
             self.set_stroke(LIGHT_GREY)
@@ -870,9 +870,9 @@ class PlayingCard(VGroup):
         suit = self.suit
         if suit is None:
             if self.key is not None:
-                suit = dict([(string.upper(s[0]), s) for s in self.possible_suits])[
-                    string.upper(self.key[-1])
-                ]
+                suit = dict([
+                    (string.upper(s[0]), s) for s in self.possible_suits
+                ])[string.upper(self.key[-1])]
             else:
                 suit = random.choice(self.possible_suits)
         if suit not in self.possible_suits:
@@ -920,21 +920,21 @@ class PlayingCard(VGroup):
         top = self.get_top() + symbol.get_height() * DOWN
         bottom = self.get_bottom() + symbol.get_height() * UP
         column_points = [
-            interpolate(top, bottom, alpha) for alpha in np.linspace(0, 1, n_rows)
+            interpolate(top, bottom, alpha)
+            for alpha in np.linspace(0, 1, n_rows)
         ]
 
-        design = VGroup(*[symbol.copy().move_to(point) for point in column_points])
+        design = VGroup(
+            *[symbol.copy().move_to(point) for point in column_points])
         if n_cols == 2:
             space = 0.2 * self.get_width()
             column_copy = design.copy().shift(space * RIGHT)
             design.shift(space * LEFT)
             design.add(*column_copy)
-        design.add(
-            *[
-                symbol.copy().move_to(center_of_mass(column_points[i : i + 2]))
-                for i in insertion_indices
-            ]
-        )
+        design.add(*[
+            symbol.copy().move_to(center_of_mass(column_points[i:i + 2]))
+            for i in insertion_indices
+        ])
         for symbol in design:
             if symbol.get_center()[1] < self.get_center()[1]:
                 symbol.rotate_in_place(np.pi)
@@ -949,9 +949,9 @@ class PlayingCard(VGroup):
         height = self.get_height() / self.card_height_to_corner_num_height
         value_mob.set_width(width)
         value_mob.stretch_to_fit_height(height)
-        value_mob.next_to(
-            self.get_corner(UP + LEFT), DOWN + RIGHT, buff=MED_LARGE_BUFF * width
-        )
+        value_mob.next_to(self.get_corner(UP + LEFT),
+                          DOWN + RIGHT,
+                          buff=MED_LARGE_BUFF * width)
         value_mob.set_color(symbol.get_color())
         corner_symbol = symbol.copy()
         corner_symbol.set_width(width)

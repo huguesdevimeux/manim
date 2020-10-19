@@ -2,7 +2,6 @@
 
 __all__ = ["MultiCamera"]
 
-
 from ..camera.moving_camera import MovingCamera
 from ..utils.iterables import list_difference_update
 
@@ -14,9 +13,10 @@ class MultiCamera(MovingCamera):
         "allow_cameras_to_capture_their_own_display": False,
     }
 
-    def __init__(
-        self, video_quality_config, image_mobjects_from_cameras=None, **kwargs
-    ):
+    def __init__(self,
+                 video_quality_config,
+                 image_mobjects_from_cameras=None,
+                 **kwargs):
         """Initalises the MultiCamera
 
         Parameters:

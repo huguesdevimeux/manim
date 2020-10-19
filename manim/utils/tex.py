@@ -5,7 +5,6 @@ __all__ = [
     "TexTemplateFromFile",
 ]
 
-
 import os
 
 
@@ -70,63 +69,36 @@ class TexTemplate:
     default_output_format = ".dvi"
     default_post_doc_commands = ""
 
-    def __init__(
-        self,
-        tex_compiler=None,
-        output_format=None,
-        documentclass=None,
-        preamble=None,
-        placeholder_text=None,
-        post_doc_commands=None,
-        **kwargs
-    ):
-        self.tex_compiler = (
-            tex_compiler
-            if tex_compiler is not None
-            else TexTemplate.default_tex_compiler
-        )
-        self.output_format = (
-            output_format
-            if output_format is not None
-            else TexTemplate.default_output_format
-        )
-        self.documentclass = (
-            documentclass
-            if documentclass is not None
-            else TexTemplate.default_documentclass
-        )
-        self.preamble = (
-            preamble if preamble is not None else TexTemplate.default_preamble
-        )
-        self.placeholder_text = (
-            placeholder_text
-            if placeholder_text is not None
-            else TexTemplate.default_placeholder_text
-        )
-        self.post_doc_commands = (
-            post_doc_commands
-            if post_doc_commands is not None
-            else TexTemplate.default_post_doc_commands
-        )
+    def __init__(self,
+                 tex_compiler=None,
+                 output_format=None,
+                 documentclass=None,
+                 preamble=None,
+                 placeholder_text=None,
+                 post_doc_commands=None,
+                 **kwargs):
+        self.tex_compiler = (tex_compiler if tex_compiler is not None else
+                             TexTemplate.default_tex_compiler)
+        self.output_format = (output_format if output_format is not None else
+                              TexTemplate.default_output_format)
+        self.documentclass = (documentclass if documentclass is not None else
+                              TexTemplate.default_documentclass)
+        self.preamble = (preamble if preamble is not None else
+                         TexTemplate.default_preamble)
+        self.placeholder_text = (placeholder_text
+                                 if placeholder_text is not None else
+                                 TexTemplate.default_placeholder_text)
+        self.post_doc_commands = (post_doc_commands
+                                  if post_doc_commands is not None else
+                                  TexTemplate.default_post_doc_commands)
         self._rebuild()
 
     def _rebuild(self):
         """Rebuilds the entire TeX template text from ``\\documentclass`` to ``\\end{document}`` according to all settings and choices."""
-        self.body = (
-            self.documentclass
-            + "\n"
-            + self.preamble
-            + "\n"
-            + r"\begin{document}"
-            + "\n"
-            + self.post_doc_commands
-            + "\n"
-            + self.placeholder_text
-            + "\n"
-            + "\n"
-            + r"\end{document}"
-            + "\n"
-        )
+        self.body = (self.documentclass + "\n" + self.preamble + "\n" +
+                     r"\begin{document}" + "\n" + self.post_doc_commands +
+                     "\n" + self.placeholder_text + "\n" + "\n" +
+                     r"\end{document}" + "\n")
 
     def add_to_preamble(self, txt, prepend=False):
         """Adds stuff to the TeX template's preamble (e.g. definitions, packages). Text can be inserted at the beginning or at the end of the preamble.
@@ -187,8 +159,8 @@ class TexTemplate:
         begin = r"\begin{" + environment + "}"
         end = r"\end{" + environment + "}"
         return self.body.replace(
-            self.placeholder_text, "{0}\n{1}\n{2}".format(begin, expression, end)
-        )
+            self.placeholder_text,
+            "{0}\n{1}\n{2}".format(begin, expression, end))
 
 
 class TexTemplateFromFile(TexTemplate):
@@ -237,7 +209,8 @@ class TexTemplateFromFile(TexTemplate):
             self.body = infile.read()
 
     def file_not_mutable():
-        raise Exception("Cannot modify TexTemplate when using a template file.")
+        raise Exception(
+            "Cannot modify TexTemplate when using a template file.")
 
     def add_to_preamble(self, txt, prepend=False):
         self.file_not_mutable()
