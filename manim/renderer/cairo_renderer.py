@@ -1,10 +1,13 @@
 import numpy as np
 
-from .. import camera_config, config, file_writer_config
+from .. import camera_config
+from .. import config
+from .. import file_writer_config
 from ..camera.camera import Camera
 from ..constants import DEFAULT_WAIT_TIME
 from ..scene.scene_file_writer import SceneFileWriter
-from ..utils.caching import handle_caching_play, handle_caching_wait
+from ..utils.caching import handle_caching_play
+from ..utils.caching import handle_caching_wait
 from ..utils.exceptions import EndSceneEarlyException
 from ..utils.iterables import list_update
 

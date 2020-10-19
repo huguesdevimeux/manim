@@ -3,7 +3,8 @@ import os
 
 import numpy as np
 
-from manim import config, file_writer_config
+from manim import config
+from manim import file_writer_config
 
 
 class GraphicalUnitTester:

@@ -5,12 +5,13 @@
     :mod:`.mobject.svg.tex_mobject`
 
 """
-
 import hashlib
 import os
 from pathlib import Path
 
-from .. import config, file_writer_config, logger
+from .. import config
+from .. import file_writer_config
+from .. import logger
 
 
 def tex_hash(expression):

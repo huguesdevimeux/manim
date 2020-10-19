@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 from manim import *
 
 # To watch one of these scenes, run the following:

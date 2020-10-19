@@ -7,7 +7,8 @@ import types
 
 from .. import constants
 from ..config import file_writer_config
-from ..config.logger import console, logger
+from ..config.logger import console
+from ..config.logger import logger
 
 
 def get_module(file_name):

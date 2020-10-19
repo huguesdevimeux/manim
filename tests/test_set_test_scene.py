@@ -3,7 +3,9 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from manim import Animation, Circle, Scene
+from manim import Animation
+from manim import Circle
+from manim import Scene
 from tests.helpers.graphical_units import set_test_scene
 
 

@@ -1,6 +1,9 @@
 import pytest
 
-from manim import CairoRenderer, Camera, config, tempconfig
+from manim import CairoRenderer
+from manim import Camera
+from manim import config
+from manim import tempconfig
 
 
 def test_renderer():

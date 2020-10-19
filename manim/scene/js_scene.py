@@ -7,15 +7,16 @@ from threading import Event
 
 import grpc
 
+from . import scene
 from ..camera.camera import Camera
 from ..camera.js_camera import JsCamera
 from ..config import config
 from ..config.logger import logger
 from ..constants import DEFAULT_WAIT_TIME
-from ..grpc.gen import renderserver_pb2, renderserver_pb2_grpc
+from ..grpc.gen import renderserver_pb2
+from ..grpc.gen import renderserver_pb2_grpc
 from ..grpc.impl.frame_server_impl import FrameServer
 from ..mobject.mobject import Mobject
-from . import scene
 
 
 def get_random_name(name_map):

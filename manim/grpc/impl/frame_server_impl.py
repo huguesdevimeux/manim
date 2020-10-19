@@ -6,17 +6,22 @@ from concurrent import futures
 
 import grpc
 from google.protobuf import json_format
-from watchdog.events import FileSystemEventHandler, LoggingEventHandler
+from watchdog.events import FileSystemEventHandler
+from watchdog.events import LoggingEventHandler
 from watchdog.observers import Observer
 
-from ...config import camera_config, file_writer_config
+from ...config import camera_config
+from ...config import file_writer_config
 from ...config.logger import logger
 from ...constants import JS_RENDERER_INFO
 from ...scene import scene
-from ...utils.module_ops import (get_module, get_scene_classes_from_module,
-                                 get_scenes_to_render)
-from ..gen import (frameserver_pb2, frameserver_pb2_grpc, renderserver_pb2,
-                   renderserver_pb2_grpc)
+from ...utils.module_ops import get_module
+from ...utils.module_ops import get_scene_classes_from_module
+from ...utils.module_ops import get_scenes_to_render
+from ..gen import frameserver_pb2
+from ..gen import frameserver_pb2_grpc
+from ..gen import renderserver_pb2
+from ..gen import renderserver_pb2_grpc
 
 
 class FrameServer(frameserver_pb2_grpc.FrameServerServicer):
