@@ -11,8 +11,7 @@ class CircleTestX(Scene):
         self.play(Animation(circle))
 
 
-data_p = Path(__file__).parent / "control_data" / \
-    "graphical_units_data" / "geometry"
+data_p = Path(__file__).parent / "control_data" / "graphical_units_data" / "geometry"
 
 file_test = data_p / "CircleTestX.npy"
 file_control = data_p / "CircleTest.npy"

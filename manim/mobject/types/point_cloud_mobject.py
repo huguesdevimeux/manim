@@ -1,7 +1,6 @@
 """Mobjects representing point clouds."""
 
-__all__ = ["PMobject", "Mobject1D", "Mobject2D",
-           "PGroup", "PointCloudDot", "Point"]
+__all__ = ["PMobject", "Mobject1D", "Mobject2D", "PGroup", "PointCloudDot", "Point"]
 
 
 from ...constants import *
@@ -38,8 +37,7 @@ class PMobject(Mobject):
         self.points = np.append(self.points, points, axis=0)
         if rgbas is None:
             color = Color(color) if color else self.color
-            rgbas = np.repeat([color_to_rgba(color, alpha)],
-                              num_new_points, axis=0)
+            rgbas = np.repeat([color_to_rgba(color, alpha)], num_new_points, axis=0)
         elif len(rgbas) != len(points):
             raise ValueError("points and rgbas must have same shape")
         self.rgbas = np.append(self.rgbas, rgbas, axis=0)
@@ -69,8 +67,7 @@ class PMobject(Mobject):
         )
         return self
 
-        start_rgba, end_rgba = list(
-            map(color_to_rgba, [start_color, end_color]))
+        start_rgba, end_rgba = list(map(color_to_rgba, [start_color, end_color]))
         for mob in self.family_members_with_points():
             num_points = mob.get_num_points()
             mob.rgbas = np.array(
@@ -84,16 +81,14 @@ class PMobject(Mobject):
     def set_colors_by_radial_gradient(
         self, center=None, radius=1, inner_color=WHITE, outer_color=BLACK
     ):
-        start_rgba, end_rgba = list(
-            map(color_to_rgba, [start_color, end_color]))
+        start_rgba, end_rgba = list(map(color_to_rgba, [start_color, end_color]))
         if center is None:
             center = self.get_center()
         for mob in self.family_members_with_points():
             num_points = mob.get_num_points()
             t = min(1, np.abs(mob.get_center() - center) / radius)
 
-            mob.rgbas = np.array(
-                [interpolate(start_rgba, end_rgba, t)] * num_points)
+            mob.rgbas = np.array([interpolate(start_rgba, end_rgba, t)] * num_points)
         return self
 
     def match_colors(self, mobject):
@@ -156,8 +151,7 @@ class PMobject(Mobject):
     def align_points_with_larger(self, larger_mobject):
         assert isinstance(larger_mobject, PMobject)
         self.apply_over_attr_arrays(
-            lambda a: stretch_array_to_length(
-                a, larger_mobject.get_num_points())
+            lambda a: stretch_array_to_length(a, larger_mobject.get_num_points())
         )
 
     def get_point_mobject(self, center=None):
@@ -177,8 +171,7 @@ class PMobject(Mobject):
         return self
 
     def pointwise_become_partial(self, mobject, a, b):
-        lower_index, upper_index = [
-            int(x * mobject.get_num_points()) for x in (a, b)]
+        lower_index, upper_index = [int(x * mobject.get_num_points()) for x in (a, b)]
         for attr in self.get_array_attrs():
             full_array = getattr(mobject, attr)
             partial_array = full_array[lower_index:upper_index]
@@ -203,8 +196,7 @@ class Mobject1D(PMobject):
             points = [start]
         else:
             epsilon = self.epsilon / length
-            points = [interpolate(start, end, t)
-                      for t in np.arange(0, 1, epsilon)]
+            points = [interpolate(start, end, t) for t in np.arange(0, 1, epsilon)]
         self.add_points(points, color=color)
 
 

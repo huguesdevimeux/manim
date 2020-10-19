@@ -89,8 +89,7 @@ def rotate_vector(vector, angle, axis=OUT):
         # Use quaternions...because why not
         quat = quaternion_from_angle_axis(angle, axis)
         quat_inv = quaternion_conjugate(quat)
-        product = reduce(quaternion_mult, [
-                         quat, np.append(0, vector), quat_inv])
+        product = reduce(quaternion_mult, [quat, np.append(0, vector), quat_inv])
         return product[1:]
     else:
         raise ValueError("vector must be of dimension 2 or 3")
@@ -139,8 +138,7 @@ def z_to_vector(vector):
     else:
         theta = 0
     phi_down = np.array(
-        [[np.cos(phi), 0, np.sin(phi)], [0, 1, 0],
-         [-np.sin(phi), 0, np.cos(phi)]]
+        [[np.cos(phi), 0, np.sin(phi)], [0, 1, 0], [-np.sin(phi), 0, np.cos(phi)]]
     )
     return np.dot(rotation_about_z(theta), phi_down)
 

@@ -27,11 +27,9 @@ class TexFontTemplateManual(Scene):
 
     def construct(self):
         self.add(Tex("Tex Font Example").to_edge(UL))
-        self.play(ShowCreation(FrenchCursive(
-            "$f: A \\longrightarrow B$").shift(UP)))
+        self.play(ShowCreation(FrenchCursive("$f: A \\longrightarrow B$").shift(UP)))
         self.play(
-            ShowCreation(FrenchCursive(
-                "Behold! We can write math in French Cursive"))
+            ShowCreation(FrenchCursive("Behold! We can write math in French Cursive"))
         )
         self.wait(1)
         self.play(

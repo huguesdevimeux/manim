@@ -168,14 +168,12 @@ def list_to_frame_response(scene, duration, serialized_mobject_list):
             point_proto.y = point[1]
             point_proto.z = point[2]
         mob_proto.style.fill_color = mob_serialization["style"]["fill_color"]
-        mob_proto.style.fill_opacity = float(
-            mob_serialization["style"]["fill_opacity"])
+        mob_proto.style.fill_opacity = float(mob_serialization["style"]["fill_opacity"])
         mob_proto.style.stroke_color = mob_serialization["style"]["stroke_color"]
         mob_proto.style.stroke_opacity = float(
             mob_serialization["style"]["stroke_opacity"]
         )
-        mob_proto.style.stroke_width = float(
-            mob_serialization["style"]["stroke_width"])
+        mob_proto.style.stroke_width = float(mob_serialization["style"]["stroke_width"])
     return response
 
 

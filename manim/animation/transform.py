@@ -328,8 +328,7 @@ class TransformAnimations(Transform):
                 if hasattr(anim, "target_mobject"):
                     anim.starting_mobject.align_data(anim.target_mobject)
 
-        Transform.__init__(self, start_anim.mobject,
-                           end_anim.mobject, **kwargs)
+        Transform.__init__(self, start_anim.mobject, end_anim.mobject, **kwargs)
         # Rewire starting and ending mobjects
         start_anim.mobject = self.starting_mobject
         end_anim.mobject = self.target_mobject

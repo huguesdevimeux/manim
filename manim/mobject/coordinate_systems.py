@@ -1,7 +1,6 @@
 """Mobjects that represent coordinate systems."""
 
-__all__ = ["CoordinateSystem", "Axes",
-           "ThreeDAxes", "NumberPlane", "ComplexPlane"]
+__all__ = ["CoordinateSystem", "Axes", "ThreeDAxes", "NumberPlane", "ComplexPlane"]
 
 
 import numpy as np
@@ -146,10 +145,8 @@ class Axes(VGroup, CoordinateSystem):
     def __init__(self, **kwargs):
         CoordinateSystem.__init__(self)
         VGroup.__init__(self, **kwargs)
-        self.x_axis = self.create_axis(
-            self.x_min, self.x_max, self.x_axis_config)
-        self.y_axis = self.create_axis(
-            self.y_min, self.y_max, self.y_axis_config)
+        self.x_axis = self.create_axis(self.x_min, self.x_max, self.x_axis_config)
+        self.y_axis = self.create_axis(self.y_min, self.y_max, self.y_axis_config)
         self.y_axis.rotate(90 * DEGREES, about_point=ORIGIN)
         # Add as a separate group in case various other
         # mobjects are added to self, as for example in

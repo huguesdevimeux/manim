@@ -65,8 +65,7 @@ class SingleStringMathTex(SVGMobject):
     def __init__(self, tex_string, **kwargs):
         digest_config(self, kwargs)
         if self.tex_template is None:
-            self.tex_template = kwargs.get(
-                "tex_template", config["tex_template"])
+            self.tex_template = kwargs.get("tex_template", config["tex_template"])
 
         assert isinstance(tex_string, str)
         self.tex_string = tex_string

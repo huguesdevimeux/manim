@@ -157,8 +157,7 @@ class Camera(object):
             if isinstance(mobject, _type):
                 return _type
         else:
-            raise TypeError(
-                f"Displaying an object of class {_type} is not supported")
+            raise TypeError(f"Displaying an object of class {_type} is not supported")
 
     def reset_pixel_shape(self, new_height, new_width):
         """This method resets the height and width
@@ -264,8 +263,7 @@ class Camera(object):
         retval = np.array(pixel_array)
         if convert_from_floats:
             retval = np.apply_along_axis(
-                lambda f: (
-                    f * self.rgb_max_val).astype(self.pixel_array_dtype),
+                lambda f: (f * self.rgb_max_val).astype(self.pixel_array_dtype),
                 2,
                 retval,
             )
@@ -281,8 +279,7 @@ class Camera(object):
         convert_from_floats : bool, optional
             Whether or not to convert float values to proper RGB values, by default False
         """
-        converted_array = self.convert_pixel_array(
-            pixel_array, convert_from_floats)
+        converted_array = self.convert_pixel_array(pixel_array, convert_from_floats)
         if not (
             hasattr(self, "pixel_array")
             and self.pixel_array.shape == converted_array.shape
@@ -303,8 +300,7 @@ class Camera(object):
         convert_from_floats : bool, optional
             Whether or not to convert floats values to proper RGB valid ones, by default False
         """
-        self.background = self.convert_pixel_array(
-            pixel_array, convert_from_floats)
+        self.background = self.convert_pixel_array(pixel_array, convert_from_floats)
 
     # TODO, this should live in utils, not as a method of Camera
     def make_background_from_func(self, coords_to_colors_func):
@@ -349,8 +345,7 @@ class Camera(object):
             The function whose input is an (x,y) pair of coordinats and
             whose return values must be the colors for that point
         """
-        self.set_background(
-            self.make_background_from_func(coords_to_colors_func))
+        self.set_background(self.make_background_from_func(coords_to_colors_func))
 
     def reset(self):
         """Resets the camera's pixel array
@@ -554,8 +549,7 @@ class Camera(object):
         )
         for file_name, batch in batch_file_pairs:
             if file_name:
-                self.display_multiple_background_colored_vmobjects(
-                    batch, pixel_array)
+                self.display_multiple_background_colored_vmobjects(batch, pixel_array)
             else:
                 self.display_multiple_non_background_colored_vmobjects(
                     batch, pixel_array
@@ -655,8 +649,7 @@ class Camera(object):
         else:
             points = vmobject.get_gradient_start_and_end_points()
             points = self.transform_points_pre_display(vmobject, points)
-            pat = cairo.LinearGradient(
-                *it.chain(*[point[:2] for point in points]))
+            pat = cairo.LinearGradient(*it.chain(*[point[:2] for point in points]))
             step = 1.0 / (len(rgbas) - 1)
             offsets = np.arange(0, 1 + step, step)
             for rgba, offset in zip(rgbas, offsets):
@@ -679,8 +672,7 @@ class Camera(object):
         Camera
             The camera object.
         """
-        self.set_cairo_context_color(
-            ctx, self.get_fill_rgbas(vmobject), vmobject)
+        self.set_cairo_context_color(ctx, self.get_fill_rgbas(vmobject), vmobject)
         ctx.fill_preserve()
         return self
 
@@ -706,8 +698,7 @@ class Camera(object):
         if width == 0:
             return self
         self.set_cairo_context_color(
-            ctx, self.get_stroke_rgbas(
-                vmobject, background=background), vmobject
+            ctx, self.get_stroke_rgbas(vmobject, background=background), vmobject
         )
         ctx.set_line_width(
             width
@@ -880,15 +871,13 @@ class Camera(object):
         pixel_array : np.ndarray
             The Pixel array to put the imagemobject in.
         """
-        corner_coords = self.points_to_pixel_coords(
-            image_mobject, image_mobject.points)
+        corner_coords = self.points_to_pixel_coords(image_mobject, image_mobject.points)
         ul_coords, ur_coords, dl_coords = corner_coords
         right_vect = ur_coords - ul_coords
         down_vect = dl_coords - ul_coords
         center_coords = ul_coords + (right_vect + down_vect) / 2
 
-        sub_image = Image.fromarray(
-            image_mobject.get_pixel_array(), mode="RGBA")
+        sub_image = Image.fromarray(image_mobject.get_pixel_array(), mode="RGBA")
 
         # Reshape
         pixel_width = max(int(pdist([ul_coords, ur_coords])), 1)
@@ -972,8 +961,7 @@ class Camera(object):
         violators = points[violator_indices, :]
         violator_norms = norms[violator_indices]
         reshaped_norms = np.repeat(
-            violator_norms.reshape(
-                (len(violator_norms), 1)), points.shape[1], 1
+            violator_norms.reshape((len(violator_norms), 1)), points.shape[1], 1
         )
         rescaled = self.max_allowable_norm * violators / reshaped_norms
         points[violator_indices] = rescaled
@@ -1121,8 +1109,7 @@ class Camera(object):
         # better than the other order, for avoiding underflow quantization in the division (whereas
         # overflow is unlikely to be a problem)
 
-        centered_space_coords = uncentered_space_coords - \
-            fdiv(full_space_dims, 2)
+        centered_space_coords = uncentered_space_coords - fdiv(full_space_dims, 2)
 
         # Have to also flip the y coordinates to account for pixel array being listed in
         # top-to-bottom order, opposite of screen coordinate convention
@@ -1215,8 +1202,7 @@ class BackgroundColoredVMobjectDisplayer(object):
 
         pixel_array = self.pixel_array
         if not np.all(pixel_array.shape == back_array.shape):
-            back_array = self.resize_background_array_to_match(
-                back_array, pixel_array)
+            back_array = self.resize_background_array_to_match(back_array, pixel_array)
 
         self.file_name_to_pixel_array_map[file_name] = back_array
         return back_array

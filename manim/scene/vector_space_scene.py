@@ -221,8 +221,7 @@ class VectorScene(Scene):
         """
         return VGroup(
             *[
-                Vector(vect, color=color,
-                       stroke_width=self.basis_vector_stroke_width)
+                Vector(vect, color=color, stroke_width=self.basis_vector_stroke_width)
                 for vect, color in [([1, 0], i_hat_color), ([0, 1], j_hat_color)]
             ]
         )
@@ -398,15 +397,13 @@ class VectorScene(Scene):
         self.wait()
         self.play(
             ApplyFunction(
-                lambda x: self.position_x_coordinate(
-                    x, x_line, vector), x_coord
+                lambda x: self.position_x_coordinate(x, x_line, vector), x_coord
             )
         )
         self.play(ShowCreation(x_line))
         self.play(
             ApplyFunction(
-                lambda y: self.position_y_coordinate(
-                    y, y_line, vector), y_coord
+                lambda y: self.position_y_coordinate(y, y_line, vector), y_coord
             ),
             FadeOut(array.get_brackets()),
         )
@@ -453,10 +450,8 @@ class VectorScene(Scene):
         x_line.set_color(X_COLOR)
         y_line.set_color(Y_COLOR)
         x_coord, y_coord = array.get_mob_matrix().flatten()
-        x_coord_start = self.position_x_coordinate(
-            x_coord.copy(), x_line, vector)
-        y_coord_start = self.position_y_coordinate(
-            y_coord.copy(), y_line, vector)
+        x_coord_start = self.position_x_coordinate(x_coord.copy(), x_line, vector)
+        y_coord_start = self.position_y_coordinate(y_coord.copy(), y_line, vector)
         brackets = array.get_brackets()
 
         if show_creation:
@@ -713,8 +708,7 @@ class LinearTransformationScene(VectorScene):
         square = self.get_unit_square(**kwargs)
         if animate:
             self.play(
-                DrawBorderThenFill(square), Animation(
-                    Group(*self.moving_vectors))
+                DrawBorderThenFill(square), Animation(Group(*self.moving_vectors))
             )
         self.add_transformable_mobject(square)
         self.bring_to_front(*self.moving_vectors)
@@ -964,8 +958,7 @@ class LinearTransformationScene(VectorScene):
             The animation of the movement.
         """
         for l in self.transformable_labels:
-            l.target = self.get_vector_label(
-                l.vector.target, l.target_text, **l.kwargs)
+            l.target = self.get_vector_label(l.vector.target, l.target_text, **l.kwargs)
         return self.get_piece_movement(self.transformable_labels)
 
     def apply_matrix(self, matrix, **kwargs):
@@ -1014,8 +1007,7 @@ class LinearTransformationScene(VectorScene):
         func = self.get_transposed_matrix_transformation(transposed_matrix)
         if "path_arc" not in kwargs:
             net_rotation = np.mean(
-                [angle_of_vector(func(RIGHT)), angle_of_vector(
-                    func(UP)) - np.pi / 2]
+                [angle_of_vector(func(RIGHT)), angle_of_vector(func(UP)) - np.pi / 2]
             )
             kwargs["path_arc"] = net_rotation
         self.apply_function(func, **kwargs)

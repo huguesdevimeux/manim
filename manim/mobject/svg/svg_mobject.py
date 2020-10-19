@@ -54,18 +54,15 @@ class SVGMobject(VMobject):
             raise Exception("Must specify file for SVGMobject")
         possible_paths = [
             os.path.join(os.path.join("assets", "svg_images"), self.file_name),
-            os.path.join(os.path.join("assets", "svg_images"),
-                         self.file_name + ".svg"),
-            os.path.join(os.path.join("assets", "svg_images"),
-                         self.file_name + ".xdv"),
+            os.path.join(os.path.join("assets", "svg_images"), self.file_name + ".svg"),
+            os.path.join(os.path.join("assets", "svg_images"), self.file_name + ".xdv"),
             self.file_name,
         ]
         for path in possible_paths:
             if os.path.exists(path):
                 self.file_path = path
                 return
-        raise IOError("No file matching %s in image directory" %
-                      self.file_name)
+        raise IOError("No file matching %s in image directory" % self.file_name)
 
     def generate_points(self):
         doc = minidom.parse(self.file_path)
@@ -195,10 +192,8 @@ class SVGMobject(VMobject):
 
         if corner_radius == 0:
             mob = Rectangle(
-                width=self.attribute_to_float(
-                    rect_element.getAttribute("width")),
-                height=self.attribute_to_float(
-                    rect_element.getAttribute("height")),
+                width=self.attribute_to_float(rect_element.getAttribute("width")),
+                height=self.attribute_to_float(rect_element.getAttribute("height")),
                 stroke_width=stroke_width,
                 stroke_color=stroke_color,
                 fill_color=fill_color,
@@ -206,10 +201,8 @@ class SVGMobject(VMobject):
             )
         else:
             mob = RoundedRectangle(
-                width=self.attribute_to_float(
-                    rect_element.getAttribute("width")),
-                height=self.attribute_to_float(
-                    rect_element.getAttribute("height")),
+                width=self.attribute_to_float(rect_element.getAttribute("width")),
+                height=self.attribute_to_float(rect_element.getAttribute("height")),
                 stroke_width=stroke_width,
                 stroke_color=stroke_color,
                 fill_color=fill_color,
@@ -237,7 +230,7 @@ class SVGMobject(VMobject):
             suffix = ")"
             if not transform.startswith(prefix) or not transform.endswith(suffix):
                 raise Exception()
-            transform = transform[len(prefix): -len(suffix)]
+            transform = transform[len(prefix) : -len(suffix)]
             transform = string_to_numbers(transform)
             transform = np.array(transform).reshape([3, 2])
             x = transform[2][0]
@@ -258,12 +251,11 @@ class SVGMobject(VMobject):
             suffix = ")"
             if not transform.startswith(prefix) or not transform.endswith(suffix):
                 raise Exception()
-            transform = transform[len(prefix): -len(suffix)]
+            transform = transform[len(prefix) : -len(suffix)]
             scale_values = string_to_numbers(transform)
             if len(scale_values) == 2:
                 scale_x, scale_y = scale_values
-                mobject.scale(
-                    np.array([scale_x, scale_y, 1]), about_point=ORIGIN)
+                mobject.scale(np.array([scale_x, scale_y, 1]), about_point=ORIGIN)
             elif len(scale_values) == 1:
                 scale = scale_values[0]
                 mobject.scale(np.array([scale, scale, 1]), about_point=ORIGIN)
@@ -275,7 +267,7 @@ class SVGMobject(VMobject):
             suffix = ")"
             if not transform.startswith(prefix) or not transform.endswith(suffix):
                 raise Exception()
-            transform = transform[len(prefix): -len(suffix)]
+            transform = transform[len(prefix) : -len(suffix)]
             x, y = string_to_numbers(transform)
             mobject.shift(x * RIGHT + y * DOWN)
         except:
@@ -303,8 +295,7 @@ class SVGMobject(VMobject):
 
     def update_ref_to_element(self, defs):
         new_refs = dict(
-            [(e.getAttribute("id"), e)
-             for e in self.get_all_childNodes_have_id(defs)]
+            [(e.getAttribute("id"), e) for e in self.get_all_childNodes_have_id(defs)]
         )
         self.ref_to_element.update(new_refs)
 
@@ -417,9 +408,9 @@ class VMobjectFromSVGPathstring(VMobject):
             # Add subsequent offset points relatively.
             for i in range(3, len(new_points), 3):
                 if isLower:
-                    new_points[i: i + 3] -= points[-1]
-                    new_points[i: i + 3] += new_points[i - 1]
-                self.add_cubic_bezier_curve_to(*new_points[i: i + 3])
+                    new_points[i : i + 3] -= points[-1]
+                    new_points[i : i + 3] += new_points[i - 1]
+                self.add_cubic_bezier_curve_to(*new_points[i : i + 3])
 
     def string_to_points(self, coord_string):
         numbers = string_to_numbers(coord_string)
