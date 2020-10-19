@@ -34,40 +34,20 @@ from ... import config
 from ...animation.animation import Animation
 from ...animation.rotation import Rotating
 from ...constants import *
-from ...mobject.geometry import AnnularSector
-from ...mobject.geometry import Arc
-from ...mobject.geometry import Circle
-from ...mobject.geometry import Line
-from ...mobject.geometry import Polygon
-from ...mobject.geometry import Rectangle
-from ...mobject.geometry import Square
+from ...mobject.geometry import (AnnularSector, Arc, Circle, Line, Polygon,
+                                 Rectangle, Square)
 from ...mobject.mobject import Mobject
 from ...mobject.svg.svg_mobject import SVGMobject
-from ...mobject.svg.tex_mobject import MathTex
-from ...mobject.svg.tex_mobject import Tex
+from ...mobject.svg.tex_mobject import MathTex, Tex
 from ...mobject.three_dimensions import Cube
-from ...mobject.types.vectorized_mobject import VGroup
-from ...mobject.types.vectorized_mobject import VMobject
-from ...mobject.types.vectorized_mobject import VectorizedPoint
+from ...mobject.types.vectorized_mobject import (VectorizedPoint, VGroup,
+                                                 VMobject)
 from ...utils.bezier import interpolate
+from ...utils.color import (BLACK, BLUE_B, BLUE_D, DARK_GREY, GREEN, GREY,
+                            LIGHT_GREY, MAROON_B, PURPLE, WHITE, YELLOW)
 from ...utils.config_ops import digest_config
 from ...utils.rate_functions import linear
-from ...utils.space_ops import angle_of_vector
-from ...utils.space_ops import complex_to_R3
-from ...utils.space_ops import rotate_vector
-from ...utils.color import (
-    YELLOW,
-    WHITE,
-    DARK_GREY,
-    MAROON_B,
-    PURPLE,
-    GREEN,
-    BLACK,
-    LIGHT_GREY,
-    GREY,
-    BLUE_B,
-    BLUE_D,
-)
+from ...utils.space_ops import angle_of_vector, complex_to_R3, rotate_vector
 
 
 class Lightbulb(SVGMobject):

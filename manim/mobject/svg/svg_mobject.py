@@ -5,22 +5,17 @@ __all__ = ["SVGMobject", "VMobjectFromSVGPathstring", "string_to_numbers"]
 
 
 import itertools as it
-import re
 import os
+import re
 import string
 import warnings
-
 from xml.dom import minidom
 
 from ...constants import *
-from ...mobject.geometry import Circle
-from ...mobject.geometry import Rectangle
-from ...mobject.geometry import RoundedRectangle
-from ...mobject.types.vectorized_mobject import VGroup
-from ...mobject.types.vectorized_mobject import VMobject
+from ...mobject.geometry import Circle, Rectangle, RoundedRectangle
+from ...mobject.types.vectorized_mobject import VGroup, VMobject
 from ...utils.color import *
-from ...utils.config_ops import digest_config
-from ...utils.config_ops import digest_locals
+from ...utils.config_ops import digest_config, digest_locals
 
 
 def string_to_numbers(num_string):

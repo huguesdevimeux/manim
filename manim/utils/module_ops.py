@@ -1,12 +1,13 @@
-from .. import constants
-from ..config import file_writer_config
-from ..config.logger import logger, console
 import importlib.util
 import inspect
 import os
+import re
 import sys
 import types
-import re
+
+from .. import constants
+from ..config import file_writer_config
+from ..config.logger import console, logger
 
 
 def get_module(file_name):

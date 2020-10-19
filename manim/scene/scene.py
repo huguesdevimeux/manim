@@ -4,28 +4,28 @@
 __all__ = ["Scene"]
 
 
+import copy
 import inspect
+import platform
 import random
 import warnings
-import platform
-import copy
 
-from tqdm import tqdm as ProgressDisplay
 import numpy as np
+from tqdm import tqdm as ProgressDisplay
 
 from .. import camera_config, file_writer_config, logger
 from ..animation.animation import Animation
-from ..animation.transform import MoveToTarget, ApplyMethod
+from ..animation.transform import ApplyMethod, MoveToTarget
 from ..camera.camera import Camera
 from ..constants import *
 from ..container import Container
 from ..mobject.mobject import Mobject
-from ..scene.scene_file_writer import SceneFileWriter
-from ..utils.iterables import list_update
-from ..utils.hashing import get_hash_from_play_call, get_hash_from_wait_call
-from ..utils.family import extract_mobject_family_members
 from ..renderer.cairo_renderer import CairoRenderer
+from ..scene.scene_file_writer import SceneFileWriter
 from ..utils.exceptions import EndSceneEarlyException
+from ..utils.family import extract_mobject_family_members
+from ..utils.hashing import get_hash_from_play_call, get_hash_from_wait_call
+from ..utils.iterables import list_update
 
 
 class Scene(Container):

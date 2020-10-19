@@ -1,8 +1,10 @@
-import pytest
 from pathlib import Path
-from tests.helpers.graphical_units import set_test_scene
-from manim import Scene, Circle, Animation
+
 import numpy as np
+import pytest
+
+from manim import Animation, Circle, Scene
+from tests.helpers.graphical_units import set_test_scene
 
 
 class CircleTestX(Scene):

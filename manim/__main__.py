@@ -3,16 +3,13 @@ import platform
 import sys
 import traceback
 
-from . import logger, file_writer_config
-from .config.config import camera_config, args
+from . import file_writer_config, logger
 from .config import cfg_subcmds
-from .utils.module_ops import (
-    get_module,
-    get_scene_classes_from_module,
-    get_scenes_to_render,
-)
-from .utils.file_ops import open_file as open_media_file
+from .config.config import args, camera_config
 from .grpc.impl import frame_server_impl
+from .utils.file_ops import open_file as open_media_file
+from .utils.module_ops import (get_module, get_scene_classes_from_module,
+                               get_scenes_to_render)
 
 
 def open_file_if_needed(file_writer):

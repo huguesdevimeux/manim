@@ -3,22 +3,22 @@
 __all__ = ["SceneFileWriter"]
 
 
-import numpy as np
-from pydub import AudioSegment
+import _thread as thread
+import datetime
+import os
 import shutil
 import subprocess
-import os
-import _thread as thread
 from time import sleep
-import datetime
-from PIL import Image
 
-from .. import file_writer_config, logger, console
+import numpy as np
+from PIL import Image
+from pydub import AudioSegment
+
+from .. import console, file_writer_config, logger
 from ..constants import FFMPEG_BIN, GIF_FILE_EXTENSION
 from ..utils.config_ops import digest_config
-from ..utils.file_ops import guarantee_existence
-from ..utils.file_ops import add_extension_if_not_present
-from ..utils.file_ops import modify_atime
+from ..utils.file_ops import (add_extension_if_not_present,
+                              guarantee_existence, modify_atime)
 from ..utils.sounds import get_full_sound_file_path
 
 

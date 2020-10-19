@@ -1,11 +1,12 @@
 import numpy as np
-from .. import config, camera_config, file_writer_config
-from ..utils.iterables import list_update
-from ..utils.exceptions import EndSceneEarlyException
+
+from .. import camera_config, config, file_writer_config
+from ..camera.camera import Camera
 from ..constants import DEFAULT_WAIT_TIME
 from ..scene.scene_file_writer import SceneFileWriter
 from ..utils.caching import handle_caching_play, handle_caching_wait
-from ..camera.camera import Camera
+from ..utils.exceptions import EndSceneEarlyException
+from ..utils.iterables import list_update
 
 
 def pass_scene_reference(func):

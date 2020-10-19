@@ -14,8 +14,8 @@ from ..camera.camera import Camera
 from ..constants import ORIGIN
 from ..mobject.frame import ScreenRectangle
 from ..mobject.types.vectorized_mobject import VGroup
-from ..utils.config_ops import digest_config
 from ..utils.color import WHITE
+from ..utils.config_ops import digest_config
 
 
 # TODO, think about how to incorporate perspective

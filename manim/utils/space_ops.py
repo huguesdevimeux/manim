@@ -33,10 +33,7 @@ from functools import reduce
 
 import numpy as np
 
-from ..constants import OUT
-from ..constants import PI
-from ..constants import RIGHT
-from ..constants import TAU
+from ..constants import OUT, PI, RIGHT, TAU
 from ..utils.iterables import adjacent_pairs
 from ..utils.simple_functions import fdiv
 

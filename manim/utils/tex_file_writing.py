@@ -6,11 +6,11 @@
 
 """
 
-import os
 import hashlib
+import os
 from pathlib import Path
 
-from .. import file_writer_config, config, logger
+from .. import config, file_writer_config, logger
 
 
 def tex_hash(expression):

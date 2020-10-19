@@ -4,30 +4,26 @@
 __all__ = ["Mobject", "Group"]
 
 
-from functools import reduce
 import copy
 import itertools as it
 import operator as op
 import random
 import sys
-
+from functools import reduce
 from pathlib import Path
-from colour import Color
+
 import numpy as np
+from colour import Color
 
 from .. import config, file_writer_config
 from ..constants import *
 from ..container import Container
-from ..utils.color import color_gradient, WHITE, BLACK, YELLOW_C
-from ..utils.color import interpolate_color
-from ..utils.iterables import list_update
-from ..utils.iterables import remove_list_redundancies
+from ..utils.color import (BLACK, WHITE, YELLOW_C, color_gradient,
+                           interpolate_color)
+from ..utils.iterables import list_update, remove_list_redundancies
 from ..utils.paths import straight_path
 from ..utils.simple_functions import get_parameters
-from ..utils.space_ops import angle_of_vector
-from ..utils.space_ops import get_norm
-from ..utils.space_ops import rotation_matrix
-
+from ..utils.space_ops import angle_of_vector, get_norm, rotation_matrix
 
 # TODO: Explain array_attrs
 

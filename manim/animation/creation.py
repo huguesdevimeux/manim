@@ -14,18 +14,17 @@ __all__ = [
 ]
 
 
-from ..animation.animation import Animation
-from ..animation.composition import Succession
-from ..mobject.types.vectorized_mobject import VMobject
-from ..mobject.mobject import Group
-from ..utils.bezier import integer_interpolate
-from ..utils.config_ops import digest_config
-from ..utils.rate_functions import linear
-from ..utils.rate_functions import double_smooth
-from ..utils.rate_functions import smooth
+import itertools as it
 
 import numpy as np
-import itertools as it
+
+from ..animation.animation import Animation
+from ..animation.composition import Succession
+from ..mobject.mobject import Group
+from ..mobject.types.vectorized_mobject import VMobject
+from ..utils.bezier import integer_interpolate
+from ..utils.config_ops import digest_config
+from ..utils.rate_functions import double_smooth, linear, smooth
 
 
 class ShowPartial(Animation):
