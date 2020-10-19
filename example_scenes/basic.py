@@ -17,7 +17,8 @@ from manim import *
 class OpeningManimExample(Scene):
     def construct(self):
         title = Tex("This is some \\LaTeX")
-        basel = MathTex("\\sum_{n=1}^\\infty " "\\frac{1}{n^2} = \\frac{\\pi^2}{6}")
+        basel = MathTex(
+            "\\sum_{n=1}^\\infty " "\\frac{1}{n^2} = \\frac{\\pi^2}{6}")
         VGroup(title, basel).arrange(DOWN)
         self.play(
             Write(title),
@@ -86,7 +87,8 @@ class WarpSquare(Scene):
         square = Square()
         self.play(
             ApplyPointwiseFunction(
-                lambda point: complex_to_R3(np.exp(R3_to_complex(point))), square
+                lambda point: complex_to_R3(
+                    np.exp(R3_to_complex(point))), square
             )
         )
         self.wait()
@@ -94,7 +96,8 @@ class WarpSquare(Scene):
 
 class WriteStuff(Scene):
     def construct(self):
-        example_text = Tex("This is a some text", tex_to_color_map={"text": YELLOW})
+        example_text = Tex("This is a some text",
+                           tex_to_color_map={"text": YELLOW})
         example_tex = MathTex(
             "\\sum_{k=1}^\\infty {1 \\over k^2} = {\\pi^2 \\over 6}",
         )

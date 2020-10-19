@@ -185,5 +185,6 @@ class Thumbnail(GraphScene):
         # adding manim
         picture = Group(*self.mobjects)
         picture.scale(0.6).to_edge(LEFT, buff=SMALL_BUFF)
-        manim = Tex("Manim").set_height(1.5).next_to(picture, RIGHT).shift(DOWN * 0.7)
+        manim = Tex("Manim").set_height(1.5).next_to(
+            picture, RIGHT).shift(DOWN * 0.7)
         self.add(manim)

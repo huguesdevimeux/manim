@@ -199,7 +199,8 @@ class Mobject(Container):
 
     def save_image(self, name=None):
         self.get_image().save(
-            Path(file_writer_config["video_dir"]).joinpath((name or str(self)) + ".png")
+            Path(file_writer_config["video_dir"]).joinpath(
+                (name or str(self)) + ".png")
         )
 
     def copy(self):
@@ -387,7 +388,8 @@ class Mobject(Container):
 
     def reverse_points(self):
         for mob in self.family_members_with_points():
-            mob.apply_over_attr_arrays(lambda arr: np.array(list(reversed(arr))))
+            mob.apply_over_attr_arrays(
+                lambda arr: np.array(list(reversed(arr))))
         return self
 
     def repeat(self, count):
@@ -479,7 +481,8 @@ class Mobject(Container):
                 target_aligner = mob[index_of_submobject_to_align]
             else:
                 target_aligner = mob
-            target_point = target_aligner.get_critical_point(aligned_edge + direction)
+            target_point = target_aligner.get_critical_point(
+                aligned_edge + direction)
         else:
             target_point = mobject_or_point
         if submobject_to_align is not None:
@@ -489,7 +492,8 @@ class Mobject(Container):
         else:
             aligner = self
         point_to_align = aligner.get_critical_point(aligned_edge - direction)
-        self.shift((target_point - point_to_align + buff * direction) * coor_mask)
+        self.shift((target_point - point_to_align +
+                    buff * direction) * coor_mask)
         return self
 
     def shift_onto_screen(self, **kwargs):
@@ -572,7 +576,8 @@ class Mobject(Container):
         return self
 
     def move_to(
-        self, point_or_mobject, aligned_edge=ORIGIN, coor_mask=np.array([1, 1, 1])
+        self, point_or_mobject, aligned_edge=ORIGIN, coor_mask=np.array([
+                                                                        1, 1, 1])
     ):
         if isinstance(point_or_mobject, Mobject):
             target = point_or_mobject.get_critical_point(aligned_edge)
@@ -754,7 +759,8 @@ class Mobject(Container):
     def get_merged_array(self, array_attr):
         result = getattr(self, array_attr)
         for submob in self.submobjects:
-            result = np.append(result, submob.get_merged_array(array_attr), axis=0)
+            result = np.append(
+                result, submob.get_merged_array(array_attr), axis=0)
             submob.get_merged_array(array_attr)
         return result
 
@@ -1003,7 +1009,7 @@ class Mobject(Container):
             n = len(submobs) // n_cols
         Group(
             *[
-                Group(*submobs[i : i + n]).arrange(v1, **kwargs)
+                Group(*submobs[i: i + n]).arrange(v1, **kwargs)
                 for i in range(0, len(submobs), n)
             ]
         ).arrange(v2, **kwargs)
@@ -1011,7 +1017,7 @@ class Mobject(Container):
 
     def sort(self, point_to_num_func=lambda p: p[0], submob_func=None):
         if submob_func is None:
-            submob_func = lambda m: point_to_num_func(m.get_center())
+            def submob_func(m): return point_to_num_func(m.get_center())
         self.submobjects.sort(key=submob_func)
         return self
 

@@ -68,7 +68,8 @@ def generate_tex_file(expression, environment=None, tex_template=None):
     if tex_template is None:
         tex_template = config["tex_template"]
     if environment is not None:
-        output = tex_template.get_texcode_for_expression_in_env(expression, environment)
+        output = tex_template.get_texcode_for_expression_in_env(
+            expression, environment)
     else:
         output = tex_template.get_texcode_for_expression(expression)
 

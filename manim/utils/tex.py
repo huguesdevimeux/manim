@@ -187,7 +187,8 @@ class TexTemplate:
         begin = r"\begin{" + environment + "}"
         end = r"\end{" + environment + "}"
         return self.body.replace(
-            self.placeholder_text, "{0}\n{1}\n{2}".format(begin, expression, end)
+            self.placeholder_text, "{0}\n{1}\n{2}".format(
+                begin, expression, end)
         )
 
 
@@ -237,7 +238,8 @@ class TexTemplateFromFile(TexTemplate):
             self.body = infile.read()
 
     def file_not_mutable():
-        raise Exception("Cannot modify TexTemplate when using a template file.")
+        raise Exception(
+            "Cannot modify TexTemplate when using a template file.")
 
     def add_to_preamble(self, txt, prepend=False):
         self.file_not_mutable()

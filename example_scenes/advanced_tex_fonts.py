@@ -27,9 +27,11 @@ class TexFontTemplateManual(Scene):
 
     def construct(self):
         self.add(Tex("Tex Font Example").to_edge(UL))
-        self.play(ShowCreation(FrenchCursive("$f: A \\longrightarrow B$").shift(UP)))
+        self.play(ShowCreation(FrenchCursive(
+            "$f: A \\longrightarrow B$").shift(UP)))
         self.play(
-            ShowCreation(FrenchCursive("Behold! We can write math in French Cursive"))
+            ShowCreation(FrenchCursive(
+                "Behold! We can write math in French Cursive"))
         )
         self.wait(1)
         self.play(
@@ -70,13 +72,16 @@ class TexFontTemplateLibrary(Scene):
 
         examples = [
             TexFontTemplates.american_typewriter,  # "American Typewriter"
-            TexFontTemplates.antykwa,  # "Antykwa Półtawskiego (TX Fonts for Greek and math symbols)"
+            # "Antykwa Półtawskiego (TX Fonts for Greek and math symbols)"
+            TexFontTemplates.antykwa,
             TexFontTemplates.apple_chancery,  # "Apple Chancery"
-            TexFontTemplates.auriocus_kalligraphicus,  # "Auriocus Kalligraphicus (Symbol Greek)"
+            # "Auriocus Kalligraphicus (Symbol Greek)"
+            TexFontTemplates.auriocus_kalligraphicus,
             TexFontTemplates.baskervald_adf_fourier,  # "Baskervald ADF with Fourier"
             TexFontTemplates.baskerville_it,  # "Baskerville (Italic)"
             TexFontTemplates.biolinum,  # "Biolinum"
-            TexFontTemplates.brushscriptx,  # "BrushScriptX-Italic (PX math and Greek)"
+            # "BrushScriptX-Italic (PX math and Greek)"
+            TexFontTemplates.brushscriptx,
             TexFontTemplates.chalkboard_se,  # "Chalkboard SE"
             TexFontTemplates.chalkduster,  # "Chalkduster"
             TexFontTemplates.comfortaa,  # "Comfortaa"
@@ -84,42 +89,58 @@ class TexFontTemplateLibrary(Scene):
             TexFontTemplates.droid_sans,  # "Droid Sans"
             TexFontTemplates.droid_sans_it,  # "Droid Sans (Italic)"
             TexFontTemplates.droid_serif,  # "Droid Serif"
-            TexFontTemplates.droid_serif_px_it,  # "Droid Serif (PX math symbols) (Italic)"
+            # "Droid Serif (PX math symbols) (Italic)"
+            TexFontTemplates.droid_serif_px_it,
             TexFontTemplates.ecf_augie,  # "ECF Augie (Euler Greek)"
             TexFontTemplates.ecf_jd,  # "ECF JD (with TX fonts)"
             TexFontTemplates.ecf_skeetch,  # "ECF Skeetch (CM Greek)"
-            TexFontTemplates.ecf_tall_paul,  # "ECF Tall Paul (with Symbol font)"
+            # "ECF Tall Paul (with Symbol font)"
+            TexFontTemplates.ecf_tall_paul,
             TexFontTemplates.ecf_webster,  # "ECF Webster (with TX fonts)"
             TexFontTemplates.electrum_adf,  # "Electrum ADF (CM Greek)"
             TexFontTemplates.epigrafica,  # Epigrafica
-            TexFontTemplates.fourier_utopia,  # "Fourier Utopia (Fourier upright Greek)"
+            # "Fourier Utopia (Fourier upright Greek)"
+            TexFontTemplates.fourier_utopia,
             TexFontTemplates.french_cursive,  # "French Cursive (Euler Greek)"
             TexFontTemplates.gfs_bodoni,  # "GFS Bodoni"
             TexFontTemplates.gfs_didot,  # "GFS Didot (Italic)"
             TexFontTemplates.gfs_neoHellenic,  # "GFS NeoHellenic"
-            TexFontTemplates.gnu_freesans_tx,  # "GNU FreeSerif (and TX fonts symbols)"
+            # "GNU FreeSerif (and TX fonts symbols)"
+            TexFontTemplates.gnu_freesans_tx,
             TexFontTemplates.gnu_freeserif_freesans,  # "GNU FreeSerif and FreeSans"
-            TexFontTemplates.helvetica_fourier_it,  # "Helvetica with Fourier (Italic)"
-            TexFontTemplates.latin_modern_tw_it,  # "Latin Modern Typewriter Proportional (CM Greek) (Italic)"
+            # "Helvetica with Fourier (Italic)"
+            TexFontTemplates.helvetica_fourier_it,
+            # "Latin Modern Typewriter Proportional (CM Greek) (Italic)"
+            TexFontTemplates.latin_modern_tw_it,
             TexFontTemplates.latin_modern_tw,  # "Latin Modern Typewriter Proportional"
             TexFontTemplates.libertine,  # "Libertine"
             TexFontTemplates.libris_adf_fourier,  # "Libris ADF with Fourier"
-            TexFontTemplates.minion_pro_myriad_pro,  # "Minion Pro and Myriad Pro (and TX fonts symbols)"
-            TexFontTemplates.minion_pro_tx,  # "Minion Pro (and TX fonts symbols)"
-            TexFontTemplates.new_century_schoolbook,  # "New Century Schoolbook (Symbol Greek)"
-            TexFontTemplates.new_century_schoolbook_px,  # "New Century Schoolbook (Symbol Greek, PX math symbols)"
+            # "Minion Pro and Myriad Pro (and TX fonts symbols)"
+            TexFontTemplates.minion_pro_myriad_pro,
+            # "Minion Pro (and TX fonts symbols)"
+            TexFontTemplates.minion_pro_tx,
+            # "New Century Schoolbook (Symbol Greek)"
+            TexFontTemplates.new_century_schoolbook,
+            # "New Century Schoolbook (Symbol Greek, PX math symbols)"
+            TexFontTemplates.new_century_schoolbook_px,
             TexFontTemplates.noteworthy_light,  # "Noteworthy Light"
             TexFontTemplates.palatino,  # "Palatino (Symbol Greek)"
             TexFontTemplates.papyrus,  # "Papyrus"
-            TexFontTemplates.romande_adf_fourier_it,  # "Romande ADF with Fourier (Italic)"
+            # "Romande ADF with Fourier (Italic)"
+            TexFontTemplates.romande_adf_fourier_it,
             TexFontTemplates.slitex,  # "SliTeX (Euler Greek)"
             TexFontTemplates.times_fourier_it,  # "Times with Fourier (Italic)"
-            TexFontTemplates.urw_avant_garde,  # "URW Avant Garde (Symbol Greek)"
-            TexFontTemplates.urw_zapf_chancery,  # "URW Zapf Chancery (CM Greek)"
-            TexFontTemplates.venturis_adf_fourier_it,  # "Venturis ADF with Fourier (Italic)"
+            # "URW Avant Garde (Symbol Greek)"
+            TexFontTemplates.urw_avant_garde,
+            # "URW Zapf Chancery (CM Greek)"
+            TexFontTemplates.urw_zapf_chancery,
+            # "Venturis ADF with Fourier (Italic)"
+            TexFontTemplates.venturis_adf_fourier_it,
             TexFontTemplates.verdana_it,  # "Verdana (Italic)"
-            TexFontTemplates.vollkorn_fourier_it,  # "Vollkorn with Fourier (Italic)"
-            TexFontTemplates.vollkorn,  # "Vollkorn (TX fonts for Greek and math symbols)"
+            # "Vollkorn with Fourier (Italic)"
+            TexFontTemplates.vollkorn_fourier_it,
+            # "Vollkorn (TX fonts for Greek and math symbols)"
+            TexFontTemplates.vollkorn,
             TexFontTemplates.zapf_chancery,  # "Zapf Chancery"
         ]
 

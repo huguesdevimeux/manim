@@ -58,7 +58,8 @@ class JsScene(scene.Scene):
                         random_name = get_random_name(free_variable_map)
 
                         # Put the cloned Mobject in the function's scope.
-                        free_variable_map[random_name] = memo[id(free_variable_value)]
+                        free_variable_map[random_name] = memo[id(
+                            free_variable_value)]
 
                         # Add the cloned Mobject's name to the free variable list.
                         cloned_co_freevars.append(random_name)
@@ -73,7 +74,8 @@ class JsScene(scene.Scene):
                         cloned_closure.append(updater.__closure__[i])
 
                 cloned_updater = types.FunctionType(
-                    updater.__code__.replace(co_freevars=tuple(cloned_co_freevars)),
+                    updater.__code__.replace(
+                        co_freevars=tuple(cloned_co_freevars)),
                     updater.__globals__,
                     updater.__name__,
                     updater.__defaults__,

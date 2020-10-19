@@ -71,7 +71,8 @@ class SceneFileWriter(object):
                         )
                     )
                 else:
-                    image_dir = guarantee_existence(file_writer_config["images_dir"])
+                    image_dir = guarantee_existence(
+                        file_writer_config["images_dir"])
             self.image_file_path = os.path.join(
                 image_dir, add_extension_if_not_present(default_name, ".png")
             )
@@ -501,7 +502,8 @@ class SceneFileWriter(object):
         # cuts at all the places you might want.  But for viewing
         # the scene as a whole, one of course wants to see it as a
         # single piece.
-        partial_movie_files = [el for el in self.partial_movie_files if el is not None]
+        partial_movie_files = [
+            el for el in self.partial_movie_files if el is not None]
         # NOTE : Here we should do a check and raise an exeption if partial movie file is empty.
         # We can't, as a lot of stuff (in particular, in tests) use scene initialization, and this error would be raised as it's just
         # an empty scene initialized.
@@ -603,7 +605,8 @@ class SceneFileWriter(object):
         ]
         if len(cached_partial_movies) > file_writer_config["max_files_cached"]:
             number_files_to_delete = (
-                len(cached_partial_movies) - file_writer_config["max_files_cached"]
+                len(cached_partial_movies) -
+                file_writer_config["max_files_cached"]
             )
             oldest_files_to_delete = sorted(
                 [partial_movie_file for partial_movie_file in cached_partial_movies],
@@ -635,4 +638,5 @@ class SceneFileWriter(object):
         """
         Prints the "File Ready" message to STDOUT.
         """
-        logger.info("\nFile ready at %(file_path)s\n", {"file_path": file_path})
+        logger.info("\nFile ready at %(file_path)s\n",
+                    {"file_path": file_path})

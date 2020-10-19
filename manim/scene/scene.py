@@ -175,7 +175,8 @@ class Scene(Container):
             bool
         """
         return self.always_update_mobjects or any(
-            [mob.has_time_based_updater() for mob in self.get_mobject_family_members()]
+            [mob.has_time_based_updater()
+             for mob in self.get_mobject_family_members()]
         )
 
     ###
@@ -364,7 +365,8 @@ class Scene(Container):
         Scene
             The Scene, with the foreground mobjects added.
         """
-        self.foreground_mobjects = list_update(self.foreground_mobjects, mobjects)
+        self.foreground_mobjects = list_update(
+            self.foreground_mobjects, mobjects)
         self.add(*mobjects)
         return self
 
@@ -725,7 +727,8 @@ class Scene(Container):
         """
         for t in self.get_animation_time_progression(self.animations):
             self.update_animation_to_time(t)
-            self.renderer.update_frame(self, self.moving_mobjects, self.static_image)
+            self.renderer.update_frame(
+                self, self.moving_mobjects, self.static_image)
             self.renderer.add_frame(self.renderer.get_frame())
 
     def update_animation_to_time(self, t):
@@ -760,7 +763,8 @@ class Scene(Container):
             animation.finish()
             animation.clean_up_from_scene(self)
         # TODO: This is only used in one place and should probably be removed.
-        self.mobjects_from_last_animation = [anim.mobject for anim in animations]
+        self.mobjects_from_last_animation = [
+            anim.mobject for anim in animations]
         if file_writer_config["skip_animations"]:
             # TODO, run this call in for each animation?
             self.update_mobjects(self.get_run_time(animations))
@@ -768,7 +772,8 @@ class Scene(Container):
             self.update_mobjects(0)
 
     def wait(self, duration=DEFAULT_WAIT_TIME, stop_condition=None):
-        self.renderer.wait(self, duration=duration, stop_condition=stop_condition)
+        self.renderer.wait(self, duration=duration,
+                           stop_condition=stop_condition)
 
     def play(self, *args, **kwargs):
         self.renderer.play(self, *args, **kwargs)
@@ -787,13 +792,15 @@ class Scene(Container):
         if len(args) == 0:
             warnings.warn("Called Scene.play with no animations")
             return
-        self.animations = self.compile_play_args_to_animation_list(*args, **kwargs)
+        self.animations = self.compile_play_args_to_animation_list(
+            *args, **kwargs)
         self.begin_animations(self.animations)
 
         # Paint all non-moving objects onto the screen, so they don't
         # have to be rendered every frame
         self.moving_mobjects = self.get_moving_mobjects(*self.animations)
-        self.renderer.update_frame(self, excluded_mobjects=self.moving_mobjects)
+        self.renderer.update_frame(
+            self, excluded_mobjects=self.moving_mobjects)
         self.static_image = self.renderer.get_frame()
         self.last_t = 0
         self.run_time = self.get_run_time(self.animations)
@@ -810,7 +817,8 @@ class Scene(Container):
         self.last_t = 0
 
         if self.should_update_mobjects():
-            time_progression = self.get_wait_time_progression(duration, stop_condition)
+            time_progression = self.get_wait_time_progression(
+                duration, stop_condition)
             # TODO, be smart about setting a static image
             # the same way Scene.play does
             for t in time_progression:

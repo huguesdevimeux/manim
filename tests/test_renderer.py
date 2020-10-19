@@ -11,7 +11,8 @@ def test_renderer():
     )
     # init args override config
     assert (
-        CairoRenderer(Camera, frame_width=10).video_quality_config["frame_width"] == 10
+        CairoRenderer(
+            Camera, frame_width=10).video_quality_config["frame_width"] == 10
     )
 
     # if config changes, reflect those changes
@@ -19,6 +20,7 @@ def test_renderer():
         assert CairoRenderer(Camera).video_quality_config["frame_width"] == 100
         # ..init args still override new config
         assert (
-            CairoRenderer(Camera, frame_width=10).video_quality_config["frame_width"]
+            CairoRenderer(
+                Camera, frame_width=10).video_quality_config["frame_width"]
             == 10
         )

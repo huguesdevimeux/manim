@@ -112,7 +112,8 @@ class GraphScene(Scene):
         x_axis.shift(self.graph_origin - x_axis.number_to_point(0))
         if len(self.x_labeled_nums) > 0:
             if self.exclude_zero_label:
-                self.x_labeled_nums = [x for x in self.x_labeled_nums if x != 0]
+                self.x_labeled_nums = [
+                    x for x in self.x_labeled_nums if x != 0]
             x_axis.add_numbers(*self.x_labeled_nums)
         if self.x_axis_label:
             x_label = Tex(self.x_axis_label)
@@ -155,7 +156,8 @@ class GraphScene(Scene):
         y_axis.rotate(np.pi / 2, about_point=y_axis.number_to_point(0))
         if len(self.y_labeled_nums) > 0:
             if self.exclude_zero_label:
-                self.y_labeled_nums = [y for y in self.y_labeled_nums if y != 0]
+                self.y_labeled_nums = [
+                    y for y in self.y_labeled_nums if y != 0]
             y_axis.add_numbers(*self.y_labeled_nums)
         if self.y_axis_label:
             y_label = Tex(self.y_axis_label)
@@ -271,7 +273,8 @@ class GraphScene(Scene):
                 y = self.y_max
             return self.coords_to_point(x, y)
 
-        graph = ParametricFunction(parameterized_function, color=color, **kwargs)
+        graph = ParametricFunction(
+            parameterized_function, color=color, **kwargs)
         graph.underlying_function = func
         return graph
 
@@ -428,7 +431,8 @@ class GraphScene(Scene):
                 if point[1] < config["frame_y_radius"]:
                     break
             x_val = x
-        label.next_to(self.input_to_graph_point(x_val, graph), direction, buff=buff)
+        label.next_to(self.input_to_graph_point(
+            x_val, graph), direction, buff=buff)
         label.shift_onto_screen()
         return label
 
@@ -532,7 +536,8 @@ class GraphScene(Scene):
                         VectorizedPoint,
                         [
                             self.coords_to_point(x, y_point),
-                            self.coords_to_point(x + width_scale_factor * dx, y_point),
+                            self.coords_to_point(
+                                x + width_scale_factor * dx, y_point),
                             graph_point,
                         ],
                     )
@@ -663,7 +668,8 @@ class GraphScene(Scene):
                 rect.set_fill(opacity=0)
             else:
                 x_coords.add(x)
-        self.play(Transform(curr_rects, new_rects, **transform_kwargs), *added_anims)
+        self.play(Transform(curr_rects, new_rects,
+                            **transform_kwargs), *added_anims)
 
     def get_vertical_line_to_graph(self, x, graph, line_class=Line, **line_kwargs):
         """
@@ -901,7 +907,8 @@ class GraphScene(Scene):
             T_label = MathTex(label, fill_color=color)
 
         T_label.next_to(triangle, DOWN)
-        v_line = self.get_vertical_line_to_graph(x_val, self.v_graph, color=YELLOW)
+        v_line = self.get_vertical_line_to_graph(
+            x_val, self.v_graph, color=YELLOW)
 
         if animated:
             self.play(
@@ -1027,7 +1034,8 @@ class GraphScene(Scene):
         NOTE: At least one of target_dx and target_x should be not None.
         """
         if target_dx is None and target_x is None:
-            raise ValueError("At least one of target_x and target_dx must not be None")
+            raise ValueError(
+                "At least one of target_x and target_dx must not be None")
         if added_anims is None:
             added_anims = []
 

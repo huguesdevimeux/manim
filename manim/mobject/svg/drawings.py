@@ -214,7 +214,7 @@ class PartyHat(SVGMobject):
 
         self.frills = VGroup(*self[: self.NUM_FRILLS])
         self.cone = self[self.NUM_FRILLS]
-        self.dots = VGroup(*self[self.NUM_FRILLS + 1 :])
+        self.dots = VGroup(*self[self.NUM_FRILLS + 1:])
 
         self.frills.set_color_by_gradient(*self.frills_colors)
         self.cone.set_color(self.cone_color)
@@ -269,7 +269,8 @@ class Laptop(VGroup):
         keyboard.shift(MED_SMALL_BUFF * UP)
         body.add(keyboard)
 
-        screen_plate.stretch(self.screen_thickness / self.body_dimensions[2], dim=2)
+        screen_plate.stretch(self.screen_thickness /
+                             self.body_dimensions[2], dim=2)
         screen = Rectangle(
             stroke_width=0,
             fill_color=BLACK,
@@ -734,7 +735,7 @@ class Logo(VMobject):
                         half_spikes[:1],
                         full_spikes[1:index],
                         half_spikes[1:3],
-                        full_spikes[index + 1 :],
+                        full_spikes[index + 1:],
                         half_spikes[3:],
                     )
                 )
@@ -796,7 +797,7 @@ class Logo(VMobject):
         )
         brown_part = VGroup(
             self.iris_background[1],
-            *[layer[layer.brown_index :] for layer in self.spike_layers],
+            *[layer[layer.brown_index:] for layer in self.spike_layers],
             self.pupil[1],
         )
         return blue_part, brown_part
@@ -943,7 +944,8 @@ class PlayingCard(VGroup):
             interpolate(top, bottom, alpha) for alpha in np.linspace(0, 1, n_rows)
         ]
 
-        design = VGroup(*[symbol.copy().move_to(point) for point in column_points])
+        design = VGroup(*[symbol.copy().move_to(point)
+                          for point in column_points])
         if n_cols == 2:
             space = 0.2 * self.get_width()
             column_copy = design.copy().shift(space * RIGHT)
@@ -951,7 +953,7 @@ class PlayingCard(VGroup):
             design.add(*column_copy)
         design.add(
             *[
-                symbol.copy().move_to(center_of_mass(column_points[i : i + 2]))
+                symbol.copy().move_to(center_of_mass(column_points[i: i + 2]))
                 for i in insertion_indices
             ]
         )
