@@ -70,5 +70,3 @@ LaTeX
         def construct(self):
             tex = Tex('Hello 你好 \LaTeX', tex_template=TexTemplateLibrary.ctex).scale(3)
             self.add(tex)
-
-
